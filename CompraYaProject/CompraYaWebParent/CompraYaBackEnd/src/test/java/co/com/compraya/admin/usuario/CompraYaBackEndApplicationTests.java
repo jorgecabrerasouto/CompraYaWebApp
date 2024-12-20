@@ -1,4 +1,4 @@
-package co.com.compraya;
+package co.com.compraya.admin.usuario;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
