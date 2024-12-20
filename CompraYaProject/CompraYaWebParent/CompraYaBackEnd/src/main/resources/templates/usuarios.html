@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>Home - Applicación Web Compras Ya</title>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="Container-fluid">
+	<div class="navbar navbar-expand-lg bg-dark navbar-dark">
+		<a class="navbar-brand" th:href="@{/}">
+			<img th:src="@{/images/ShopmeAdminSmall.png}" />
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavBar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="topNavBar">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/usuarios}">Usuarios</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/categorias}">Categorias</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/marcas}">Marcas</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/productos}">Productos</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/clientes}">Clientes</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/despachos}">Despachos</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/reporte}">Reporte Ventas</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/articulos}">Artículos</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/menus}">Menús</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/ajustes}">Ajustes</a>
+				</li>				
+			</ul>
+		</div>
+	</div>
+	<div>
+		<h2>Gestión de Usuarios</h2>
+	</div>
+	
+	<div>
+		<table class="table table-bordered table-stripped table-hover table-responsive-xl ">
+			<thead class="thead-dark">
+				<tr>
+					<th>Id Usuario</th>
+					<th>Fotos</th>
+					<th>E-mail</th>
+					<th>Primer Nombre</th>
+					<th>Primer Apellido</th>
+					<th>Roles</th>
+					<th>¿Activo?</th>
+					<th></th>
+				</tr>				
+			</thead>
+			<tbody>
+				<tr th:each="usuario : ${listaUsuarios}">
+					<td>[[${usuario.id}]]</td>
+					<td></td>
+					<td>[[${usuario.email}]]</td>
+					<td>[[${usuario.primerNombre}]]</td>
+					<td>[[${usuario.primerApellido}]]</td>
+					<td>[[${usuario.roles}]]</td>
+					<td>[[${usuario.activo}]]</td>
+					<td>
+						Editar &nbsp; Eliminar
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="text-center">
+	<p>Panel de Control para Compra Ya - Copyright &copy;
+</div>
+</body>
+</html>
