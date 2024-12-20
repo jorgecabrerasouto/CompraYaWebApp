@@ -1,2 +1,2 @@
 # CompraYaWebApp
-Aplicación Web Compra Ya para el curso Yava Spring E-Commerce Ultimate Course
+Aplicación Web Compra Ya para el curso Java Spring E-Commerce Ultimate Course
