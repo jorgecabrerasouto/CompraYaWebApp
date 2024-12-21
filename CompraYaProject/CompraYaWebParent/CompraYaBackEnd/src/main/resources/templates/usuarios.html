@@ -56,8 +56,13 @@
 	</div>
 	<div>
 		<h2>Gestión de Usuarios</h2>
+		<a th:href="@{/usuarios/nuevo}">Crear un Usuario Nuevo</a>
 	</div>
 	
+	<div th:if="${message != null}" class="alert alert-success text-center">
+		[[${message}]]
+		
+	</div>
 	<div>
 		<table class="table table-bordered table-stripped table-hover table-responsive-xl ">
 			<thead class="thead-dark">
