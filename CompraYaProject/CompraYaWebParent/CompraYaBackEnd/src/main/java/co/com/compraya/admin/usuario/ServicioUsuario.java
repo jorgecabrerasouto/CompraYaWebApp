@@ -1,6 +1,7 @@
 package co.com.compraya.admin.usuario;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +32,19 @@ public class ServicioUsuario {
 	}
 	
 	public void guardar(Usuario usuario) {
-		encodePassword(usuario);
+		boolean estaActualizandoUsuario = (usuario.getId() != null);
+		
+		if (estaActualizandoUsuario) {
+			Usuario usuarioExistente = usuarioRepo.findById(usuario.getId()).get();
+			if(usuario.getPassword().isEmpty()) {
+				usuario.setPassword(usuarioExistente.getPassword());
+			} else {
+				encodePassword(usuario);
+			}
+		} else {
+			encodePassword(usuario);
+		}
+	
 		usuarioRepo.save(usuario);
 	}
 	
@@ -40,9 +53,29 @@ public class ServicioUsuario {
 		usuario.setPassword(encodedPassword);
 	}
 	
-	public boolean esEmailUnico(String email) {
+	public boolean esEmailUnico(Integer id, String email) {
 		Usuario usuarioByEmail = usuarioRepo.getUsuarioByEmail(email);
-		System.out.println(usuarioByEmail);
-		return usuarioByEmail == null;
+		if (usuarioByEmail == null) return true;
+		
+		boolean estaCreandoNuevo = (id == null);
+		
+		if(estaCreandoNuevo) {
+			if(usuarioByEmail != null) return false;
+		} else {
+			if(usuarioByEmail.getId() != id) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	public Usuario get(Integer id) throws UserNotFoundException {
+		try {
+			return usuarioRepo.findById(id).get();
+		} catch (NoSuchElementException ex) {
+			throw new UserNotFoundException ("No pude encontrar algún usuario con ID" + id);
+			
+		}
 	}
 }

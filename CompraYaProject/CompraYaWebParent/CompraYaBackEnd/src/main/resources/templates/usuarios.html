@@ -8,9 +8,10 @@
 	
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
-	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" /><
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
 	
 </head>
+
 <body>
 <div class="Container-fluid">
 	<div class="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -95,7 +96,8 @@
 						<a th:if="${usuario.activo != true}" class="fas fa-check-circle fa-2x icon-dark" href=""></a>
 					</td>
 					<td>
-						<a class="fas fa-edit fa-2x icon-green" href=""></a> 
+						<a class="fas fa-edit fa-2x icon-green" th:href="@{'/usuarios/editar/' + ${usuario.id}}"
+							title="Editar este usuario"></a> 
 						&nbsp; 
 						<a class="fas fa-trash fa-2x icon-dark" href=""></a>
 					</td>
@@ -106,7 +108,7 @@
 </div>
 
 <div class="text-center">
-	<p>Panel de Control para Compra Ya - Copyright &copy;
+	<p>Panel de Control para Compra Ya - Copyright &copy; CompraYa
 </div>
 
 <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
