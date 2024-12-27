@@ -7,7 +7,9 @@
 	<title>Home - Applicación Web Compras Ya</title>
 	
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-
+	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" /><
+	
 </head>
 <body>
 <div class="Container-fluid">
@@ -79,17 +81,23 @@
 					<th></th>
 				</tr>				
 			</thead>
+			
 			<tbody>
 				<tr th:each="usuario : ${listaUsuarios}">
 					<td>[[${usuario.id}]]</td>
-					<td></td>
+					<td><span class="fas fa-portrait fa-3x icon-silver"></span></td>
 					<td>[[${usuario.email}]]</td>
 					<td>[[${usuario.primerNombre}]]</td>
 					<td>[[${usuario.primerApellido}]]</td>
 					<td>[[${usuario.roles}]]</td>
-					<td>[[${usuario.activo}]]</td>
 					<td>
-						Editar &nbsp; Eliminar
+						<a th:if="${usuario.activo == true}" class="fas fa-check-circle fa-2x icon-green" href=""></a>
+						<a th:if="${usuario.activo != true}" class="fas fa-check-circle fa-2x icon-dark" href=""></a>
+					</td>
+					<td>
+						<a class="fas fa-edit fa-2x icon-green" href=""></a> 
+						&nbsp; 
+						<a class="fas fa-trash fa-2x icon-dark" href=""></a>
 					</td>
 				</tr>
 			</tbody>
