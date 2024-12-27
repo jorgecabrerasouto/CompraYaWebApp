@@ -1,87 +1,96 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
 
 <title>Crear un Nuevo Usuario</title>
 
-<link rel="stylesheet" type="text/css"
-	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script type="text/javascript"
-	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+
 </head>
 <body>
 	<div class="Container-fluid">
-		<div class="navbar navbar-expand-lg bg-dark navbar-dark">
-			<a class="navbar-brand" th:href="@{/}"> <img
-				th:src="@{/images/ShopmeAdminSmall.png}" />
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#topNavBar">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="topNavBar">
-				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/usuarios}">Usuarios</a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/categorias}">Categorias</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/marcas}">Marcas</a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/productos}">Productos</a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/clientes}">Clientes</a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/despachos}">Despachos</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/reporte}">Reporte
-							Ventas</a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/articulos}">Artículos</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/menus}">Menús</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/ajustes}">Ajustes</a></li>
-				</ul>
-			</div>
+		<div>
+			<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+				<a class="navbar-brand" th:href="@{/}"> 
+					<img th:src="@{/images/ShopmeAdminSmall.png}" />
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse"	data-target="#topNavBar">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="topNavBar">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link"	th:href="@{/usuarios}">Usuarios</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/categorias}">Categorías</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/marcas}">Marcas</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link"	th:href="@{/productos}">Productos</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link"	th:href="@{/clientes}">Clientes</a>
+						</li>					
+						<li class="nav-item">
+							<a class="nav-link"	th:href="@{/despachos}">Despachos</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link"	th:href="@{/pedidos}">Pedidos</a>
+						</li>							
+						<li class="nav-item">
+							<a class="nav-link"	th:href="@{/reportes}">Reporte Ventas</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link"	th:href="@{/articulos}">Artículos</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/menus}">Menús</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link"	th:href="@{/ajustes}">Ajustes</a>
+						</li>
+					</ul>
+				</div>
+
+			</nav>
 		</div>
 		<div>
 			<h2>Gestión de Usuarios | Crear un Nuevo Usuario</h2>
 		</div>
 
-		<form th:action="@{/usuarios/guardar}" method="post"
-			style="max-width: 700px; margin: 0 auto" th:object="${usuario}">
-			<div class="border border-secondary rounded p-1">
+		<form th:action="@{/usuarios/guardar}" method="post" style="max-width: 700px; margin: 0 auto" 
+			th:object="${usuario}" onsubmit="return checkEmailUnico(this);">
+			<div class="border border-secondary rounded p-3">
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">E-Mail:</label>
 					<div class="col-sm-8">
-						<input type="email" class="form-control" th:field="*{email}"
-							required minlength="8" maxlength="128" />
+						<input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128" />
 					</div>
 				</div>
 
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">Primer Nombre:</label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" th:field="*{primerNombre}"
-							required minlength="2" maxlength="45" />
+						<input type="text" class="form-control" th:field="*{primerNombre}" required minlength="2" maxlength="45" />
 					</div>
 				</div>
 
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">Primer Apellido:</label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control"
-							th:field="*{primerApellido}" required minlength="2"
-							maxlength="45" />
+						<input type="text" class="form-control"	th:field="*{primerApellido}" required minlength="2"	maxlength="45" />
 					</div>
 				</div>
 
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">Contraseña:</label>
 					<div class="col-sm-8">
-						<input type="password" class="form-control" th:field="*{password}"
-							required minlength="8" maxlength="20" />
+						<input type="password" class="form-control" th:field="*{password}" required minlength="8" maxlength="20" />
 					</div>
 				</div>
 
@@ -89,10 +98,13 @@
 					<label class="col-sm-4 col-form-label">Roles:</label>
 					<div class="col-sm-8">
 						<th:block th:each="role : ${listaRoles}">
-							<input type="checkbox" th:field="*{roles}"
-								th:text="${role.nombre}" th:value="${role.id}" class="m-2" />
-							- <small>[[${role.descripcion}]]</small>
-							<br />
+						<input type="checkbox" th:field="*{roles}"
+								th:text="${role.nombre}" 
+								th:value="${role.id}" 
+								class="m-2"
+						/>
+						- <small>[[${role.descripcion}]]</small>
+						<br />
 						</th:block>
 					</div>
 				</div>
@@ -105,24 +117,75 @@
 				</div>
 
 				<div class="text-center">
-					<input type="submit" value="Guardar" class="btn btn-primary m-1" />
-					<input type="button" value="Cancelar" class="btn btn-secondary"
-						id="botonCancelar" />
+					<input type="submit" value="Guardar" class="btn btn-primary m-3" />
+					<input type="button" value="Cancelar" class="btn btn-secondary"	id="botonCancelar" />
 				</div>
 			</div>
 		</form>
 
-		<div class="text-center">
-			<p>Panel de Control para Compra Ya - Copyright &copy;
+		<div class="modal fade text-center" id="dialogoModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="modalTitle">Prevención:</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<div class="modal-body">
+						<span id="modalBody"></span>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
 		</div>
+
+		<div class="text-center">
+			<p>Panel de Control para Compra Ya - Copyright &copy;</p>
+		</div>
+		
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#botonCancelar").on("click", function() {
 				window.location = "[[@{/usuarios}]]";
 			});
-		});
-	</script>
-</body>
 
+		});
+
+		function checkEmailUnico(form) {
+			url = "[[@{/usuarios/check_email}]]";
+			emailUsuario = $("#email").val();
+			valorCsrf = $("input[name='_csrf']").val();
+			params = {email: emailUsuario,	_csrf: valorCsrf};
+
+			$.post(url,	params, function(response) {
+				if (response == "OK") {
+					form.submit();
+				} else if (response == "Duplicado") {
+					showModalDialog("Prevencion:", "Ya existe un usuario con la dirección de email: " + emailUsuario);
+				} else {
+					showModalDialog("Error:", "Respuesta del servidor desconocida");
+				}
+			}).fail(function() {
+						showModalDialog("Error:", "No fue posible la conexión al servidor");
+			});
+
+			return false;
+		}
+		function showModalDialog(titulo, mensaje) {
+			$("#modalTitle").text(titulo);
+			$("#modalBody").text(mensaje);
+			$("#dialogoModal").modal();
+			
+		}
+		
+	</script>
+	
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}" ></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	
+</body>
 </html>

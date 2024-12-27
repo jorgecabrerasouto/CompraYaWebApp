@@ -7,8 +7,7 @@
 	<title>Home - Applicación Web Compras Ya</title>
 	
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
 </head>
 <body>
 <div class="Container-fluid">
@@ -25,7 +24,7 @@
 					<a class="nav-link" th:href="@{/usuarios}">Usuarios</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" th:href="@{/categorias}">Categorias</a>
+					<a class="nav-link" th:href="@{/categorias}">Categorías</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" th:href="@{/marcas}">Marcas</a>
@@ -39,6 +38,9 @@
 				<li class="nav-item">
 					<a class="nav-link" th:href="@{/despachos}">Despachos</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link"	th:href="@{/pedidos}">Pedidos</a>
+				</li>				
 				<li class="nav-item">
 					<a class="nav-link" th:href="@{/reporte}">Reporte Ventas</a>
 				</li>
@@ -98,5 +100,9 @@
 <div class="text-center">
 	<p>Panel de Control para Compra Ya - Copyright &copy;
 </div>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
 </body>
 </html>
