@@ -78,4 +78,14 @@ public class ServicioUsuario {
 			
 		}
 	}
+	
+	public void eliminar(Integer id) throws UserNotFoundException {
+		Long countById = usuarioRepo.countById(id);
+		if(countById == null || countById == 0) {
+			throw new UserNotFoundException ("No pude encontrar algún usuario con ID" + id);
+			
+		}
+		
+		usuarioRepo.deleteById(id);
+	}
 }

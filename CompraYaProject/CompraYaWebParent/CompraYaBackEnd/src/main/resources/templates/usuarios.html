@@ -99,12 +99,36 @@
 						<a class="fas fa-edit fa-2x icon-green" th:href="@{'/usuarios/editar/' + ${usuario.id}}"
 							title="Editar este usuario"></a> 
 						&nbsp; 
-						<a class="fas fa-trash fa-2x icon-dark" href=""></a>
+						<a class="fas fa-trash fa-2x icon-dark link-eliminar" 
+							th:href="@{'/usuarios/eliminar/' + ${usuario.id}}"
+							th:usuarioId=${usuario.id}
+							title="Eliminar este usuario."></a>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+	
+	<div class="modal fade text-center" id="confirmacionModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalTitle">Confirmación de la eliminación</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body">
+					<span id="textoConfirmacion"></span>
+				</div>
+
+				<div class="modal-footer">
+					<a class="btn btn-success" href="" id="botonSi">Si</a>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </div>
 
 <div class="text-center">
@@ -114,5 +138,19 @@
 <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".link-eliminar").on("click", function(e) {
+			e.preventDefault();
+			link = $(this);
+			//alert($(this).attr("href"));
+			usuarioId = link.attr("usuarioId"); 
+			
+			$("#botonSi").attr("href", link.attr("href"));
+			$("#textoConfirmacion").text("¿Está seguro de que quiere eliminar el Usuario con ID: " + usuarioId + "?");
+			$("#confirmacionModal").modal();
+		});
+	});
+</script>
 </body>
 </html>
