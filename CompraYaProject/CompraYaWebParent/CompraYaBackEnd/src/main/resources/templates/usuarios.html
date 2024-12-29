@@ -92,8 +92,13 @@
 					<td>[[${usuario.primerApellido}]]</td>
 					<td>[[${usuario.roles}]]</td>
 					<td>
-						<a th:if="${usuario.activo == true}" class="fas fa-check-circle fa-2x icon-green" href=""></a>
-						<a th:if="${usuario.activo != true}" class="fas fa-check-circle fa-2x icon-dark" href=""></a>
+						<a th:if="${usuario.activo == true}" class="fas fa-check-circle fa-2x icon-green" 
+							th:href="@{'/usuarios/' + ${usuario.id} + '/estadousuario/false'}"
+							title="Desactivar a este Usuario"
+							></a>
+						<a th:if="${usuario.activo != true}" class="fas fa-circle fa-2x icon-dark" 
+							th:href="@{'/usuarios/' + ${usuario.id} + '/estadousuario/true'}"
+							title="Activar a este usuario"></a>
 					</td>
 					<td>
 						<a class="fas fa-edit fa-2x icon-green" th:href="@{'/usuarios/editar/' + ${usuario.id}}"

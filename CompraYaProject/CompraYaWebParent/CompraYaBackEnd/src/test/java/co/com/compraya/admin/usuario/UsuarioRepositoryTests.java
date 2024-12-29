@@ -105,4 +105,15 @@ public class UsuarioRepositoryTests {
 		assertThat(countById).isNotNull().isGreaterThan(0);
 	}
 
+	@Test
+	public void testDesactivarUsuario() {
+		Integer id = 22;
+		repo.updateEstadoUsuario(id, false);
+	}
+	
+	@Test
+	public void testActivarUsuario() {
+		Integer id = 22;
+		repo.updateEstadoUsuario(id, true);
+	}	
 }

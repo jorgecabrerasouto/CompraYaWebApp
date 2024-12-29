@@ -68,6 +68,7 @@ public class ControladorUsuario {
 		}
 		
 	}
+	
 	@GetMapping("/usuarios/eliminar/{id}")
 	public String eliminarUsuario (@PathVariable(name = "id") Integer id,
 			Model model,
@@ -79,6 +80,17 @@ public class ControladorUsuario {
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());			
 		}			
+		
+		return "redirect:/usuarios";
+	}
+	
+	@GetMapping("/usuarios/{id}/estadousuario/{estado}")
+	public String updateEstadoUsuario(@PathVariable("id") Integer id, 
+		@PathVariable("estado") boolean activo, RedirectAttributes redirectAttributes) {
+		servicio.updateEstadoUsuario (id, activo);
+		String estadoUsuario = activo ? "activado" : "desactivado";
+		String mensaje = "El Usuario con ID: " + id + " ha sido " + estadoUsuario;
+		redirectAttributes.addFlashAttribute("message", mensaje);
 		
 		return "redirect:/usuarios";
 	}

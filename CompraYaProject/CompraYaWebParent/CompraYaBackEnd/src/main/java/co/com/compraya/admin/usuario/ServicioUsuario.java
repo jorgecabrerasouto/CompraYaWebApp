@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import co.com.compraya.common.entity.Role;
 import co.com.compraya.common.entity.Usuario;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class ServicioUsuario {
 	
 	@Autowired
@@ -87,5 +89,9 @@ public class ServicioUsuario {
 		}
 		
 		usuarioRepo.deleteById(id);
+	}
+	
+	public void updateEstadoUsuario (Integer id, boolean estadoActivo) {
+		usuarioRepo.updateEstadoUsuario (id, estadoActivo);
 	}
 }
