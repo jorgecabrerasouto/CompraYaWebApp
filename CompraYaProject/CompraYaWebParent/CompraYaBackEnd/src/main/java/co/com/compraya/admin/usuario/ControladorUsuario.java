@@ -1,15 +1,20 @@
 package co.com.compraya.admin.usuario;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import co.com.compraya.admin.FileUploadUtil;
 import co.com.compraya.common.entity.Role;
 import co.com.compraya.common.entity.Usuario;
 
@@ -41,8 +46,24 @@ public class ControladorUsuario {
 	}
 	
 	@PostMapping("/usuarios/guardar")
-	public String guardarUsuario (Usuario usuario, RedirectAttributes redirectAttributes) {
-		servicio.guardar(usuario);
+	public String guardarUsuario (Usuario usuario, RedirectAttributes redirectAttributes,
+			@RequestParam("imagen") MultipartFile multipartFile) throws IOException {
+		
+		if(!multipartFile.isEmpty()) {
+			
+			String nombreArchivo = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			usuario.setFotos(nombreArchivo);
+			Usuario usuarioGuardado = servicio.guardar(usuario);
+			
+			String directorioCargue = "foto-usuarios/" + usuarioGuardado.getId();
+			
+			FileUploadUtil.limpiarDirectorio(directorioCargue);
+			FileUploadUtil.guardarArchivo(directorioCargue, nombreArchivo, multipartFile);
+			
+		} else {
+			if(usuario.getFotos().isEmpty()) usuario.setFotos(null);
+			servicio.guardar(usuario);
+		}
 		
 		redirectAttributes.addFlashAttribute("message", "El usuario fue guardado correctamente");
 		

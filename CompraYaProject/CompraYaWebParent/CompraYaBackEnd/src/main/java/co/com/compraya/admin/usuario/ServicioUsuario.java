@@ -33,7 +33,7 @@ public class ServicioUsuario {
 		
 	}
 	
-	public void guardar(Usuario usuario) {
+	public Usuario guardar(Usuario usuario) {
 		boolean estaActualizandoUsuario = (usuario.getId() != null);
 		
 		if (estaActualizandoUsuario) {
@@ -47,7 +47,7 @@ public class ServicioUsuario {
 			encodePassword(usuario);
 		}
 	
-		usuarioRepo.save(usuario);
+		return usuarioRepo.save(usuario);
 	}
 	
 	private	void encodePassword(Usuario usuario) {
