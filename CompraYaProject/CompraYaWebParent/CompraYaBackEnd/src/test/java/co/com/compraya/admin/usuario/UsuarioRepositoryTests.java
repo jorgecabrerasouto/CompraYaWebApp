@@ -2,18 +2,23 @@ package co.com.compraya.admin.usuario;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
 import co.com.compraya.common.entity.Role;
 import co.com.compraya.common.entity.Usuario;
 
-@DataJpaTest
+@DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 @Rollback(false)
 public class UsuarioRepositoryTests {
@@ -107,13 +112,27 @@ public class UsuarioRepositoryTests {
 
 	@Test
 	public void testDesactivarUsuario() {
-		Integer id = 22;
+		Integer id = 1;
 		repo.updateEstadoUsuario(id, false);
 	}
 	
 	@Test
 	public void testActivarUsuario() {
-		Integer id = 22;
+		Integer id = 3;
 		repo.updateEstadoUsuario(id, true);
-	}	
+	}
+	
+	@Test
+	public void testListFirstPage() {
+		int numeroPagina = 0;
+		int tamanoPagina = 4;
+		
+		Pageable pageable = PageRequest.of(numeroPagina,  tamanoPagina);
+		Page<Usuario> pagina = repo.findAll(pageable);
+		
+		List<Usuario> listaUsuarios = pagina.getContent();
+	
+		listaUsuarios.forEach(usuario -> System.out.println(usuario));
+		assertThat(listaUsuarios.size()).isEqualTo(tamanoPagina);
+	}
 }

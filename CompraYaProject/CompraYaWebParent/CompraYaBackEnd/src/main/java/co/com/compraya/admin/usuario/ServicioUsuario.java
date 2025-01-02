@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class ServicioUsuario {
+	public static final int USUARIOS_POR_PAGINA = 4;
 	
 	@Autowired
 	private UsuarioRepository usuarioRepo;
@@ -26,6 +30,11 @@ public class ServicioUsuario {
 	
 	public List<Usuario> listAll() {
 		return (List<Usuario>) usuarioRepo.findAll();
+	}
+	
+	public Page<Usuario> listByPage(int numeroPagina) {
+		Pageable pageable = PageRequest.of(numeroPagina - 1, USUARIOS_POR_PAGINA);
+		return usuarioRepo.findAll(pageable);
 	}
 
 	public List<Role> listaRoles() {

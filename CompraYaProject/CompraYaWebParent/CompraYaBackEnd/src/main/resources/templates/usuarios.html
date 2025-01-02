@@ -118,6 +118,37 @@
 		</table>
 	</div>
 	
+	<div class="text-center m-1" th:if="${totalItems > 0}">
+		<span>Se muestran los usuarios del # [[${inicioContador}]] al [[${finContador}]] de un total de [[${totalItems}]]</span>
+	</div>
+	
+	<div class="text-center m-1" th:unless="${totalItems > 0}">
+		<span>No se encontraron usuarios</span>
+	</div>
+	
+	<div>
+		<nav>
+  			<ul class="pagination justify-content-center">
+    			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
+    				<a class="page-link" th:href="@{/usuarios/pagina/1}">Inicio</a>
+    			</li>
+    			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
+    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginaActual - 1}}">Anterior</a>
+    			</li>
+    			<li th:class="${paginaActual != i ? 'page-item': 'page-item active'}" 
+    				th:each="i: ${#numbers.sequence(1, paginasTotales)}">
+    				<a class="page-link" th:href="@{'/usuarios/pagina/'} + ${i}">[[${i}]]</a>
+    			</li>
+    			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
+    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginaActual + 1}}">Siguiente</a>
+    			</li>   
+    			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
+    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginasTotales}}">Fin</a>
+    			</li>    			
+  			</ul>
+		</nav>
+	</div>
+	
 	<div class="modal fade text-center" id="confirmacionModal">
 		<div class="modal-dialog">
 			<div class="modal-content">

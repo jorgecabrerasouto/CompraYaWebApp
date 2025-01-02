@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -25,14 +26,32 @@ public class ControladorUsuario {
 	private ServicioUsuario servicio;
 
 	@GetMapping("/usuarios")
-	public String listAll(Model model) {
-		List<Usuario> listaUsuarios = servicio.listAll();
+	public String listFirstPage(Model model) {
+		return listByPage (1, model);
+	}
+	
+	@GetMapping("/usuarios/pagina/{numeroPagina}")
+	public String listByPage(@PathVariable(name = "numeroPagina") int numeroPagina, Model model) {
+		Page<Usuario> pagina = servicio.listByPage(numeroPagina);
+		List<Usuario> listaUsuarios = pagina.getContent();
+		
+		long inicioContador = (numeroPagina - 1) * ServicioUsuario.USUARIOS_POR_PAGINA + 1;
+		long finContador = inicioContador + ServicioUsuario.USUARIOS_POR_PAGINA - 1;
+		if (finContador > pagina.getTotalElements()) {
+			finContador = pagina.getTotalElements();
+		}
+		
+		model.addAttribute("paginaActual", numeroPagina);
+		model.addAttribute("paginasTotales", pagina.getTotalPages());
+		model.addAttribute("inicioContador", inicioContador);
+		model.addAttribute("finContador", finContador);
+		model.addAttribute("totalItems", pagina.getTotalElements());
 		model.addAttribute("listaUsuarios", listaUsuarios);
+		
 		return "usuarios";
 	}
 	
 	@GetMapping("/usuarios/nuevo")
-	
 	public String nuevoUsuario(Model model) {
 		List<Role> listaRoles = servicio.listaRoles();
 		
