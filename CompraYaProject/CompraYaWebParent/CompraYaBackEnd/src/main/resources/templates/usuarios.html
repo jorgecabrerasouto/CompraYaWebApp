@@ -72,13 +72,81 @@
 		<table class="table table-bordered table-stripped table-hover table-responsive-xl ">
 			<thead class="thead-dark">
 				<tr>
-					<th>Id Usuario</th>
+					<th>
+						<a th:if="${campoSort != 'id'}" class="text-white"
+							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=id&direccionSort=' + ${direccionSort}}">
+							User ID
+						</a>
+
+						<a th:if="${campoSort == 'id'}" class="text-white"
+							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=id&direccionSort=' + ${direccionSortInversa}}">
+							User ID
+						</a>
+												
+						<span th:if="${campoSort == 'id'}"
+							th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+					</th>
 					<th>Fotos</th>
-					<th>E-mail</th>
-					<th>Primer Nombre</th>
-					<th>Primer Apellido</th>
+					<th>
+						<a th:if="${campoSort != 'email'}" class="text-white"
+							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=email&direccionSort=' + ${direccionSort}}">
+							Email
+						</a>
+
+						<a th:if="${campoSort == 'email'}" class="text-white"
+							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=email&direccionSort=' + ${direccionSortInversa}}">
+							Email
+						</a>
+												
+						<span th:if="${campoSort == 'email'}"
+							th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+					</th>
+					
+					<th>
+						<a th:if="${campoSort != 'primerNombre'}" class="text-white"
+							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=primerNombre&direccionSort=' + ${direccionSort}}">
+							Primer Nombre
+						</a>
+
+						<a th:if="${campoSort == 'primerNombre'}" class="text-white"
+							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=primerNombre&direccionSort=' + ${direccionSortInversa}}">
+							Primer Nombre
+						</a>
+												
+						<span th:if="${campoSort == 'primerNombre'}"
+							th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+					</th>
+				
+					<th>
+						<a th:if="${campoSort != 'primerApellido'}" class="text-white"
+							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=primerApellido&direccionSort=' + ${direccionSort}}">
+							Primer Apellido
+						</a>
+
+						<a th:if="${campoSort == 'primerApellido'}" class="text-white"
+							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=primerApellido&direccionSort=' + ${direccionSortInversa}}">
+							Primer Apellido
+						</a>
+												
+						<span th:if="${campoSort == 'primerApellido'}"
+							th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+					</th>
+					
 					<th>Roles</th>
-					<th>¿Activo?</th>
+					<th>
+						<a th:if="${campoSort != 'activo'}" class="text-white"
+							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=activo&direccionSort=' + ${direccionSort}}">
+							¿Activo?
+						</a>
+
+						<a th:if="${campoSort == 'activo'}" class="text-white"
+							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=activo&direccionSort=' + ${direccionSortInversa}}">
+							¿Activo?
+						</a>
+												
+						<span th:if="${campoSort == 'activo'}"
+							th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+					</th>
 					<th></th>
 				</tr>				
 			</thead>
@@ -130,20 +198,21 @@
 		<nav>
   			<ul class="pagination justify-content-center">
     			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
-    				<a class="page-link" th:href="@{/usuarios/pagina/1}">Inicio</a>
+    				<a class="page-link" th:href="@{'/usuarios/pagina/1?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort}}">Inicio</a>
     			</li>
     			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
-    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginaActual - 1}}">Anterior</a>
+    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginaActual - 1} + '?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort}}">Anterior</a>
     			</li>
     			<li th:class="${paginaActual != i ? 'page-item': 'page-item active'}" 
     				th:each="i: ${#numbers.sequence(1, paginasTotales)}">
-    				<a class="page-link" th:href="@{'/usuarios/pagina/'} + ${i}">[[${i}]]</a>
+    				
+    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${i} + '?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort}}">[[${i}]]</a>
     			</li>
     			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
-    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginaActual + 1}}">Siguiente</a>
+    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginaActual + 1} +'?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort}}">Siguiente</a>
     			</li>   
     			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
-    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginasTotales}}">Fin</a>
+    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginasTotales} +'?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort}}">Fin</a>
     			</li>    			
   			</ul>
 		</nav>

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -27,12 +28,17 @@ public class ControladorUsuario {
 
 	@GetMapping("/usuarios")
 	public String listFirstPage(Model model) {
-		return listByPage (1, model);
+		return listByPage (1, model, "primerNombre", "asc");
 	}
 	
 	@GetMapping("/usuarios/pagina/{numeroPagina}")
-	public String listByPage(@PathVariable(name = "numeroPagina") int numeroPagina, Model model) {
-		Page<Usuario> pagina = servicio.listByPage(numeroPagina);
+	public String listByPage(@PathVariable(name = "numeroPagina") int numeroPagina, Model model,
+			@Param("campoSort") String campoSort, @Param("direccionSort") String direccionSort
+			) {
+		System.out.println("Campo clasificación: " + campoSort);
+		System.out.println("Direccion clasificación: " + direccionSort);
+		
+		Page<Usuario> pagina = servicio.listByPage(numeroPagina, campoSort, direccionSort);
 		List<Usuario> listaUsuarios = pagina.getContent();
 		
 		long inicioContador = (numeroPagina - 1) * ServicioUsuario.USUARIOS_POR_PAGINA + 1;
@@ -41,12 +47,17 @@ public class ControladorUsuario {
 			finContador = pagina.getTotalElements();
 		}
 		
+		String direccionSortInversa = direccionSort.equals("asc") ? "desc" : "asc";
+		
 		model.addAttribute("paginaActual", numeroPagina);
 		model.addAttribute("paginasTotales", pagina.getTotalPages());
 		model.addAttribute("inicioContador", inicioContador);
 		model.addAttribute("finContador", finContador);
 		model.addAttribute("totalItems", pagina.getTotalElements());
 		model.addAttribute("listaUsuarios", listaUsuarios);
+		model.addAttribute("campoSort", campoSort);
+		model.addAttribute("direccionSort", direccionSort);
+		model.addAttribute("direccionSortInversa", direccionSortInversa);
 		
 		return "usuarios";
 	}
