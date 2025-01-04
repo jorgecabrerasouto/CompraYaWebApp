@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+
+	<th th:fragment="enlace_columna(nombreCampo, etiquetaColumna)">
+		<a class="text-white"
+			th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=' + ${nombreCampo}  +'&direccionSort=' + ${campoSort != nombreCampo ? direccionSort : direccioninversa} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">
+			[[${etiquetaColumna}]]
+		</a>								
+		<span th:if="${campoSort == nombreCampo}"
+			th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>							
+	</th>
+	
+	<a th:fragment="enlace_pagina(numeroPagina, etiqueta)"
+		class="page-link"
+		th:href="@{'/usuarios/pagina/' + ${numeroPagina} + '?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">[[${etiqueta}]]
+	</a>
+						
+</body>
+</html>

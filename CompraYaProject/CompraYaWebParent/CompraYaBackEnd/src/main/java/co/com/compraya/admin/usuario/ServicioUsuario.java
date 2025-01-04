@@ -3,6 +3,7 @@ package co.com.compraya.admin.usuario;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.hibernate.engine.jdbc.spi.TypeNullability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,12 +34,18 @@ public class ServicioUsuario {
 		return (List<Usuario>) usuarioRepo.findAll();
 	}
 	
-	public Page<Usuario> listByPage(int numeroPagina, String campoSort, String direccionSort) {
+	public Page<Usuario> listByPage(int numeroPagina, String campoSort, String direccionSort,
+			String textoBusqueda) {
 		Sort sort = Sort.by(campoSort);
 		
 		sort = direccionSort.equals("asc") ? sort.ascending() : sort.descending();
 		
 		Pageable pageable = PageRequest.of(numeroPagina - 1, USUARIOS_POR_PAGINA, sort);
+		
+		if (textoBusqueda != null ) {
+			return usuarioRepo.findAll(textoBusqueda, pageable);
+		}
+		
 		return usuarioRepo.findAll(pageable);
 	}
 

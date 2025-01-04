@@ -65,88 +65,32 @@
 	</div>
 	
 	<div th:if="${message != null}" class="alert alert-success text-center">
-		[[${message}]]
-		
+		[[${message}]]	
+	</div>
+	
+	<div>
+		<form th:action="@{/usuarios/pagina/1}" class="form-inline m-3">
+			<input type="hidden" name="campoSort" th:value="${campoSort}" />
+			<input type="hidden" name="direccionSort" th:value="${direccionSort}" />
+			Texto para Búsqueda:&nbsp;
+			<input type="search" name="textoBusqueda" th:value="${textoBusqueda}" class="form-control" required />
+			&nbsp;&nbsp;
+			<input type="submit" value="Buscar" class="btn btn-primary" />
+			&nbsp;&nbsp;
+			<input type="button" value="Limpiar" class="btn btn-secondary" onclick="limpiarTextoBusqueda()"/>
+		</form>
 	</div>
 	<div>
 		<table class="table table-bordered table-stripped table-hover table-responsive-xl ">
 			<thead class="thead-dark">
 				<tr>
-					<th>
-						<a th:if="${campoSort != 'id'}" class="text-white"
-							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=id&direccionSort=' + ${direccionSort}}">
-							User ID
-						</a>
-
-						<a th:if="${campoSort == 'id'}" class="text-white"
-							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=id&direccionSort=' + ${direccionSortInversa}}">
-							User ID
-						</a>
-												
-						<span th:if="${campoSort == 'id'}"
-							th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
-					</th>
+					<th th:replace="~{fragments :: enlace_columna('id', 'Id Usuario')}" />
 					<th>Fotos</th>
-					<th>
-						<a th:if="${campoSort != 'email'}" class="text-white"
-							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=email&direccionSort=' + ${direccionSort}}">
-							Email
-						</a>
-
-						<a th:if="${campoSort == 'email'}" class="text-white"
-							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=email&direccionSort=' + ${direccionSortInversa}}">
-							Email
-						</a>
-												
-						<span th:if="${campoSort == 'email'}"
-							th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
-					</th>
-					
-					<th>
-						<a th:if="${campoSort != 'primerNombre'}" class="text-white"
-							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=primerNombre&direccionSort=' + ${direccionSort}}">
-							Primer Nombre
-						</a>
-
-						<a th:if="${campoSort == 'primerNombre'}" class="text-white"
-							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=primerNombre&direccionSort=' + ${direccionSortInversa}}">
-							Primer Nombre
-						</a>
-												
-						<span th:if="${campoSort == 'primerNombre'}"
-							th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
-					</th>
-				
-					<th>
-						<a th:if="${campoSort != 'primerApellido'}" class="text-white"
-							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=primerApellido&direccionSort=' + ${direccionSort}}">
-							Primer Apellido
-						</a>
-
-						<a th:if="${campoSort == 'primerApellido'}" class="text-white"
-							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=primerApellido&direccionSort=' + ${direccionSortInversa}}">
-							Primer Apellido
-						</a>
-												
-						<span th:if="${campoSort == 'primerApellido'}"
-							th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
-					</th>
-					
+					<th th:replace="~{fragments :: enlace_columna('email', 'Email')}" />
+					<th th:replace="~{fragments :: enlace_columna('primerNombre', 'Primer Nombre')}" />
+					<th th:replace="~{fragments :: enlace_columna('primerApellido', 'Primer Apellido')}" />				
 					<th>Roles</th>
-					<th>
-						<a th:if="${campoSort != 'activo'}" class="text-white"
-							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=activo&direccionSort=' + ${direccionSort}}">
-							¿Activo?
-						</a>
-
-						<a th:if="${campoSort == 'activo'}" class="text-white"
-							th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=activo&direccionSort=' + ${direccionSortInversa}}">
-							¿Activo?
-						</a>
-												
-						<span th:if="${campoSort == 'activo'}"
-							th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
-					</th>
+					<th th:replace="~{fragments :: enlace_columna('activo', '¿Activo?')}" />
 					<th></th>
 				</tr>				
 			</thead>
@@ -194,25 +138,25 @@
 		<span>No se encontraron usuarios</span>
 	</div>
 	
-	<div>
+	<div th:if="${paginasTotales > 1}">
 		<nav>
   			<ul class="pagination justify-content-center">
     			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
-    				<a class="page-link" th:href="@{'/usuarios/pagina/1?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort}}">Inicio</a>
+    				<a th:replace="~{fragments :: enlace_pagina(1, 'Inicio')}" />
     			</li>
     			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
-    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginaActual - 1} + '?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort}}">Anterior</a>
+    				<a th:replace="~{fragments :: enlace_pagina(${paginaActual - 1}, 'Anterior')}" />
     			</li>
     			<li th:class="${paginaActual != i ? 'page-item': 'page-item active'}" 
     				th:each="i: ${#numbers.sequence(1, paginasTotales)}">
-    				
-    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${i} + '?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort}}">[[${i}]]</a>
+    				<a th:replace="~{fragments :: enlace_pagina(${i}, ${i})}" />
+
     			</li>
     			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
-    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginaActual + 1} +'?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort}}">Siguiente</a>
+    				<a th:replace="~{fragments :: enlace_pagina(${paginaActual + 1}, 'Siguiente')}" />
     			</li>   
     			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
-    				<a class="page-link" th:href="@{'/usuarios/pagina/' + ${paginasTotales} +'?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort}}">Fin</a>
+    				<a th:replace="~{fragments :: enlace_pagina(${paginasTotales}, 'Fin')}" />
     			</li>    			
   			</ul>
 		</nav>
@@ -260,6 +204,10 @@
 			$("#confirmacionModal").modal();
 		});
 	});
+	
+	function limpiarTextoBusqueda() {
+		window.location = "[[@{/usuarios}]]"
+	}
 </script>
 </body>
 </html>

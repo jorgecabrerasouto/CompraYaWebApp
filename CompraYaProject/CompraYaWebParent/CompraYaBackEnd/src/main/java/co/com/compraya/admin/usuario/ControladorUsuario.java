@@ -28,17 +28,16 @@ public class ControladorUsuario {
 
 	@GetMapping("/usuarios")
 	public String listFirstPage(Model model) {
-		return listByPage (1, model, "primerNombre", "asc");
+		return listByPage (1, model, "primerNombre", "asc", null);
 	}
 	
 	@GetMapping("/usuarios/pagina/{numeroPagina}")
 	public String listByPage(@PathVariable(name = "numeroPagina") int numeroPagina, Model model,
-			@Param("campoSort") String campoSort, @Param("direccionSort") String direccionSort
+			@Param("campoSort") String campoSort, @Param("direccionSort") String direccionSort,
+			@Param("textoBusqueda") String textoBusqueda
 			) {
-		System.out.println("Campo clasificación: " + campoSort);
-		System.out.println("Direccion clasificación: " + direccionSort);
 		
-		Page<Usuario> pagina = servicio.listByPage(numeroPagina, campoSort, direccionSort);
+		Page<Usuario> pagina = servicio.listByPage(numeroPagina, campoSort, direccionSort, textoBusqueda);
 		List<Usuario> listaUsuarios = pagina.getContent();
 		
 		long inicioContador = (numeroPagina - 1) * ServicioUsuario.USUARIOS_POR_PAGINA + 1;
@@ -58,6 +57,7 @@ public class ControladorUsuario {
 		model.addAttribute("campoSort", campoSort);
 		model.addAttribute("direccionSort", direccionSort);
 		model.addAttribute("direccionSortInversa", direccionSortInversa);
+		model.addAttribute("textoBusqueda", textoBusqueda);
 		
 		return "usuarios";
 	}
@@ -97,7 +97,12 @@ public class ControladorUsuario {
 		
 		redirectAttributes.addFlashAttribute("message", "El usuario fue guardado correctamente");
 		
-		return "redirect:/usuarios";
+		return obtenerURLparaRedireccionarAlUsuarioModificado(usuario);
+	}
+
+	private String obtenerURLparaRedireccionarAlUsuarioModificado(Usuario usuario) {
+		String primeraParteStringDeEmail = usuario.getEmail().split("@")[0];
+		return "redirect:/usuarios/pagina/1?campoSort=id&direccionSort=asc&textoBusqueda=" + primeraParteStringDeEmail;
 	}
 	
 	@GetMapping("/usuarios/editar/{id}")
