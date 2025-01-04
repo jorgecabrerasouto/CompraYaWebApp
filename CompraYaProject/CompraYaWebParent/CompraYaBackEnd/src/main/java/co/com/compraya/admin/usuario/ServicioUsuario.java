@@ -31,7 +31,7 @@ public class ServicioUsuario {
 	private PasswordEncoder passwordEncoder;
 	
 	public List<Usuario> listAll() {
-		return (List<Usuario>) usuarioRepo.findAll();
+		return (List<Usuario>) usuarioRepo.findAll(Sort.by("primerNombre").ascending());
 	}
 	
 	public Page<Usuario> listByPage(int numeroPagina, String campoSort, String direccionSort,

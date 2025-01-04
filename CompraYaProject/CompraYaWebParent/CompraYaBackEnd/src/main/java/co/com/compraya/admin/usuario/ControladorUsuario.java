@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import co.com.compraya.admin.FileUploadUtil;
 import co.com.compraya.common.entity.Role;
 import co.com.compraya.common.entity.Usuario;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class ControladorUsuario {
@@ -149,6 +150,14 @@ public class ControladorUsuario {
 		redirectAttributes.addFlashAttribute("message", mensaje);
 		
 		return "redirect:/usuarios";
+	}
+	
+	@GetMapping("/usuarios/exportar/csv")
+	public void exportarCSV(HttpServletResponse respuesta) throws IOException{
+		List<Usuario> listaUsuarios = servicio.listAll();
+		UsuarioCsvExporter exportador = new UsuarioCsvExporter();
+		exportador.export(listaUsuarios, respuesta);
+		
 	}
 	
 }
