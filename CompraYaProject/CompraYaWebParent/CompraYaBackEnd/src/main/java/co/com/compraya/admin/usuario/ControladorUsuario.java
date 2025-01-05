@@ -155,16 +155,24 @@ public class ControladorUsuario {
 	@GetMapping("/usuarios/exportar/csv")
 	public void exportarCSV(HttpServletResponse respuesta) throws IOException{
 		List<Usuario> listaUsuarios = servicio.listAll();
+		
 		UsuarioCsvExporter exportador = new UsuarioCsvExporter();
 		exportador.export(listaUsuarios, respuesta);
-		
 	}
 
 	@GetMapping("/usuarios/exportar/excel")
 	public void exportarExcel(HttpServletResponse respuesta) throws IOException{
 		List<Usuario> listaUsuarios = servicio.listAll();
+		
 		UsuarioExcelExporter exportador = new UsuarioExcelExporter();
 		exportador.export(listaUsuarios, respuesta);
+	}
+	
+	@GetMapping("/usuarios/exportar/pdf")
+	public void exportarPdf(HttpServletResponse respuesta) throws IOException{
+		List<Usuario> listaUsuarios = servicio.listAll();
 		
+		UsuarioPdfExporter exportador = new UsuarioPdfExporter();
+		exportador.export(listaUsuarios, respuesta);
 	}	
 }
