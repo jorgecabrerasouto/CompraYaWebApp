@@ -159,5 +159,12 @@ public class ControladorUsuario {
 		exportador.export(listaUsuarios, respuesta);
 		
 	}
-	
+
+	@GetMapping("/usuarios/exportar/excel")
+	public void exportarExcel(HttpServletResponse respuesta) throws IOException{
+		List<Usuario> listaUsuarios = servicio.listAll();
+		UsuarioExcelExporter exportador = new UsuarioExcelExporter();
+		exportador.export(listaUsuarios, respuesta);
+		
+	}	
 }

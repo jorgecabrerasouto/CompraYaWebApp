@@ -64,6 +64,8 @@
 		<a th:href="@{/usuarios/nuevo}">Crear un Usuario Nuevo</a>
 		&nbsp;|&nbsp;
 		<a th:href="@{/usuarios/exportar/csv}">Exportar a CSV</a>
+		&nbsp;|&nbsp;
+		<a th:href="@{/usuarios/exportar/excel}">Exportar a Excel</a>
 	</div>
 	
 	<div th:if="${message != null}" class="alert alert-success text-center">
@@ -152,7 +154,6 @@
     			<li th:class="${paginaActual != i ? 'page-item': 'page-item active'}" 
     				th:each="i: ${#numbers.sequence(1, paginasTotales)}">
     				<a th:replace="~{fragments :: enlace_pagina(${i}, ${i})}" />
-
     			</li>
     			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
     				<a th:replace="~{fragments :: enlace_pagina(${paginaActual + 1}, 'Siguiente')}" />

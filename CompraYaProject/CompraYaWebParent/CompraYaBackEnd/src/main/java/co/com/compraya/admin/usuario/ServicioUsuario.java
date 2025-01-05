@@ -3,7 +3,6 @@ package co.com.compraya.admin.usuario;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.hibernate.engine.jdbc.spi.TypeNullability;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
