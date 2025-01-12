@@ -1,218 +1,244 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head>
-	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-	
-	<title>Home - Applicación Web Compras Ya</title>
-	
-	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
-	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
-	
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+<title>Home - Applicación Web Compras Ya</title>
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+
 </head>
 
 <body>
-<div class="Container-fluid">
-	<div class="navbar navbar-expand-lg bg-dark navbar-dark">
-		<a class="navbar-brand" th:href="@{/}">
-			<img th:src="@{/images/ShopmeAdminSmall.png}" />
-		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavBar">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="topNavBar">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/usuarios}">Usuarios</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/categorias}">Categorías</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/marcas}">Marcas</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/productos}">Productos</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/clientes}">Clientes</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/despachos}">Despachos</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link"	th:href="@{/pedidos}">Pedidos</a>
-				</li>				
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/reporte}">Reporte Ventas</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/articulos}">Artículos</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/menus}">Menús</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:href="@{/ajustes}">Ajustes</a>
-				</li>				
-			</ul>
+	<div class="Container-fluid">
+		<div class="navbar navbar-expand-lg bg-dark navbar-dark">
+			<a class="navbar-brand" th:href="@{/}"> <img
+				th:src="@{/images/ShopmeAdminSmall.png}" />
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#topNavBar">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="topNavBar">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/usuarios}">Usuarios</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/categorias}">Categorías</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/marcas}">Marcas</a>
+					</li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/productos}">Productos</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/clientes}">Clientes</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/despachos}">Despachos</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/pedidos}">Pedidos</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/reporte}">Reporte
+							Ventas</a></li>
+					<li class="nav-item"><a class="nav-link"
+						th:href="@{/articulos}">Artículos</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/menus}">Menús</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" th:href="@{/ajustes}">Ajustes</a>
+					</li>
+				</ul>
+			</div>
 		</div>
-	</div>
-	<div>
-		<h2>Gestión de Usuarios</h2>
-		<a th:href="@{/usuarios/nuevo}">Crear un Usuario Nuevo</a>
-		&nbsp;|&nbsp;
-		<a th:href="@{/usuarios/exportar/csv}">Exportar a CSV</a>
-		&nbsp;|&nbsp;
-		<a th:href="@{/usuarios/exportar/excel}">Exportar a Excel</a>
-		&nbsp;|&nbsp;
-		<a th:href="@{/usuarios/exportar/pdf}">Exportar a PDF</a>
-	</div>
-	
-	<div th:if="${message != null}" class="alert alert-success text-center">
-		[[${message}]]	
-	</div>
-	
-	<div>
-		<form th:action="@{/usuarios/pagina/1}" class="form-inline m-3">
-			<input type="hidden" name="campoSort" th:value="${campoSort}" />
-			<input type="hidden" name="direccionSort" th:value="${direccionSort}" />
-			Texto para Búsqueda:&nbsp;
-			<input type="search" name="textoBusqueda" th:value="${textoBusqueda}" class="form-control" required />
-			&nbsp;&nbsp;
-			<input type="submit" value="Buscar" class="btn btn-primary" />
-			&nbsp;&nbsp;
-			<input type="button" value="Limpiar" class="btn btn-secondary" onclick="limpiarTextoBusqueda()"/>
-		</form>
-	</div>
-	<div>
-		<table class="table table-bordered table-stripped table-hover table-responsive-xl ">
-			<thead class="thead-dark">
-				<tr>
-					<th th:replace="~{fragments :: enlace_columna('id', 'Id Usuario')}" />
-					<th>Fotos</th>
-					<th th:replace="~{fragments :: enlace_columna('email', 'Email')}" />
-					<th th:replace="~{fragments :: enlace_columna('primerNombre', 'Primer Nombre')}" />
-					<th th:replace="~{fragments :: enlace_columna('primerApellido', 'Primer Apellido')}" />				
-					<th>Roles</th>
-					<th th:replace="~{fragments :: enlace_columna('activo', '¿Activo?')}" />
-					<th></th>
-				</tr>				
-			</thead>
+		<div>
+			<h2>Gestión de Usuarios</h2>
+			<a th:href="@{/usuarios/nuevo}"
+				class="fas fa-user-plus fa-2x icon-dark mr-2"></a> <a
+				th:href="@{/usuarios/exportar/csv}"
+				class="fas fa-file-csv fa-2x icon-dark mr-2"></a> <a
+				th:href="@{/usuarios/exportar/excel}"
+				class="fas fa-file-excel fa-2x icon-dark mr-2"></a> <a
+				th:href="@{/usuarios/exportar/pdf}"
+				class="fas fa-file-pdf fa-2x icon-dark"></a>
+		</div>
+
+		<div th:if="${message != null}"
+			class="alert alert-success text-center">[[${message}]]</div>
+
+		<div>
+			<form th:action="@{/usuarios/pagina/1}" class="form-inline m-3">
+				<input type="hidden" name="campoSort" th:value="${campoSort}" /> <input
+					type="hidden" name="direccionSort" th:value="${direccionSort}" />
+				Texto para Búsqueda:&nbsp; <input type="search" name="textoBusqueda"
+					th:value="${textoBusqueda}" class="form-control" required />
+				&nbsp;&nbsp;
+				<button type="submit" value="Buscar" class="btn btn-primary">
+					<i class="fas fa-search"></i>
+				</button>
+				&nbsp;&nbsp;
+				<button type="button" value="Limpiar" class="btn btn-secondary"
+					onclick="limpiarTextoBusqueda()">
+					<i class="fas fa-eraser"></i>
+				</button>
+			</form>
+		</div>
+		<div class="full-details">
+			<table
+				class="table table-bordered table-stripped table-hover table-responsive-xl ">
+				<thead class="thead-dark">
+					<tr>
+						<th class="hideable-column">
+							<th	th:replace="~{fragments :: enlace_columna('id', 'Id Usuario', 'tag')}" />
+						</th>
+						<th>Fotos</th>
+						<th class="hideable-column">
+							<th th:replace="~{fragments :: enlace_columna('email', 'E-mail', 'tag')}" />
+						</th>
+						<th
+							th:replace="~{fragments :: enlace_columna('primerNombre', 'Primer Nombre', 'none')}" />
+						<th
+							th:replace="~{fragments :: enlace_columna('primerApellido', 'Primer Apellido', 'none')}" />
+						<th>Roles</th>
+						<th
+							th:replace="~{fragments :: enlace_columna('activo', '¿Activo?', 'none')}" />
+						<th></th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="usuario : ${listaUsuarios}">
+						<td class="hideable-column">[[${usuario.id}]]</td>
+						<td>
+							<div th:replace="~{fragments :: fotos_usuario}" />
+						</td>
+						<td class="hideable-column">[[${usuario.email}]]</td>
+						<td>[[${usuario.primerNombre}]]</td>
+						<td>[[${usuario.primerApellido}]]</td>
+						<td>[[${usuario.roles}]]</td>
+						<td>
+							<div th:replace="~{fragments :: estado_usuario}" />
+						</td>
+						<td>
+							<div th:replace="~{fragments :: acciones_usuario}" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="less-details">
+			<div th:each="usuario : ${listaUsuarios}" class="row m-2">
+				<div class="col-3">
+					<div th:replace="~{fragments :: fotos_usuario}" />
+				</div>
+				<div class="col-9">
+					<div>[[${usuario.getNombreCompleto()}]]</div>
+					<div>[[${usuario.getRoles()}]]</div>
+					<div class="mt-2">
+						<div th:replace="~{fragments :: estado_usuario}" />
+						&nbsp;
+						<div th:replace="~{fragments :: acciones_usuario}" />
+					</div>
+				</div>
+				<div>&nbsp;</div>
+			</div>
 			
-			<tbody>
-				<tr th:each="usuario : ${listaUsuarios}">
-					<td>[[${usuario.id}]]</td>
-					<td>
-						<span th:if="usuario.fotos == null" class="fas fa-portrait fa-3x icon-silver"></span>
-						<img th:if="usuario.fotos != null" th:src="@{${usuario.trayectoriaImagenFoto}}" 
-							style="width: 50px" />
-					</td>
-					<td>[[${usuario.email}]]</td>
-					<td>[[${usuario.primerNombre}]]</td>
-					<td>[[${usuario.primerApellido}]]</td>
-					<td>[[${usuario.roles}]]</td>
-					<td>
-						<a th:if="${usuario.activo == true}" class="fas fa-check-circle fa-2x icon-green" 
-							th:href="@{'/usuarios/' + ${usuario.id} + '/estadousuario/false'}"
-							title="Desactivar a este Usuario"
-							></a>
-						<a th:if="${usuario.activo != true}" class="fas fa-circle fa-2x icon-dark" 
-							th:href="@{'/usuarios/' + ${usuario.id} + '/estadousuario/true'}"
-							title="Activar a este usuario"></a>
-					</td>
-					<td>
-						<a class="fas fa-edit fa-2x icon-green" th:href="@{'/usuarios/editar/' + ${usuario.id}}"
-							title="Editar este usuario"></a> 
-						&nbsp; 
-						<a class="fas fa-trash fa-2x icon-dark link-eliminar" 
-							th:href="@{'/usuarios/eliminar/' + ${usuario.id}}"
-							th:usuarioId=${usuario.id}
-							title="Eliminar este usuario."></a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	<div class="text-center m-1" th:if="${totalItems > 0}">
-		<span>Se muestran los usuarios del # [[${inicioContador}]] al [[${finContador}]] de un total de [[${totalItems}]]</span>
-	</div>
-	
-	<div class="text-center m-1" th:unless="${totalItems > 0}">
-		<span>No se encontraron usuarios</span>
-	</div>
-	
-	<div th:if="${paginasTotales > 1}">
-		<nav>
-  			<ul class="pagination justify-content-center">
-    			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
-    				<a th:replace="~{fragments :: enlace_pagina(1, 'Inicio')}" />
-    			</li>
-    			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
-    				<a th:replace="~{fragments :: enlace_pagina(${paginaActual - 1}, 'Anterior')}" />
-    			</li>
-    			<li th:class="${paginaActual != i ? 'page-item': 'page-item active'}" 
-    				th:each="i: ${#numbers.sequence(1, paginasTotales)}">
-    				<a th:replace="~{fragments :: enlace_pagina(${i}, ${i})}" />
-    			</li>
-    			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
-    				<a th:replace="~{fragments :: enlace_pagina(${paginaActual + 1}, 'Siguiente')}" />
-    			</li>   
-    			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
-    				<a th:replace="~{fragments :: enlace_pagina(${paginasTotales}, 'Fin')}" />
-    			</li>    			
-  			</ul>
-		</nav>
-	</div>
-	
-	<div class="modal fade text-center" id="confirmacionModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="modalTitle">Confirmación de la eliminación</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
+		</div>
 
-				<div class="modal-body">
-					<span id="textoConfirmacion"></span>
-				</div>
+		<div class="text-center m-1" th:if="${totalItems > 0}">
+			<span>Se muestran los usuarios del # [[${inicioContador}]] al
+				[[${finContador}]] de un total de [[${totalItems}]]</span>
+		</div>
 
-				<div class="modal-footer">
-					<a class="btn btn-success" href="" id="botonSi">Si</a>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+		<div class="text-center m-1" th:unless="${totalItems > 0}">
+			<span>No se encontraron usuarios</span>
+		</div>
+
+		<div th:if="${paginasTotales > 1}">
+			<nav>
+				<ul class="pagination justify-content-center flex-wrap">
+					<li
+						th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
+						<a th:replace="~{fragments :: enlace_pagina(1, 'Inicio')}" />
+					</li>
+					<li
+						th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
+						<a
+						th:replace="~{fragments :: enlace_pagina(${paginaActual - 1}, 'Anterior')}" />
+					</li>
+					<li
+						th:class="${paginaActual != i ? 'page-item': 'page-item active'}"
+						th:each="i: ${#numbers.sequence(1, paginasTotales)}"><a
+						th:replace="~{fragments :: enlace_pagina(${i}, ${i})}" /></li>
+					<li
+						th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
+						<a
+						th:replace="~{fragments :: enlace_pagina(${paginaActual + 1}, 'Siguiente')}" />
+					</li>
+					<li
+						th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
+						<a
+						th:replace="~{fragments :: enlace_pagina(${paginasTotales}, 'Fin')}" />
+					</li>
+				</ul>
+			</nav>
+		</div>
+
+		<div class="modal fade text-center" id="confirmacionModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="modalTitle">Confirmación de la
+							eliminación</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<div class="modal-body">
+						<span id="textoConfirmacion"></span>
+					</div>
+
+					<div class="modal-footer">
+						<a class="btn btn-success" href="" id="botonSi">Si</a>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+					</div>
 				</div>
 			</div>
 		</div>
+
 	</div>
-	
-</div>
 
-<div class="text-center">
-	<p>Panel de Control para Compra Ya - Copyright &copy; CompraYa
-</div>
+	<div class="text-center">
+		<p>Panel de Control para Compra Ya - Copyright &copy; CompraYa
+	</div>
 
-<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		$(".link-eliminar").on("click", function(e) {
-			e.preventDefault();
-			link = $(this);
-			//alert($(this).attr("href"));
-			usuarioId = link.attr("usuarioId"); 
-			
-			$("#botonSi").attr("href", link.attr("href"));
-			$("#textoConfirmacion").text("¿Está seguro de que quiere eliminar el Usuario con ID: " + usuarioId + "?");
-			$("#confirmacionModal").modal();
-		});
-	});
-	
-	function limpiarTextoBusqueda() {
-		window.location = "[[@{/usuarios}]]"
-	}
-</script>
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+					$(".link-eliminar").on(
+							"click",
+							function(e) {
+								e.preventDefault();
+								link = $(this);
+								//alert($(this).attr("href"));
+								usuarioId = link.attr("usuarioId");
+
+								$("#botonSi").attr("href", link.attr("href"));
+								$("#textoConfirmacion").text(
+										"¿Está seguro de que quiere eliminar el Usuario con ID: "
+												+ usuarioId + "?");
+								$("#confirmacionModal").modal();
+							});
+				});
+
+		function limpiarTextoBusqueda() {
+			window.location = "[[@{/usuarios}]]"
+		}
+	</script>
 </body>
 </html>

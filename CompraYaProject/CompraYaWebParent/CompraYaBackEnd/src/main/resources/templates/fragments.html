@@ -5,9 +5,9 @@
 </head>
 <body>
 
-	<th th:fragment="enlace_columna(nombreCampo, etiquetaColumna)">
+	<th th:fragment="enlace_columna(nombreCampo, etiquetaColumna, removeTag)" th:remove="${removeTag}">
 		<a class="text-white"
-			th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=' + ${nombreCampo}  +'&direccionSort=' + ${campoSort != nombreCampo ? direccionSort : direccioninversa} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">
+			th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=' + ${nombreCampo}  +'&direccionSort=' + ${campoSort != nombreCampo ? direccionSort : direccionSortInversa} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">
 			[[${etiquetaColumna}]]
 		</a>								
 		<span th:if="${campoSort == nombreCampo}"
@@ -18,6 +18,34 @@
 		class="page-link"
 		th:href="@{'/usuarios/pagina/' + ${numeroPagina} + '?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">[[${etiqueta}]]
 	</a>
+	
+	<div th:fragment="fotos_usuario" th:remove="tag">
+		<span th:if="${usuario.fotos == null}" class="fas fa-portrait fa-3x icon-silver"></span>
+		<img th:if="${usuario.fotos != null}" th:src="@{${usuario.trayectoriaImagenFoto}}"
+			style="width: 75px" />	
+	</div>
+	
+	<div th:fragment="estado_usuario" th:remove="tag">
+		<a th:if="${usuario.activo == true}" class="fas fa-check-circle fa-2x icon-green" 
+			th:href="@{'/usuarios/' + ${usuario.id} + '/estadousuario/false'}"
+			title="Desactivar a este Usuario"
+			></a>
+			
+		<a th:if="${usuario.activo == false}" class="fas fa-circle fa-2x icon-dark" 
+			th:href="@{'/usuarios/' + ${usuario.id} + '/estadousuario/true'}"
+			title="Activar a este usuario"
+			></a>	
+	</div>
+	
+	<div th:fragment="acciones_usuario" th:remove="tag">
+		<a class="fas fa-edit fa-2x icon-green" th:href="@{'/usuarios/editar/' + ${usuario.id}}"
+			title="Editar este usuario"></a>
+		&nbsp; 
+		<a class="fas fa-trash fa-2x icon-dark link-delete" 
+			th:href="@{'/usuarios/eliminar/' + ${usuario.id}}"
+			th:userId="${usuario.id}"
+			title="Eliminar este usuario."></a>	
+	</div>	
 						
 </body>
 </html>
