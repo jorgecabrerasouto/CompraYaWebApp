@@ -139,14 +139,20 @@ public class Usuario {
 		
 		return "/foto-usuarios/" + this.id + "/" + this.fotos;
 	}
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> 2af26580c2dc687ae252c082a306ab8c697db53b
 	@Transient
 	public String getNombreCompleto() {
 		return primerNombre + " " + primerApellido;
+	}
+	
+	@Transient
+	public boolean isEnabled () {
+		return activo;
+	}
+	
+	@Transient
+	public void setEnabled(boolean enabled) {
+		this.activo = enabled;
 	}
 
 }

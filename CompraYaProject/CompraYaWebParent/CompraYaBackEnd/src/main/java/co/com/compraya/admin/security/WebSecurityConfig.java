@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
 	@Bean
-	UserDetailsService userDetailsService() {
+	public UserDetailsService userDetailsService() {
 		return new CompraYaUserDetailsService();
 	}
 
@@ -50,7 +50,7 @@ public class WebSecurityConfig {
 			
 			return http.build();
 	}
-
+	
 	@Bean
 	WebSecurityCustomizer configureWebSecurity() throws Exception {
 		return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");

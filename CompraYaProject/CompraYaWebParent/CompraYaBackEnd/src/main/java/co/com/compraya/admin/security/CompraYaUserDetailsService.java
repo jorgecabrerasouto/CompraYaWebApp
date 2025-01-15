@@ -21,6 +21,6 @@ public class CompraYaUserDetailsService implements UserDetailsService {
 			return new CompraYaUserDetails(usuario);
 		}
 		// System.out.println("Could not find user with email: " + email);
-		throw new UsernameNotFoundException("Could not find user with email: " + email);
+		throw new UsernameNotFoundException("No se pudo encontrar un Usuario con email: " + email);
 	}
 }

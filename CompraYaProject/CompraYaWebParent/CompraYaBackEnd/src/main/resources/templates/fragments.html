@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 </head>
 <body>
-
 	<th th:fragment="enlace_columna(nombreCampo, etiquetaColumna, removeTag)" th:remove="${removeTag}">
 		<a class="text-white"
 			th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=' + ${nombreCampo}  +'&direccionSort=' + ${campoSort != nombreCampo ? direccionSort : direccionSortInversa} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">
@@ -18,15 +17,11 @@
 		class="page-link"
 		th:href="@{'/usuarios/pagina/' + ${numeroPagina} + '?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">[[${etiqueta}]]
 	</a>
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> 2af26580c2dc687ae252c082a306ab8c697db53b
 	<div th:fragment="fotos_usuario" th:remove="tag">
 		<span th:if="${usuario.fotos == null}" class="fas fa-portrait fa-3x icon-silver"></span>
 		<img th:if="${usuario.fotos != null}" th:src="@{${usuario.trayectoriaImagenFoto}}"
-			style="width: 75px" />	
+			style="width: 50px" />	
 	</div>
 	
 	<div th:fragment="estado_usuario" th:remove="tag">
@@ -49,11 +44,6 @@
 			th:href="@{'/usuarios/eliminar/' + ${usuario.id}}"
 			th:userId="${usuario.id}"
 			title="Eliminar este usuario."></a>	
-<<<<<<< HEAD
-	</div>	
-						
-=======
-	</div>						
->>>>>>> 2af26580c2dc687ae252c082a306ab8c697db53b
+	</div>										
 </body>
 </html>

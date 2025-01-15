@@ -18,7 +18,7 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class ServicioUsuario {
-	public static final int USUARIOS_POR_PAGINA = 4;
+	public static final int USUARIOS_POR_PAGINA = 6;
 	
 	@Autowired
 	private UsuarioRepository usuarioRepo;
@@ -96,7 +96,7 @@ public class ServicioUsuario {
 		try {
 			return usuarioRepo.findById(id).get();
 		} catch (NoSuchElementException ex) {
-			throw new UserNotFoundException ("No pude encontrar algún usuario con ID" + id);
+			throw new UserNotFoundException ("No pude encontrar algún usuario con ID " + id);
 			
 		}
 	}
@@ -104,8 +104,7 @@ public class ServicioUsuario {
 	public void eliminar(Integer id) throws UserNotFoundException {
 		Long countById = usuarioRepo.countById(id);
 		if(countById == null || countById == 0) {
-			throw new UserNotFoundException ("No pude encontrar algún usuario con ID" + id);
-			
+			throw new UserNotFoundException ("No pude encontrar algún usuario con ID " + id);
 		}
 		
 		usuarioRepo.deleteById(id);

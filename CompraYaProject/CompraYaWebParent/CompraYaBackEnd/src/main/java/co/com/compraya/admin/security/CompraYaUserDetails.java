@@ -24,13 +24,13 @@ public class CompraYaUserDetails implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<Role> roles = usuario.getRoles();
 		
-		List<SimpleGrantedAuthority> authories = new ArrayList<>();
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		
 		for (Role role : roles) {
-			authories.add(new SimpleGrantedAuthority(role.getNombre()));
+			authorities.add(new SimpleGrantedAuthority(role.getNombre()));
 		}
 		
-		return authories;
+		return authorities;
 	}
 
 	@Override
@@ -41,6 +41,11 @@ public class CompraYaUserDetails implements UserDetails {
 	@Override
 	public String getUsername() {
 		return usuario.getEmail();
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return usuario.isEnabled();
 	}
 
 }
