@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.com.compraya.admin.FileUploadUtil;
 import co.com.compraya.common.entity.Role;
-import co.com.compraya.common.entity.Usuario;
+import co.com.compraya.common.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
@@ -38,8 +38,8 @@ public class ControladorUsuario {
 			@Param("textoBusqueda") String textoBusqueda
 			) {
 		
-		Page<Usuario> pagina = servicio.listByPage(numeroPagina, campoSort, direccionSort, textoBusqueda);
-		List<Usuario> listaUsuarios = pagina.getContent();
+		Page<User> pagina = servicio.listByPage(numeroPagina, campoSort, direccionSort, textoBusqueda);
+		List<User> listaUsuarios = pagina.getContent();
 		
 		long inicioContador = (numeroPagina - 1) * ServicioUsuario.USUARIOS_POR_PAGINA + 1;
 		long finContador = inicioContador + ServicioUsuario.USUARIOS_POR_PAGINA - 1;
@@ -67,7 +67,7 @@ public class ControladorUsuario {
 	public String nuevoUsuario(Model model) {
 		List<Role> listaRoles = servicio.listaRoles();
 		
-		Usuario usuario = new Usuario();
+		User usuario = new User();
 		usuario.setActivo(true);
 		model.addAttribute("usuario", usuario);
 		model.addAttribute("listaRoles", listaRoles);
@@ -77,14 +77,14 @@ public class ControladorUsuario {
 	}
 	
 	@PostMapping("/usuarios/guardar")
-	public String guardarUsuario (Usuario usuario, RedirectAttributes redirectAttributes,
+	public String guardarUsuario (User usuario, RedirectAttributes redirectAttributes,
 			@RequestParam("imagen") MultipartFile multipartFile) throws IOException {
 		
 		if(!multipartFile.isEmpty()) {
 			
 			String nombreArchivo = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			usuario.setFotos(nombreArchivo);
-			Usuario usuarioGuardado = servicio.guardar(usuario);
+			User usuarioGuardado = servicio.guardar(usuario);
 			
 			String directorioCargue = "foto-usuarios/" + usuarioGuardado.getId();
 			
@@ -101,7 +101,7 @@ public class ControladorUsuario {
 		return obtenerURLparaRedireccionarAlUsuarioModificado(usuario);
 	}
 
-	private String obtenerURLparaRedireccionarAlUsuarioModificado(Usuario usuario) {
+	private String obtenerURLparaRedireccionarAlUsuarioModificado(User usuario) {
 		String primeraParteStringDeEmail = usuario.getEmail().split("@")[0];
 		return "redirect:/usuarios/pagina/1?campoSort=id&direccionSort=asc&textoBusqueda=" + primeraParteStringDeEmail;
 	}
@@ -111,7 +111,7 @@ public class ControladorUsuario {
 			Model model,
 			RedirectAttributes redirectAttributes) {
 		try {
-			Usuario usuario = servicio.get(id);
+			User usuario = servicio.get(id);
 			List<Role> listaRoles = servicio.listaRoles();
 			
 			model.addAttribute("usuario", usuario);
@@ -154,7 +154,7 @@ public class ControladorUsuario {
 	
 	@GetMapping("/usuarios/exportar/csv")
 	public void exportarCSV(HttpServletResponse respuesta) throws IOException{
-		List<Usuario> listaUsuarios = servicio.listAll();
+		List<User> listaUsuarios = servicio.listAll();
 		
 		UsuarioCsvExporter exportador = new UsuarioCsvExporter();
 		exportador.export(listaUsuarios, respuesta);
@@ -162,7 +162,7 @@ public class ControladorUsuario {
 
 	@GetMapping("/usuarios/exportar/excel")
 	public void exportarExcel(HttpServletResponse respuesta) throws IOException{
-		List<Usuario> listaUsuarios = servicio.listAll();
+		List<User> listaUsuarios = servicio.listAll();
 		
 		UsuarioExcelExporter exportador = new UsuarioExcelExporter();
 		exportador.export(listaUsuarios, respuesta);
@@ -170,7 +170,7 @@ public class ControladorUsuario {
 	
 	@GetMapping("/usuarios/exportar/pdf")
 	public void exportarPdf(HttpServletResponse respuesta) throws IOException{
-		List<Usuario> listaUsuarios = servicio.listAll();
+		List<User> listaUsuarios = servicio.listAll();
 		
 		UsuarioPdfExporter exportador = new UsuarioPdfExporter();
 		exportador.export(listaUsuarios, respuesta);

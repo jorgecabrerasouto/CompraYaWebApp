@@ -16,15 +16,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
 import co.com.compraya.common.entity.Role;
-import co.com.compraya.common.entity.Usuario;
+import co.com.compraya.common.entity.User;
 
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace=Replace.NONE)
 @Rollback(false)
-public class UsuarioRepositoryTests {
+public class UserRepositoryTests {
 	
 	@Autowired
-	private UsuarioRepository repo;
+	private UserRepository repo;
 	
 	@Autowired
 	private TestEntityManager entityManager;
@@ -32,44 +32,44 @@ public class UsuarioRepositoryTests {
 	@Test
 	public void testCrearUsuarioConUnRol() {
 		Role roleAdmin = entityManager.find(Role.class, 1);
-		Usuario usuarioJorge = new Usuario("jorgecabrerasouto@gmail.com", "jorge2024", "Jorge", "Cabrera" );
+		User usuarioJorge = new User("jorgecabrerasouto@gmail.com", "jorge2024", "Jorge", "Cabrera" );
 		usuarioJorge.addRole(roleAdmin);
 		
-		Usuario usuarioGuardado =repo.save(usuarioJorge);
+		User usuarioGuardado =repo.save(usuarioJorge);
 		
 		assertThat(usuarioGuardado.getId()).isGreaterThan(0);
 	}
 	
 	@Test
 	public void testCrearUsuarioConDosRoles() {
-		Usuario usuarioJuan = new Usuario("juan1234@gmail.com", "juan2024", "Juan", "Perez" );
+		User usuarioJuan = new User("juan1234@gmail.com", "juan2024", "Juan", "Perez" );
 		Role roleEditor = new Role(3);
 		Role roleAsistente = new Role(5);
 		
 		usuarioJuan.addRole(roleEditor);
 		usuarioJuan.addRole(roleAsistente);
 		
-		Usuario usuarioGuardado =repo.save(usuarioJuan);
+		User usuarioGuardado =repo.save(usuarioJuan);
 		
 		assertThat(usuarioGuardado.getId()).isGreaterThan(0);
 	}	
 	
 	@Test
 	public void testListTodosLosUsuarios() {
-		Iterable<Usuario> listUsuarios = repo.findAll();
+		Iterable<User> listUsuarios = repo.findAll();
 		listUsuarios.forEach(usuario -> System.out.println(usuario));
 	}
 
 	@Test
 	public void testGetUsuarioById() {
-		Usuario usuarioJorge = repo.findById(1).get();
+		User usuarioJorge = repo.findById(1).get();
 		System.out.println(usuarioJorge);
 		assertThat(usuarioJorge).isNotNull();
 	}
 	
 	@Test
 	public void testUsdateDetalleUsuario() {
-		Usuario usuarioJorge = repo.findById(1).get();
+		User usuarioJorge = repo.findById(1).get();
 		usuarioJorge.setActivo(true);
 		usuarioJorge.setEmail("jorgecabrerasouto@outlook.com");
 		
@@ -77,7 +77,7 @@ public class UsuarioRepositoryTests {
 	}
 	@Test
 	public void testUpdateRolesUsuario() {
-		Usuario usuarioJuan = repo.findById(2).get();
+		User usuarioJuan = repo.findById(2).get();
 		Role roleEditor = new Role(3);
 		Role roleVendedor = new Role(2);
 		
@@ -96,7 +96,7 @@ public class UsuarioRepositoryTests {
 	@Test
 	public void testGetUsuarioByEmail() {
 		String email = "jorgecabrerasouto@outlook.com";
-		Usuario usuario = repo.getUsuarioByEmail(email);
+		User usuario = repo.getUsuarioByEmail(email);
 		
 		assertThat(usuario).isNotNull();
 		
@@ -128,9 +128,9 @@ public class UsuarioRepositoryTests {
 		int tamanoPagina = 4;
 		
 		Pageable pageable = PageRequest.of(numeroPagina,  tamanoPagina);
-		Page<Usuario> pagina = repo.findAll(pageable);
+		Page<User> pagina = repo.findAll(pageable);
 		
-		List<Usuario> listaUsuarios = pagina.getContent();
+		List<User> listaUsuarios = pagina.getContent();
 	
 		listaUsuarios.forEach(usuario -> System.out.println(usuario));
 		assertThat(listaUsuarios.size()).isEqualTo(tamanoPagina);
@@ -143,9 +143,9 @@ public class UsuarioRepositoryTests {
 		int tamanoPagina = 4;
 		
 		Pageable pageable = PageRequest.of(numeroPagina,  tamanoPagina);
-		Page<Usuario> pagina = repo.findAll(textoBusqueda, pageable);
+		Page<User> pagina = repo.findAll(textoBusqueda, pageable);
 		
-		List<Usuario> listaUsuarios = pagina.getContent();
+		List<User> listaUsuarios = pagina.getContent();
 	
 		listaUsuarios.forEach(usuario -> System.out.println(usuario));
 		assertThat(listaUsuarios.size()).isGreaterThan(0);		

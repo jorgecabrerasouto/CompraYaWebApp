@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import co.com.compraya.common.entity.Role;
-import co.com.compraya.common.entity.Usuario;
+import co.com.compraya.common.entity.User;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -21,7 +21,7 @@ public class ServicioUsuario {
 	public static final int USUARIOS_POR_PAGINA = 6;
 	
 	@Autowired
-	private UsuarioRepository usuarioRepo;
+	private UserRepository usuarioRepo;
 
 	@Autowired
 	private RoleRepository roleRepo;	
@@ -29,11 +29,11 @@ public class ServicioUsuario {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	public List<Usuario> listAll() {
-		return (List<Usuario>) usuarioRepo.findAll(Sort.by("primerNombre").ascending());
+	public List<User> listAll() {
+		return (List<User>) usuarioRepo.findAll(Sort.by("primerNombre").ascending());
 	}
 	
-	public Page<Usuario> listByPage(int numeroPagina, String campoSort, String direccionSort,
+	public Page<User> listByPage(int numeroPagina, String campoSort, String direccionSort,
 			String textoBusqueda) {
 		Sort sort = Sort.by(campoSort);
 		
@@ -53,11 +53,11 @@ public class ServicioUsuario {
 		
 	}
 	
-	public Usuario guardar(Usuario usuario) {
+	public User guardar(User usuario) {
 		boolean estaActualizandoUsuario = (usuario.getId() != null);
 		
 		if (estaActualizandoUsuario) {
-			Usuario usuarioExistente = usuarioRepo.findById(usuario.getId()).get();
+			User usuarioExistente = usuarioRepo.findById(usuario.getId()).get();
 			if(usuario.getPassword().isEmpty()) {
 				usuario.setPassword(usuarioExistente.getPassword());
 			} else {
@@ -70,13 +70,13 @@ public class ServicioUsuario {
 		return usuarioRepo.save(usuario);
 	}
 	
-	private	void encodePassword(Usuario usuario) {
+	private	void encodePassword(User usuario) {
 		String encodedPassword = passwordEncoder.encode(usuario.getPassword());
 		usuario.setPassword(encodedPassword);
 	}
 	
 	public boolean esEmailUnico(Integer id, String email) {
-		Usuario usuarioByEmail = usuarioRepo.getUsuarioByEmail(email);
+		User usuarioByEmail = usuarioRepo.getUsuarioByEmail(email);
 		if (usuarioByEmail == null) return true;
 		
 		boolean estaCreandoNuevo = (id == null);
@@ -92,7 +92,7 @@ public class ServicioUsuario {
 		return true;
 	}
 
-	public Usuario get(Integer id) throws UserNotFoundException {
+	public User get(Integer id) throws UserNotFoundException {
 		try {
 			return usuarioRepo.findById(id).get();
 		} catch (NoSuchElementException ex) {

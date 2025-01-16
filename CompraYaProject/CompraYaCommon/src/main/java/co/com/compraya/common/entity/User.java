@@ -17,7 +17,7 @@ import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="usuarios")
-public class Usuario {
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -48,10 +48,10 @@ public class Usuario {
 			)
 	private Set<Role> roles = new HashSet<>();
 	
-	public Usuario() {
+	public User() {
 	}
 
-	public Usuario(String email, String password, String primerNombre, String primerApellido) {
+	public User(String email, String password, String primerNombre, String primerApellido) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -139,7 +139,7 @@ public class Usuario {
 		
 		return "/foto-usuarios/" + this.id + "/" + this.fotos;
 	}
-
+	
 	@Transient
 	public String getNombreCompleto() {
 		return primerNombre + " " + primerApellido;

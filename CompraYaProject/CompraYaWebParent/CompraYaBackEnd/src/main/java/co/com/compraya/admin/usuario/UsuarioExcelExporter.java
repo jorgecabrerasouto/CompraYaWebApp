@@ -3,7 +3,6 @@ package co.com.compraya.admin.usuario;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.catalina.User;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -12,7 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import co.com.compraya.common.entity.Usuario;
+import co.com.compraya.common.entity.User;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -57,7 +56,7 @@ public class UsuarioExcelExporter extends AbstractExporter {
 		cell.setCellStyle(style);		
 	}
 	
-	public void export(List<Usuario> listaUsuarios, HttpServletResponse response) throws IOException {
+	public void export(List<User> listaUsuarios, HttpServletResponse response) throws IOException {
 		super.setResponseHeader(response, "application/octet-stream", ".xlsx");
 		
 		writeHeaderLine();
@@ -70,7 +69,7 @@ public class UsuarioExcelExporter extends AbstractExporter {
 		
 	}
 
-	private void writeDataLines(List<Usuario> listaUsuarios) {
+	private void writeDataLines(List<User> listaUsuarios) {
 		int rowIndex = 1;
 		
 		XSSFCellStyle cellStyle =workbook.createCellStyle();
@@ -78,7 +77,7 @@ public class UsuarioExcelExporter extends AbstractExporter {
 		font.setFontHeight(14);
 		cellStyle.setFont(font);
 		
-		for (Usuario usuario : listaUsuarios) {
+		for (User usuario : listaUsuarios) {
 			XSSFRow row = sheet.createRow(rowIndex++);
 			int columnIndex = 0;
 			

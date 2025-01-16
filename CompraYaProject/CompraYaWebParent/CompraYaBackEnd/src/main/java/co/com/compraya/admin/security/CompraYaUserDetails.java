@@ -10,13 +10,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import co.com.compraya.common.entity.Role;
-import co.com.compraya.common.entity.Usuario;
+import co.com.compraya.common.entity.User;
 
 public class CompraYaUserDetails implements UserDetails {
 	
-	private Usuario usuario;
+	private User usuario;
 
-	public CompraYaUserDetails(Usuario usuario) {
+	public CompraYaUserDetails(User usuario) {
 		this.usuario = usuario;
 	}
 
@@ -48,4 +48,7 @@ public class CompraYaUserDetails implements UserDetails {
 		return usuario.isEnabled();
 	}
 
+	public String getFullname() {
+		return this.usuario.getPrimerNombre() + " " + this.usuario.getPrimerApellido();
+	}
 }

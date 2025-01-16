@@ -10,12 +10,12 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
-import co.com.compraya.common.entity.Usuario;
+import co.com.compraya.common.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class UsuarioCsvExporter extends AbstractExporter {
 	
-	public void export(List<Usuario> listaUsuarios, HttpServletResponse response) throws IOException {
+	public void export(List<User> listaUsuarios, HttpServletResponse response) throws IOException {
 		super.setResponseHeader(response, "text/csv", ".csv");
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 		String timestamp = dateFormatter.format(new Date());
@@ -37,7 +37,7 @@ public class UsuarioCsvExporter extends AbstractExporter {
 		
 		csvWriter.writeHeader(csvHeader);
 		
-		for (Usuario user : listaUsuarios) {
+		for (User user : listaUsuarios) {
 			csvWriter.write(user, fieldMapping);
 		}
 		

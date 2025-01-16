@@ -10,17 +10,16 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
-import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-import co.com.compraya.common.entity.Usuario;
+import co.com.compraya.common.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class UsuarioPdfExporter extends AbstractExporter {
 
-	public void export(List<Usuario> listaUsuarios, HttpServletResponse respuesta) throws IOException {
+	public void export(List<User> listaUsuarios, HttpServletResponse respuesta) throws IOException {
 		super.setResponseHeader(respuesta, "application/pdf", ".pdf");
 		
 		Document documento = new Document(PageSize.A4);
@@ -50,8 +49,8 @@ public class UsuarioPdfExporter extends AbstractExporter {
 		documento.close();
 	}
 
-	private void writeTableData(PdfPTable tabla, List<Usuario> listaUsuarios) {
-		for (Usuario usuario : listaUsuarios) {
+	private void writeTableData(PdfPTable tabla, List<User> listaUsuarios) {
+		for (User usuario : listaUsuarios) {
 			tabla.addCell(String.valueOf(usuario.getId()));
 			tabla.addCell(String.valueOf(usuario.getEmail()));
 			tabla.addCell(String.valueOf(usuario.getPrimerNombre()));
