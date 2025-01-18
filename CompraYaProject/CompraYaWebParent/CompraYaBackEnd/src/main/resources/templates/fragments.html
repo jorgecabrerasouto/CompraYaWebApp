@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-<head>
-<meta charset="UTF-8">
+<head th:fragment="encabezado_pagina(titulo)">
+	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+	<title>[[${titulo}]]</title>
+
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
 </head>
 <body>
+
+<div th:fragment="pie_pagina" class="text-center m-3">
+	<div>
+		<p>Panel de Control para para Applicación Web ComprasYa - Copyright &copy; CompraYa</p>
+	</div>
+
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/comunes.js}"></script>
+</div>
+	
 	<th th:fragment="enlace_columna(nombreCampo, etiquetaColumna, removeTag)" th:remove="${removeTag}">
 		<a class="text-white"
 			th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=' + ${nombreCampo}  +'&direccionSort=' + ${campoSort != nombreCampo ? direccionSort : direccionSortInversa} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">

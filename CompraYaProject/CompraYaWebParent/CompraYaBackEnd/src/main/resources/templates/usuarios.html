@@ -1,56 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-<head>
-<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-
-<title>Home - Applicación Web Compras Ya</title>
-
-<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
-
-</head>
-
+<head th:replace="~{fragments :: encabezado_pagina('Usuarios - Applicación Web Compras Ya')}">
 <body>
-<div class="Container-fluid">
-	<div>
-		<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-			<a class="navbar-brand" th:href="@{/}"> <img
-				th:src="@{/images/ShopmeAdminSmall.png}" />
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#topNavBar">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="topNavBar">
-				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/usuarios}">Usuarios</a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/categorias}">Categorías</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/marcas}">Marcas</a>
-					</li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/productos}">Productos</a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/clientes}">Clientes</a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/despachos}">Despachos</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/pedidos}">Pedidos</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/reporte}">Reporte
-							Ventas</a></li>
-					<li class="nav-item"><a class="nav-link"
-						th:href="@{/articulos}">Artículos</a></li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/menus}">Menús</a>
-					</li>
-					<li class="nav-item"><a class="nav-link" th:href="@{/ajustes}">Ajustes</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-	</div>
+<div class="container-fluid">
+	<div th:replace="~{navegacion :: menu}" />
 	<div>
 		<h2>Gestión de Usuarios</h2>
 			<a th:href="@{/usuarios/nuevo}"
@@ -197,14 +150,7 @@
 		</div>
 	</div>
 
-	<div class="text-center">
-		<p>Panel de Control para Compra Ya - Copyright &copy; CompraYa
-	</div>
-
-	<script type="text/javascript"
-		th:src="@{/webjars/jquery/jquery.min.js}"></script>
-	<script type="text/javascript"
-		th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<div th:replace="~{fragments :: pie_pagina}"/>
 
 	<script type="text/javascript">
 		$(document).ready(function() {			
