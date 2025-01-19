@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.RememberMeServices;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +35,6 @@ public class WebSecurityConfig {
 		return authProvider;
 	}
 	
-
 	@Bean
 	SecurityFilterChain configureHttp(HttpSecurity http) throws Exception {
 		http.authenticationProvider(authenticationProvider());
@@ -47,10 +47,13 @@ public class WebSecurityConfig {
 				.usernameParameter("email")
 				.permitAll())
 
-			.logout(logout -> logout.permitAll()
-			);
+			.logout(logout -> logout.permitAll())
 			
-			return http.build();
+			.rememberMe ((remember) -> remember
+					.key("AbcDefgHijklmnOpqrs_1234597890")
+					.tokenValiditySeconds(7 * 24 * 60 * 60));
+			
+		return http.build();
 	}
 	
 	@Bean
