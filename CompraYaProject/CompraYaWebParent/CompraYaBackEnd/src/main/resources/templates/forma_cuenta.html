@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: encabezado_pagina(${tituloPagina})}" />
+<head th:replace="~{fragments :: encabezado_pagina('Detalles de su cuenta de usuario')}" />
 <body>
 <div class="Container-fluid">
 	<div th:replace="~{navegacion :: menu}" />
 	
-	<div>
-		<h2>Gestión de Usuarios | [[${tituloPagina}]]</h2>
-	</div>
-
-	<form th:action="@{/usuarios/guardar}" method="post" style="max-width: 700px; margin: 0 auto"
+	<form th:action="@{/cuenta/actualizar}" method="post" style="max-width: 700px; margin: 0 auto"
 		enctype="multipart/form-data" 
-		th:object="${usuario}" onsubmit="return checkEmailUnico(this);">
+		th:object="${user}">
+		<div th:if="${message != null}"	class="alert alert-success text-center">
+			[[${message}]]
+		</div>
+		
 		<input type="hidden" th:field="*{id}" />
+		<div class="text-center">
+			<h2>Detalles de su cuenta de usuario</h2>
+		</div>
+		
 		<div class="border border-secondary rounded p-3">
 			<div class="form-group row">
 				<label class="col-sm-4 col-form-label">E-Mail:</label>
 				<div class="col-sm-8">
-					<input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128" />
+					<input type="email" class="form-control" th:field="*{email}" readonly="readonly" />
 				</div>
 			</div>
 
@@ -27,42 +31,38 @@
 					<input type="text" class="form-control" th:field="*{primerNombre}" required minlength="2" maxlength="45" />
 				</div>
 			</div>
-				<div class="form-group row">
+			<div class="form-group row">
 				<label class="col-sm-4 col-form-label">Primer Apellido:</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control"	th:field="*{primerApellido}" required minlength="2"	maxlength="45" />
 				</div>
 			</div>
-				<div class="form-group row">
+			<div class="form-group row">
 				<label class="col-sm-4 col-form-label">Contraseña:</label>
 				<div class="col-sm-8">
-					<input th:if="${usuario.id} == null" type="password" class="form-control" 
-						th:field="*{password}" required minlength="8" maxlength="20" />
-						
-					<input th:if="${usuario.id} != null" type="password" class="form-control" 
-						th:field="*{password}" minlength="8" maxlength="20" />	
+					<input type="password" th:field="*{password}" class="form-control"
+						placeholder="Déjelo en blanco si usted no quiere cambiar la contraseña"
+						minlength="8" maxlength="20"
+						oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"
+					/> 
 				</div>
 			</div>
-
-			<div class="form-group row">
-				<label class="col-sm-4 col-form-label">Roles:</label>
-				<div class="col-sm-8">
-					<th:block th:each="role : ${listaRoles}">
-					<input type="checkbox" th:field="*{roles}"
-							th:text="${role.nombre}" 
-							th:value="${role.id}" 
-							class="m-2"
-					/>
-					- <small>[[${role.descripcion}]]</small>
-					<br />
-					</th:block>
+			
+			<div>	
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label">Confirme la Contraseña:</label>
+					<div class="col-sm-8">
+						<input type="password" id="confirmPassword" class="form-control"
+							minlength="8" maxlength="20"
+							oninput="checkPasswordMatch(this)"
+					/> 
 				</div>
-			</div>
+			</div>		
 
 			<div class="form-group row">
-				<label class="col-sm-4 col-form-label">¿Activo?:</label>
+				<label class="col-sm-4 col-form-label">Roles Asignados:</label>
 				<div class="col-sm-8">
-					<input type="checkbox" th:field="*{activo}" />
+					<span><b>[[${user.roles}]]</b></span>
 				</div>
 			</div>
 
@@ -72,7 +72,7 @@
 					<input type="hidden" th:field="*{fotos}" />
 					<input type="file" id="archivoImagen" name="imagen" accept="images/png, images/jpeg"
 						class="mb-2" />
-	 					<img id="thumbnail" alt="Previsualización de fotografias" th:src="@{${usuario.trayectoriaImagenFoto}}"
+	 					<img id="thumbnail" alt="Previsualización de fotografias" th:src="@{${user.trayectoriaImagenFoto}}"
 	 					class="img-fluid" style="width: 75px" />													
 				</div>
 			</div>				
@@ -133,37 +133,15 @@
 			};	
 			
 			reader.readAsDataURL(archivo);
-		}		
-
-		function checkEmailUnico(form) {
-			url = "[[@{/usuarios/check_email}]]";
-			emailUsuario = $("#email").val();
-			idUsuario = $("#id").val();
-			valorCsrf = $("input[name='_csrf']").val();
-			
-			params = {id: idUsuario, email: emailUsuario, _csrf: valorCsrf};
-
-			$.post(url,	params, function(response) {
-				if (response == "OK") {
-					form.submit();
-				} else if (response == "Duplicado") {
-					showModalDialog("Prevencion:", "Ya existe un usuario con la dirección de email: " + emailUsuario);
-				} else {
-					showModalDialog("Error:", "Respuesta del servidor desconocida");
-				}
-			}).fail(function() {
-					showModalDialog("Error:", "No fue posible la conexión al servidor");
-			});
-
-			return false;
-		}
-		function showModalDialog(titulo, mensaje) {
-			$("#modalTitle").text(titulo);
-			$("#modalBody").text(mensaje);
-			$("#dialogoModal").modal();
-			
 		}
 		
+		function checkPasswordMatch (confirmPassword) {
+			if (confirmPassword.value != $("#password").val()) {
+				confirmPassword.setCustomValidity("¡Las contraseñas no coinciden!");
+			} else {
+				confirmPassword.setCustomValidity("");
+			}
+		}
 	</script>
 		
 </body>

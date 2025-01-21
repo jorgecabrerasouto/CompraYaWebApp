@@ -51,4 +51,12 @@ public class CompraYaUserDetails implements UserDetails {
 	public String getFullname() {
 		return this.usuario.getPrimerNombre() + " " + this.usuario.getPrimerApellido();
 	}
+	
+	public void setPrimerNombre(String primerNombre) {
+		this.usuario.setPrimerNombre(primerNombre);
+	}
+	
+	public void setPrimerApellido(String primerApellido) {
+		this.usuario.setPrimerApellido(primerApellido);
+	}	
 }

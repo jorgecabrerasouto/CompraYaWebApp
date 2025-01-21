@@ -1,4 +1,4 @@
-package co.com.compraya.admin.usuario;
+package co.com.compraya.admin.usuario.exportar;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -14,6 +14,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+import co.com.compraya.admin.usuario.AbstractExporter;
 import co.com.compraya.common.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 

@@ -21,7 +21,7 @@ public class ServicioUsuario {
 	public static final int USUARIOS_POR_PAGINA = 6;
 	
 	@Autowired
-	private UserRepository usuarioRepo;
+	private UserRepository userRepo;
 
 	@Autowired
 	private RoleRepository roleRepo;	
@@ -29,8 +29,12 @@ public class ServicioUsuario {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	public User getByEmail(String email) {
+		return userRepo.getUsuarioByEmail(email);
+	}
+	
 	public List<User> listAll() {
-		return (List<User>) usuarioRepo.findAll(Sort.by("primerNombre").ascending());
+		return (List<User>) userRepo.findAll(Sort.by("primerNombre").ascending());
 	}
 	
 	public Page<User> listByPage(int numeroPagina, String campoSort, String direccionSort,
@@ -42,10 +46,10 @@ public class ServicioUsuario {
 		Pageable pageable = PageRequest.of(numeroPagina - 1, USUARIOS_POR_PAGINA, sort);
 		
 		if (textoBusqueda != null ) {
-			return usuarioRepo.findAll(textoBusqueda, pageable);
+			return userRepo.findAll(textoBusqueda, pageable);
 		}
 		
-		return usuarioRepo.findAll(pageable);
+		return userRepo.findAll(pageable);
 	}
 
 	public List<Role> listaRoles() {
@@ -57,7 +61,7 @@ public class ServicioUsuario {
 		boolean estaActualizandoUsuario = (usuario.getId() != null);
 		
 		if (estaActualizandoUsuario) {
-			User usuarioExistente = usuarioRepo.findById(usuario.getId()).get();
+			User usuarioExistente = userRepo.findById(usuario.getId()).get();
 			if(usuario.getPassword().isEmpty()) {
 				usuario.setPassword(usuarioExistente.getPassword());
 			} else {
@@ -67,16 +71,34 @@ public class ServicioUsuario {
 			encodePassword(usuario);
 		}
 	
-		return usuarioRepo.save(usuario);
+		return userRepo.save(usuario);
 	}
 	
-	private	void encodePassword(User usuario) {
-		String encodedPassword = passwordEncoder.encode(usuario.getPassword());
-		usuario.setPassword(encodedPassword);
+	public User actualizarCuenta (User usuarioEnForma) {
+		User usuarioEnDb = userRepo.findById(usuarioEnForma.getId()).get();
+		
+		if (!usuarioEnForma.getPassword().isEmpty()) {
+			usuarioEnDb.setPassword (usuarioEnForma.getPassword());
+			encodePassword(usuarioEnDb);
+		};
+		
+		if (usuarioEnForma.getFotos() != null) {
+			usuarioEnDb.setFotos(usuarioEnForma.getFotos());
+		}
+		
+		usuarioEnDb.setPrimerNombre(usuarioEnForma.getPrimerNombre());
+		usuarioEnDb.setPrimerApellido(usuarioEnForma.getPrimerApellido());
+		
+		return userRepo.save(usuarioEnDb);
+	}
+	
+	private	void encodePassword(User user) {
+		String encodedPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPassword);
 	}
 	
 	public boolean esEmailUnico(Integer id, String email) {
-		User usuarioByEmail = usuarioRepo.getUsuarioByEmail(email);
+		User usuarioByEmail = userRepo.getUsuarioByEmail(email);
 		if (usuarioByEmail == null) return true;
 		
 		boolean estaCreandoNuevo = (id == null);
@@ -94,7 +116,7 @@ public class ServicioUsuario {
 
 	public User get(Integer id) throws UserNotFoundException {
 		try {
-			return usuarioRepo.findById(id).get();
+			return userRepo.findById(id).get();
 		} catch (NoSuchElementException ex) {
 			throw new UserNotFoundException ("No pude encontrar algún usuario con ID " + id);
 			
@@ -102,15 +124,15 @@ public class ServicioUsuario {
 	}
 	
 	public void eliminar(Integer id) throws UserNotFoundException {
-		Long countById = usuarioRepo.countById(id);
+		Long countById = userRepo.countById(id);
 		if(countById == null || countById == 0) {
 			throw new UserNotFoundException ("No pude encontrar algún usuario con ID " + id);
 		}
 		
-		usuarioRepo.deleteById(id);
+		userRepo.deleteById(id);
 	}
 	
 	public void updateEstadoUsuario (Integer id, boolean estadoActivo) {
-		usuarioRepo.updateEstadoUsuario (id, estadoActivo);
+		userRepo.updateEstadoUsuario (id, estadoActivo);
 	}
 }

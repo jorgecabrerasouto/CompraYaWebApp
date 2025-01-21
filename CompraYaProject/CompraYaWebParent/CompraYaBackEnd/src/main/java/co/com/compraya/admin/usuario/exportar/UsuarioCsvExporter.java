@@ -1,4 +1,4 @@
-package co.com.compraya.admin.usuario;
+package co.com.compraya.admin.usuario.exportar;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -10,6 +10,7 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import co.com.compraya.admin.usuario.AbstractExporter;
 import co.com.compraya.common.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 
