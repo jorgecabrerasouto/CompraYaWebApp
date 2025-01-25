@@ -6,7 +6,11 @@
 <div class="container-fluid">
 	<div th:replace="~{navegacion :: menu}"/>
 	<div>
-		<h1>Panel de Control para para Applicación Web ComprasYa</h1>
+		<h2>Panel de Control para la Aplicación Web ComprasYa</h2>
+		Bienvenido
+		<a th:href="@{/cuenta}"
+			sec:authentication="principal.fullname"></a>
+		<span sec:authentication = "principal.authorities"></span>
 	</div>
 
 	<div th:replace="~{fragments :: pie_pagina}"/>
