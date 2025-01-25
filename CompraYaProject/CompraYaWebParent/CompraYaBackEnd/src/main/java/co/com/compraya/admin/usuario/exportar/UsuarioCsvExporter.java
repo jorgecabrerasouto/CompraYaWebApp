@@ -10,7 +10,6 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
-import co.com.compraya.admin.usuario.AbstractExporter;
 import co.com.compraya.common.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 

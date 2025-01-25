@@ -1,4 +1,4 @@
-package co.com.compraya.admin.usuario;
+package co.com.compraya.admin.usuario.controlador;
 
 import java.io.IOException;
 
@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.com.compraya.admin.FileUploadUtil;
 import co.com.compraya.admin.security.CompraYaUserDetails;
+import co.com.compraya.admin.usuario.ServicioUsuario;
 import co.com.compraya.common.entity.User;
 
 @Controller
@@ -30,7 +31,7 @@ public class ControladorCuenta {
 		User user = servicio.getByEmail(email);
 		model.addAttribute("user", user);
 		
-		return "forma_cuenta";
+		return "usuarios/forma_cuenta";
 	}
 	
 	@PostMapping("/cuenta/actualizar")

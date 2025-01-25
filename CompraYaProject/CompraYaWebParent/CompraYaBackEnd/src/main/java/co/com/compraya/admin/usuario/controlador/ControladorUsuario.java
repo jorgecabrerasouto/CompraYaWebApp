@@ -1,4 +1,4 @@
-package co.com.compraya.admin.usuario;
+package co.com.compraya.admin.usuario.controlador;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.com.compraya.admin.FileUploadUtil;
+import co.com.compraya.admin.usuario.ServicioUsuario;
+import co.com.compraya.admin.usuario.UserNotFoundException;
 import co.com.compraya.admin.usuario.exportar.UsuarioCsvExporter;
 import co.com.compraya.admin.usuario.exportar.UsuarioExcelExporter;
 import co.com.compraya.admin.usuario.exportar.UsuarioPdfExporter;
@@ -63,7 +65,7 @@ public class ControladorUsuario {
 		model.addAttribute("direccionSortInversa", direccionSortInversa);
 		model.addAttribute("textoBusqueda", textoBusqueda);
 		
-		return "usuarios";
+		return "usuarios/usuarios";
 	}
 	
 	@GetMapping("/usuarios/nuevo")
@@ -76,7 +78,7 @@ public class ControladorUsuario {
 		model.addAttribute("listaRoles", listaRoles);
 		model.addAttribute("tituloPagina", "Cear un nuevo usuario");
 		
-		return "forma_usuario";
+		return "usuarios/forma_usuario";
 	}
 	
 	@PostMapping("/usuarios/guardar")
@@ -121,7 +123,7 @@ public class ControladorUsuario {
 			model.addAttribute("listaRoles", listaRoles);
 			model.addAttribute("tituloPagina", "Editar el usuario (ID: " + id +")");			
 			
-			return "forma_usuario";
+			return "usuarios/forma_usuario";
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/usuarios";
