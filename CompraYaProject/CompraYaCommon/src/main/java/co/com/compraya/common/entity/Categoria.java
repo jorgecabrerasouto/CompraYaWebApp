@@ -3,6 +3,7 @@ package co.com.compraya.common.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,12 +33,29 @@ public class Categoria {
 	
 	private boolean activa;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "id_padre")
 	private Categoria padre;
 	
-	@OneToMany(mappedBy = "padre")
-	private Set<Categoria> hijo = new HashSet<>();
+	@OneToMany(mappedBy="padre", cascade = CascadeType.ALL)
+	private Set<Categoria> hijos = new HashSet<Categoria>();
+
+	public Categoria() {
+	}
+	public Categoria(Integer id) {
+		this.id = id;
+	}
+
+	public Categoria(String nombre) {
+		this.nombre = nombre;
+		this.alias= nombre;
+		this.imagen = "default.png";
+	}
+	
+	public Categoria(String nombre, Categoria padre) {
+		this(nombre);
+		this.padre = padre;
+	}	
 
 	public Integer getId() {
 		return id;
@@ -88,19 +105,12 @@ public class Categoria {
 		this.padre = padre;
 	}
 
-	public Set<Categoria> getHijo() {
-		return hijo;
+	public Set<Categoria> getHijos() {
+		return hijos;
 	}
 
 	public void setHijo(Set<Categoria> hijo) {
-		this.hijo = hijo;
+		this.hijos = hijo;
 	}
-
-	@Override
-	public String toString() {
-		return "Categoria [id=" + id + ", nombre=" + nombre + ", alias=" + alias + ", imagen=" + imagen + ", activa="
-				+ activa + ", padre=" + padre + ", hijo=" + hijo + "]";
-	}
-	
 	
 }
