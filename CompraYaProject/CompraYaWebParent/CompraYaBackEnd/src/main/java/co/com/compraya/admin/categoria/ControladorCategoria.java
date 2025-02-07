@@ -22,5 +22,16 @@ public class ControladorCategoria {
 		
 		return "categorias/categorias";
 	}
+	
+	@GetMapping("/categorias/nueva")
+	public String CategoriaNueva(Model model) {
+		List<Categoria> listaCategorias = service.listaCategoriasUsadaEnForma();
+		
+		model.addAttribute("categoria", new Categoria());
+		model.addAttribute("listaCategorias", listaCategorias);
+		model.addAttribute("pageTitle", "Crear una Categoría nueva");
+		
+		return "categorias/forma_categoria";
+	}
 
 }
