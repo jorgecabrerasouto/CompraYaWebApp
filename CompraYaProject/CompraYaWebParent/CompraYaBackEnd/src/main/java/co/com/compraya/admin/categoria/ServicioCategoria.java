@@ -19,6 +19,10 @@ public class ServicioCategoria {
 		return (List<Categoria>) repo.findAll();
 	}
 	
+	public Categoria save(Categoria categoria) {
+		return repo.save(categoria);
+	}
+	
 	public List<Categoria> listaCategoriasUsadaEnForma() {
 		List<Categoria> categoriasUsadasEnForma = new ArrayList<>();
 		
@@ -26,13 +30,13 @@ public class ServicioCategoria {
 		
 		for (Categoria categoria : categoriasEnBD) {
 			if (categoria.getPadre() == null) {
-				categoriasUsadasEnForma.add(new Categoria(categoria.getNombre()));
+				categoriasUsadasEnForma.add(Categoria.copieIdYNombre(categoria));
 				
 				Set<Categoria> hijo = categoria.getHijos(); 
 				
 				for (Categoria subCategoria : hijo) {
 					String nombre = "--" + subCategoria.getNombre();
-					categoriasUsadasEnForma.add(new Categoria(nombre));
+					categoriasUsadasEnForma.add(Categoria.copieIdYNombre(subCategoria.getId(), nombre));
 					ListarHijos(categoriasUsadasEnForma, subCategoria, 1);
 				}
 			}
@@ -53,7 +57,7 @@ public class ServicioCategoria {
 			
 			nombre += subCategoria.getNombre();
 			
-			categoriasUsadasEnForma.add(new Categoria(nombre));
+			categoriasUsadasEnForma.add(Categoria.copieIdYNombre(subCategoria.getId(), nombre));
 			
 			ListarHijos(categoriasUsadasEnForma, subCategoria, nuevoSubNivel);
 		}

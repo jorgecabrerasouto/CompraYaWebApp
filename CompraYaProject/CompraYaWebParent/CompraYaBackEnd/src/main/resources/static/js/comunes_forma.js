@@ -4,11 +4,11 @@ $(document).ready(function() {
 	});
 
 	$("#archivoImagen").change(function() {				
-		tamanoMaximo = (1024 ** 2);
+		tamanoMaximo = (1024 * 100);
 		tamanoArchivo = this.files[0].size;
 	
 		if(tamanoArchivo >= tamanoMaximo) {
-			this.setCustomValidity("Debe escoger una imagen con tamaño menor a 1 MB!");
+			this.setCustomValidity("Debe escoger una imagen con tamaño menor a 100 KB!");
 			this.reportValidity();
 		} else {
 			this.setCustomValidity("");

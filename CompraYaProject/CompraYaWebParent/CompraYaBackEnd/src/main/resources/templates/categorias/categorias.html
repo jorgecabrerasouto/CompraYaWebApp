@@ -9,6 +9,11 @@
 			<a th:href="@{/categorias/nueva}" class="fas fa-user-plus fa-2x icon-dark mr-2"></a>
 			<a th:href="@{/categorias/exportar/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a>
 	</div>
+
+	<div th:if="${message != null}"	class="alert alert-success text-center">
+		[[${message}]]
+	</div>
+		
 	<div>
 		<form th:action="@{/categorias/pagina/1}" class="form-inline m-3">
 			Texto para Búsqueda:&nbsp; 

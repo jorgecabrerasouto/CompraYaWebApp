@@ -1,5 +1,6 @@
 package co.com.compraya.common.entity;
 
+import java.security.PublicKey;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,15 +40,37 @@ public class Categoria {
 	
 	@OneToMany(mappedBy="padre", cascade = CascadeType.ALL)
 	private Set<Categoria> hijos = new HashSet<Categoria>();
-
+	
 	public Categoria() {
+	}
+	
+	public Categoria(Integer id, String nombre) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
 	}
 	
 	public Categoria(Integer id) {
 		this.id = id;
 	}
 
-	public Categoria(String nombre) {
+	public static Categoria copieIdYNombre(Categoria categoria) {
+		Categoria copiaCategoria = new Categoria();
+		copiaCategoria.setId(categoria.getId());
+		copiaCategoria.setNombre(categoria.getNombre());
+		
+		return copiaCategoria;
+	}
+
+	public static Categoria copieIdYNombre(Integer id, String nombre) {
+		Categoria copiaCategoria = new Categoria();
+		copiaCategoria.setId(id);
+		copiaCategoria.setNombre(nombre);
+		
+		return copiaCategoria;
+	}
+	
+	public Categoria(String nombre) { 
 		this.nombre = nombre;
 		this.alias= nombre;
 		this.imagen = "default.png";
