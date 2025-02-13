@@ -16,7 +16,45 @@ public class ServicioCategoria {
 	private CategoriaRepository repo;
 	
 	public List<Categoria> listAll() {
-		return (List<Categoria>) repo.findAll();
+		List<Categoria> categoriasRaiz = repo.encuentraCategoriasRaiz();
+		return ListaCategoriasJerarquicamente(categoriasRaiz);
+	}
+	
+	private List<Categoria> ListaCategoriasJerarquicamente(List<Categoria> categoriasRaiz) {
+		List<Categoria> categoriasJerarquicamente = new ArrayList<>();
+		
+		for (Categoria categoriaRaiz : categoriasRaiz) {
+			categoriasJerarquicamente.add(Categoria.copiaCompleta(categoriaRaiz));
+			
+			Set<Categoria> hijo = categoriaRaiz.getHijos();
+			
+			for (Categoria subCategoria : hijo) {
+				String nombre = "--" + subCategoria.getNombre();
+				categoriasJerarquicamente.add(Categoria.copiaCompleta(subCategoria, nombre));
+				
+				ListaSubCategoriasJerarquicamente(categoriasJerarquicamente, subCategoria, 1);
+			}
+		}
+		
+		return categoriasJerarquicamente;
+	}
+	
+	public void ListaSubCategoriasJerarquicamente(List<Categoria> categoriasJerarquicamente,
+			Categoria padre, int subNivel) {
+		int nuevoSubNivel = ++subNivel;
+		Set<Categoria> hijo = padre.getHijos();
+		for (Categoria subCategoria : hijo ) {
+			String nombre = "";
+			for(int i = 0; i < nuevoSubNivel; i++) {
+				nombre += "--";
+			}
+			
+			nombre += subCategoria.getNombre();
+			
+			categoriasJerarquicamente.add(Categoria.copiaCompleta(subCategoria, nombre));
+			
+			ListaSubCategoriasJerarquicamente(categoriasJerarquicamente, subCategoria, nuevoSubNivel);
+		}
 	}
 	
 	public Categoria save(Categoria categoria) {
@@ -37,7 +75,7 @@ public class ServicioCategoria {
 				for (Categoria subCategoria : hijo) {
 					String nombre = "--" + subCategoria.getNombre();
 					categoriasUsadasEnForma.add(Categoria.copieIdYNombre(subCategoria.getId(), nombre));
-					ListarHijos(categoriasUsadasEnForma, subCategoria, 1);
+					ListarSubCategoriasUsadasEnForma (categoriasUsadasEnForma, subCategoria, 1);
 				}
 			}
 		}
@@ -45,7 +83,7 @@ public class ServicioCategoria {
 		return categoriasUsadasEnForma;
 	}
 	
-	private void ListarHijos (List<Categoria> categoriasUsadasEnForma, Categoria padre, int subNivel) {
+	private void ListarSubCategoriasUsadasEnForma (List<Categoria> categoriasUsadasEnForma, Categoria padre, int subNivel) {
 		int nuevoSubNivel = ++subNivel;
 		Set<Categoria> hijos = padre.getHijos();  
 
@@ -59,7 +97,7 @@ public class ServicioCategoria {
 			
 			categoriasUsadasEnForma.add(Categoria.copieIdYNombre(subCategoria.getId(), nombre));
 			
-			ListarHijos(categoriasUsadasEnForma, subCategoria, nuevoSubNivel);
+			ListarSubCategoriasUsadasEnForma(categoriasUsadasEnForma, subCategoria, nuevoSubNivel);
 		}
 	}	
 }

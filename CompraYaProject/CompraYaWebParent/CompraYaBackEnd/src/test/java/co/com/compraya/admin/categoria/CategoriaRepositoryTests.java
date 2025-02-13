@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.intThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -83,5 +84,11 @@ public class CategoriaRepositoryTests {
 			
 			printHijos(subCategoria, nuevoSubNivel);
 		}
+	}
+	
+	@Test
+	public void testListaCategoriasRaiz() {
+		List<Categoria> categoriasRaiz = repo.encuentraCategoriasRaiz();
+		categoriasRaiz.forEach(cat -> System.out.println(cat.getNombre()));
 	}
 }

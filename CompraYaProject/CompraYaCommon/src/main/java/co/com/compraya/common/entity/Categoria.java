@@ -1,6 +1,5 @@
 package co.com.compraya.common.entity;
 
-import java.security.PublicKey;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name= "categorias")
@@ -67,6 +67,23 @@ public class Categoria {
 		copiaCategoria.setId(id);
 		copiaCategoria.setNombre(nombre);
 		
+		return copiaCategoria;
+	}
+	
+	public static Categoria copiaCompleta(Categoria categoria) {
+		Categoria copiaCategoria = new Categoria();
+		copiaCategoria.setId(categoria.getId());
+		copiaCategoria.setNombre(categoria.getNombre());
+		copiaCategoria.setImagen(categoria.getImagen());
+		copiaCategoria.setAlias(categoria.getAlias());
+		copiaCategoria.setActiva(categoria.isActiva());
+		
+		return copiaCategoria;
+	}
+	
+	public static Categoria copiaCompleta(Categoria categoria, String nombre) {
+		Categoria copiaCategoria = categoria.copiaCompleta(categoria);
+		copiaCategoria.setNombre(nombre);
 		return copiaCategoria;
 	}
 	
@@ -135,6 +152,11 @@ public class Categoria {
 
 	public void setHijo(Set<Categoria> hijo) {
 		this.hijos = hijo;
+	}
+	
+	@Transient
+	public String getTrayectoriaImagen() {
+		return "/imagenes-categorias/" + this.id + "/" + this.imagen;
 	}
 	
 }
