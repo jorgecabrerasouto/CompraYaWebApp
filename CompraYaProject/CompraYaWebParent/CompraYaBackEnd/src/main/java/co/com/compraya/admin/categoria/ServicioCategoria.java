@@ -2,6 +2,7 @@ package co.com.compraya.admin.categoria;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,5 +100,13 @@ public class ServicioCategoria {
 			
 			ListarSubCategoriasUsadasEnForma(categoriasUsadasEnForma, subCategoria, nuevoSubNivel);
 		}
-	}	
+	}
+	
+	public Categoria get(Integer id) throws CategoriaNotFoundException {
+		try {
+			return repo.findById(id).get();
+		} catch (NoSuchElementException ex) {
+			throw new CategoriaNotFoundException("No se pudo encontrar una categoria con ID " +id);
+		}
+	}
 }

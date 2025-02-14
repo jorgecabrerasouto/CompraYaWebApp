@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,14 +46,39 @@ public class ControladorCategoria {
 	public String guardarCategoria(Categoria categoria, 
 			@RequestParam("archivoImagen") MultipartFile multipartFile,
 			RedirectAttributes ra) throws IOException {
-		String nombreArchivo = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		categoria.setImagen(nombreArchivo);
+		if(!multipartFile.isEmpty()) {
+			String nombreArchivo = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			categoria.setImagen(nombreArchivo);
 		
-		Categoria categoriaGuardada = servicio.save(categoria);
-		String uploadDir ="../imagenes-categorias/" + categoriaGuardada.getId();
-		FileUploadUtil.guardarArchivo(uploadDir, nombreArchivo, multipartFile);
+			Categoria categoriaGuardada = servicio.save(categoria);
+			String directorioCargue = "../imagenes-categorias/" + categoriaGuardada.getId();
+			
+			FileUploadUtil.limpiarDirectorio(directorioCargue);
+			FileUploadUtil.guardarArchivo(directorioCargue, nombreArchivo, multipartFile);
+		} else {
+			servicio.save(categoria);
+		}
 		
 		ra.addFlashAttribute("message", "La categoría fue guardada correctamente.");
 		return "redirect:/categorias";
+	}
+	
+	@GetMapping("/categorias/editar/{id}")
+	public String editarCategoria(@PathVariable(name = "id") Integer id, Model model,
+			RedirectAttributes ra) {
+		try {
+			Categoria categoria = servicio.get(id);
+			List<Categoria> listaCategorias = servicio.listaCategoriasUsadaEnForma();
+			
+			model.addAttribute("categoria", categoria);
+			model.addAttribute("listaCategorias", listaCategorias);
+			model.addAttribute("tituloPagina", "Editar Categoria (ID: " + id + ")");
+			
+			return "categorias/forma_categoria";		
+		} catch (CategoriaNotFoundException ex) {
+			ra.addFlashAttribute("message", ex.getMessage());
+			return "redirect:/categorias";	
+		}
+		
 	}
 }

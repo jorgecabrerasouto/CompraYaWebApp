@@ -45,12 +45,13 @@
 				<div class="col-sm-8">
 					<input type="hidden" th:field="*{imagen}" />
 					<input type="file" id="archivoImagen" name="archivoImagen" accept="images/png, images/jpeg"
-						required
+						th:required="${categoria.trayectoriaImagen == null}"
 						class="mb-2" />
+						
 						<div class="mt-2">
-	 						<img id="thumbnail" alt="Previsualización de imagen" th:src="@{/images/image-thumbnail.png}"
+	 						<img id="thumbnail" alt="Previsualización de imagen" th:src="@{${categoria.trayectoriaImagen}}"
 	 							class="img-fluid" style="width: 75px" />
-	 					</div>													
+	 					</div>											
 				</div>
 			</div>
 

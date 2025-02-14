@@ -156,6 +156,8 @@ public class Categoria {
 	
 	@Transient
 	public String getTrayectoriaImagen() {
+		if(this.id == null) return "/imagenes/image-thumbnail.png";
+		
 		return "/imagenes-categorias/" + this.id + "/" + this.imagen;
 	}
 	
