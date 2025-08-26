@@ -18,7 +18,7 @@ public class CompraYaBackEndApplication {
 	}
 
     @Bean
-    public MessageSource messageSource() {
+    MessageSource messageSource() {
         Locale.setDefault(Locale.of("es", "CO"));
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.addBasenames("classpath:org/springframework/security/messages");

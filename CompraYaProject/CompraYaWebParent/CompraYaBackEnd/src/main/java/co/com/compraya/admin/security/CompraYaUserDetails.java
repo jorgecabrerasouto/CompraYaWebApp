@@ -14,6 +14,10 @@ import co.com.compraya.common.entity.User;
 
 public class CompraYaUserDetails implements UserDetails {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private User usuario;
 
 	public CompraYaUserDetails(User usuario) {

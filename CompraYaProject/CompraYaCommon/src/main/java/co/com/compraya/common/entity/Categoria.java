@@ -82,7 +82,7 @@ public class Categoria {
 	}
 	
 	public static Categoria copiaCompleta(Categoria categoria, String nombre) {
-		Categoria copiaCategoria = categoria.copiaCompleta(categoria);
+		Categoria copiaCategoria = Categoria.copiaCompleta(categoria);
 		copiaCategoria.setNombre(nombre);
 		return copiaCategoria;
 	}

@@ -1,8 +1,6 @@
 package co.com.compraya.admin.categoria;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.intThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
 import java.util.List;
 import java.util.Set;

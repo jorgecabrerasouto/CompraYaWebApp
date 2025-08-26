@@ -3,7 +3,7 @@
 <head th:replace="~{fragments :: encabezado_pagina('Usuarios - Applicación Web Compras Ya')}" />
 <body>
 <div class="container-fluid">
-	<div th:replace="~{navegacion :: menu}" />
+	<div th:replace="~{navegacion :: menu}"></div>
 	<div>
 		<h2>Gestión de Usuarios</h2>
 			<a th:href="@{/usuarios/nuevo}"
@@ -43,11 +43,11 @@
 			<thead class="thead-dark">
 				<tr>
 					<th class="hideable-column">
-						<th	th:replace="~{fragments :: enlace_columna('id', 'Id Usuario', 'tag')}" />
+						<th	th:replace="~{fragments :: enlace_columna('id', 'Id Usuario', 'tag')}">
 					</th>
 					<th>Fotos</th>
 					<th class="hideable-column">
-						<th th:replace="~{fragments :: enlace_columna('email', 'E-mail', 'tag')}" />
+						<th th:replace="~{fragments :: enlace_columna('email', 'E-mail', 'tag')}">
 					</th>
 					<th
 						th:replace="~{fragments :: enlace_columna('primerNombre', 'Primer Nombre', 'none')}" />
@@ -64,17 +64,17 @@
 				<tr th:each="usuario : ${listaUsuarios}">
 					<td class="hideable-column">[[${usuario.id}]]</td>
 					<td>
-						<div th:replace="~{fragments :: fotos_usuario}" />
+						<div th:replace="~{fragments :: fotos_usuario}"></div>
 					</td>
 					<td class="hideable-column">[[${usuario.email}]]</td>
 					<td>[[${usuario.primerNombre}]]</td>
 					<td>[[${usuario.primerApellido}]]</td>
 					<td>[[${usuario.roles}]]</td>
 					<td>
-						<div th:replace="~{fragments :: estado_usuario}" />
+						<div th:replace="~{fragments :: estado_usuario}"></div>
 					</td>
 					<td>
-						<div th:replace="~{fragments :: acciones_usuario}" />
+						<div th:replace="~{fragments :: acciones_usuario}"></div>
 					</td>
 				</tr>
 			</tbody>
@@ -84,15 +84,15 @@
 	<div class="less-details">
 		<div th:each="usuario : ${listaUsuarios}" class="row m-2">
 			<div class="col-3">
-				<div th:replace="~{fragments :: fotos_usuario}" />
+				<div th:replace="~{fragments :: fotos_usuario}"></div>
 			</div>
 			<div class="col-9">
 				<div>[[${usuario.getNombreCompleto()}]]</div>
 				<div>[[${usuario.getRoles()}]]</div>
 				<div class="mt-2">
-					<div th:replace="~{fragments :: estado_usuario}" />
+					<div th:replace="~{fragments :: estado_usuario}"></div>
 					&nbsp;
-					<div th:replace="~{fragments :: acciones_usuario}" />
+					<div th:replace="~{fragments :: acciones_usuario}"></div>
 				</div>
 			</div>
 			<div>&nbsp;</div>
@@ -111,20 +111,20 @@
 		<nav>
   			<ul class="pagination justify-content-center flex-wrap">
     			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
-    				<a th:replace="~{fragments :: enlace_pagina(1, 'Inicio')}" />
+    				<a th:replace="~{fragments :: enlace_pagina(1, 'Inicio')}"></a>
     			</li>
     			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
-    				<a th:replace="~{fragments :: enlace_pagina(${paginaActual - 1}, 'Anterior')}" />
+    				<a th:replace="~{fragments :: enlace_pagina(${paginaActual - 1}, 'Anterior')}"></a>
     			</li>
     			<li th:class="${paginaActual != i ? 'page-item': 'page-item active'}" 
     				th:each="i: ${#numbers.sequence(1, paginasTotales)}">
-    				<a th:replace="~{fragments :: enlace_pagina(${i}, ${i})}" />
+    				<a th:replace="~{fragments :: enlace_pagina(${i}, ${i})}"></a>
     			</li>
     			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
-    				<a th:replace="~{fragments :: enlace_pagina(${paginaActual + 1}, 'Siguiente')}" />
+    				<a th:replace="~{fragments :: enlace_pagina(${paginaActual + 1}, 'Siguiente')}"></a>
     			</li>   
     			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
-    				<a th:replace="~{fragments :: enlace_pagina(${paginasTotales}, 'Fin')}" />
+    				<a th:replace="~{fragments :: enlace_pagina(${paginasTotales}, 'Fin')}"></a>
     			</li>    			
   			</ul>
 		</nav>
@@ -149,8 +149,8 @@
 			</div>
 		</div>
 	</div>
-
-	<div th:replace="~{fragments :: pie_pagina}"/>
+</div>
+<div th:replace="~{fragments :: pie_pagina}"></div>
 
 	<script type="text/javascript">
 		$(document).ready(function() {			
