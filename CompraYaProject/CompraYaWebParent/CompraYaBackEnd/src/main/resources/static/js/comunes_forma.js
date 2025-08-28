@@ -26,3 +26,20 @@ function showImageThumbnail(archivoEntrada) {
 	
 	reader.readAsDataURL(archivo);
 }
+
+function showModalDialog(titulo, mensaje) {
+	$("#modalTitle").text(titulo);
+	$("#modalBody").text(mensaje);
+	$("#dialogoModal").modal();
+	
+}
+
+function mostrarErrorModal (mensaje) {
+	showModalDialog("Error: ", mensaje);
+	
+}
+
+function mostrarAdvertenciaModal (mensaje) {
+	showModalDialog("Advertencia: ", mensaje);
+	
+}

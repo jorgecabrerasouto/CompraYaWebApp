@@ -89,4 +89,22 @@ public class CategoriaRepositoryTests {
 		List<Categoria> categoriasRaiz = repo.encuentraCategoriasRaiz();
 		categoriasRaiz.forEach(cat -> System.out.println(cat.getNombre()));
 	}
+	
+	@Test
+	public void testFindByNombre () {
+		String nombre = "Computadores";
+		Categoria categoria = repo.findByNombre(nombre);
+		
+		assertThat(categoria).isNotNull();
+		assertThat(categoria.getNombre()).isEqualTo(nombre);
+	}
+	
+	@Test
+	public void testFindByAlias () {
+		String alias = "electronicos";
+		Categoria categoria = repo.findByAlias(alias);
+		
+		assertThat(categoria).isNotNull();
+		assertThat(categoria.getAlias()).isEqualTo(alias);
+	}	
 }

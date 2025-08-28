@@ -86,27 +86,10 @@
 			</div>
 		</div>
 	</form>
-
-	<div class="modal fade text-center" id="dialogoModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="modalTitle">Prevención:</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-
-				<div class="modal-body">
-					<span id="modalBody"></span>
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-				</div>
-			</div>
-		</div>
-	</div>
 	
-	<div th:replace="~{fragments :: pie_pagina}"/>
+	<div th:replace="~{fragmentos_modales :: dialogo_modal}"></div>
+	
+	<div th:replace="~{fragments :: pie_pagina}"></div>
 	
 	<script type="text/javascript">		
 		URLModulo = "[[@{/usuarios}]]";
@@ -123,23 +106,16 @@
 				if (response == "OK") {
 					form.submit();
 				} else if (response == "Duplicado") {
-					showModalDialog("Prevencion:", "Ya existe un usuario con la dirección de email: " + emailUsuario);
+					mostrarAdvertenciaModal("Ya existe un usuario con la dirección de email: " + emailUsuario);
 				} else {
-					showModalDialog("Error:", "Respuesta del servidor desconocida");
+					mostrarErrorModal("Respuesta del servidor desconocida");
 				}
 			}).fail(function() {
-					showModalDialog("Error:", "No fue posible la conexión al servidor");
+					mostrarErrorModal("No fue posible la conexión al servidor");
 			});
 
 			return false;
 		}
-		function showModalDialog(titulo, mensaje) {
-			$("#modalTitle").text(titulo);
-			$("#modalBody").text(mensaje);
-			$("#dialogoModal").modal();
-			
-		}
-		
 	</script>
 	
 	<script th:src="@{/js/comunes_forma.js}"></script>	

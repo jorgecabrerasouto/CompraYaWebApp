@@ -98,6 +98,13 @@ public class Categoria {
 		this.padre = padre;
 	}	
 
+	public Categoria(Integer id, String nombre, String alias) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.alias = alias;
+	}
+
 	public Integer getId() {
 		return id;
 	}

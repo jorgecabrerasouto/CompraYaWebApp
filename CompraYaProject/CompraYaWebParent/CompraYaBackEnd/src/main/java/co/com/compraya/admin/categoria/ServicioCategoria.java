@@ -109,4 +109,31 @@ public class ServicioCategoria {
 			throw new CategoriaNotFoundException("No se pudo encontrar una categoria con ID " +id);
 		}
 	}
+	
+	public String chequearUnico(Integer id, String nombre, String alias) {
+		boolean isCreatingNew = (id == null || id == 0);
+		
+		Categoria categoriaByNombre = repo.findByNombre(nombre);
+		
+		if (isCreatingNew) {
+			if (categoriaByNombre != null) {
+				return "NombreDuplicado";
+			}
+			else {
+				Categoria categoriaByAlias = repo.findByAlias(alias);
+				if (categoriaByAlias != null) {
+					return "AliasDuplicado";
+				}
+			}
+		} else {
+			if(categoriaByNombre != null && categoriaByNombre.getId() != id) {
+				return "NombreDuplicado";
+			}
+			Categoria categoriaByAlias =repo.findByAlias(alias);
+			if (categoriaByAlias != null && categoriaByAlias.getId() != id) {
+				return "AliasDuplicado";
+			}
+		}
+		return "OK";
+	}
 }
