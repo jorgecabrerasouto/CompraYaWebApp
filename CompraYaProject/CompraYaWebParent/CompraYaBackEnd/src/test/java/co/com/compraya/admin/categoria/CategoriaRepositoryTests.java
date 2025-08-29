@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 
 import co.com.compraya.common.entity.Categoria;
@@ -86,7 +87,7 @@ public class CategoriaRepositoryTests {
 	
 	@Test
 	public void testListaCategoriasRaiz() {
-		List<Categoria> categoriasRaiz = repo.encuentraCategoriasRaiz();
+		List<Categoria> categoriasRaiz = repo.encuentraCategoriasRaiz(Sort.by("nombre").ascending());
 		categoriasRaiz.forEach(cat -> System.out.println(cat.getNombre()));
 	}
 	

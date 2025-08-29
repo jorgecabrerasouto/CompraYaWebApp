@@ -1,39 +1,50 @@
 package co.com.compraya.admin.categoria;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import co.com.compraya.common.entity.Categoria;
 
 @Service
 public class ServicioCategoria {
-
 	@Autowired
 	private CategoriaRepository repo;
 	
-	public List<Categoria> listAll() {
-		List<Categoria> categoriasRaiz = repo.encuentraCategoriasRaiz();
-		return ListaCategoriasJerarquicamente(categoriasRaiz);
+	public List<Categoria> listAll(String sortDir) {
+		Sort sort = Sort.by("nombre");
+		
+		if (sortDir.equals("asc")) {
+			sort = sort.ascending();
+		} else if (sortDir.equals("desc")) {
+			sort =sort.descending();
+		}
+		
+		List<Categoria> categoriasRaiz = repo.encuentraCategoriasRaiz(sort);
+		return ListaCategoriasJerarquicamente(categoriasRaiz, sortDir);
 	}
 	
-	private List<Categoria> ListaCategoriasJerarquicamente(List<Categoria> categoriasRaiz) {
+	private List<Categoria> ListaCategoriasJerarquicamente(List<Categoria> categoriasRaiz, String sortDir) {
 		List<Categoria> categoriasJerarquicamente = new ArrayList<>();
 		
 		for (Categoria categoriaRaiz : categoriasRaiz) {
 			categoriasJerarquicamente.add(Categoria.copiaCompleta(categoriaRaiz));
 			
-			Set<Categoria> hijo = categoriaRaiz.getHijos();
+			Set<Categoria> hijos = sortSubCategorias(categoriaRaiz.getHijos(), sortDir);
 			
-			for (Categoria subCategoria : hijo) {
+			for (Categoria subCategoria : hijos) {
 				String nombre = "--" + subCategoria.getNombre();
 				categoriasJerarquicamente.add(Categoria.copiaCompleta(subCategoria, nombre));
 				
-				ListaSubCategoriasJerarquicamente(categoriasJerarquicamente, subCategoria, 1);
+				ListaSubCategoriasJerarquicamente(categoriasJerarquicamente, subCategoria, 1, sortDir);
 			}
 		}
 		
@@ -41,10 +52,11 @@ public class ServicioCategoria {
 	}
 	
 	public void ListaSubCategoriasJerarquicamente(List<Categoria> categoriasJerarquicamente,
-			Categoria padre, int subNivel) {
-		int nuevoSubNivel = ++subNivel;
-		Set<Categoria> hijo = padre.getHijos();
-		for (Categoria subCategoria : hijo ) {
+			Categoria padre, int subNivel, String sortDir) {
+		Set<Categoria> hijos = sortSubCategorias(padre.getHijos(), sortDir);
+		int nuevoSubNivel = subNivel + 1;
+		
+		for (Categoria subCategoria : hijos ) {
 			String nombre = "";
 			for(int i = 0; i < nuevoSubNivel; i++) {
 				nombre += "--";
@@ -54,7 +66,7 @@ public class ServicioCategoria {
 			
 			categoriasJerarquicamente.add(Categoria.copiaCompleta(subCategoria, nombre));
 			
-			ListaSubCategoriasJerarquicamente(categoriasJerarquicamente, subCategoria, nuevoSubNivel);
+			ListaSubCategoriasJerarquicamente(categoriasJerarquicamente, subCategoria, nuevoSubNivel, sortDir);
 		}
 	}
 	
@@ -65,13 +77,13 @@ public class ServicioCategoria {
 	public List<Categoria> listaCategoriasUsadaEnForma() {
 		List<Categoria> categoriasUsadasEnForma = new ArrayList<>();
 		
-		Iterable<Categoria> categoriasEnBD = repo.findAll();
+		Iterable<Categoria> categoriasEnBD = repo.encuentraCategoriasRaiz(Sort.by("nombre").ascending());
 		
 		for (Categoria categoria : categoriasEnBD) {
 			if (categoria.getPadre() == null) {
 				categoriasUsadasEnForma.add(Categoria.copieIdYNombre(categoria));
 				
-				Set<Categoria> hijo = categoria.getHijos(); 
+				Set<Categoria> hijo = sortSubCategorias(categoria.getHijos()); 
 				
 				for (Categoria subCategoria : hijo) {
 					String nombre = "--" + subCategoria.getNombre();
@@ -86,7 +98,7 @@ public class ServicioCategoria {
 	
 	private void ListarSubCategoriasUsadasEnForma (List<Categoria> categoriasUsadasEnForma, Categoria padre, int subNivel) {
 		int nuevoSubNivel = ++subNivel;
-		Set<Categoria> hijos = padre.getHijos();  
+		Set<Categoria> hijos = sortSubCategorias(padre.getHijos());  
 
 		for	(Categoria subCategoria : hijos) {
 			String nombre = "";
@@ -135,5 +147,26 @@ public class ServicioCategoria {
 			}
 		}
 		return "OK";
+	}
+	
+	private SortedSet<Categoria> sortSubCategorias(Set<Categoria> hijos) {
+		return sortSubCategorias(hijos, "asc");
+	}
+	
+	private SortedSet<Categoria> sortSubCategorias(Set<Categoria> hijos, String sortDir) {
+		SortedSet<Categoria> hijosOrdenados = new TreeSet<>(new Comparator<Categoria>() {		
+			@Override
+			public int compare(Categoria cat1, Categoria cat2) {
+				if (sortDir.equals("asc")) {
+					return cat1.getNombre().compareTo(cat2.getNombre());
+				} else {
+					return cat2.getNombre().compareTo(cat1.getNombre());
+				}
+			}
+		});
+		
+		hijosOrdenados.addAll(hijos);
+		
+		return hijosOrdenados;
 	}
 }

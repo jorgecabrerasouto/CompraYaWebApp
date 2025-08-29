@@ -3,7 +3,7 @@
 <head th:replace="~{fragments :: encabezado_pagina('Categorias - Applicación Web Compras Ya')}" />
 <body>
 <div class="container-fluid">
-	<div th:replace="~{navegacion :: menu}" />
+	<div th:replace="~{navegacion :: menu}"></div>
 	<div>
 		<h2>Gestión de Categorias</h2>
 			<a th:href="@{/categorias/nueva}" class="fas fa-user-plus fa-2x icon-dark mr-2"></a>
@@ -35,7 +35,10 @@
 				<tr>
 					<th>ID</th>
 					<th>Imagen Categoría</th>
-					<th>Nombre Categoría</th>
+					<th>
+						<a class="text-white" th:href="@{'/categorias?sortDir=' + ${reverseSortDir}}">Nombre Categoría</a>
+						<span th:class="${reverseSortDir == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+					</th>
 					<th>Alias</th>
 					<th>¿Activa?</th>
 					<th></th>
@@ -51,18 +54,18 @@
 					<td>[[${cat.nombre}]]</td>
 					<td>[[${cat.alias}]]</td>					
 					<td>
-						<div th:replace="~{fragments :: estado_categoria}"/>
+						<div th:replace="~{fragments :: estado_categoria}"></div>
 					</td>
  					
 					<td>
-						<div th:replace="~{fragments :: acciones_categoria}" />
+						<div th:replace="~{fragments :: acciones_categoria}"></div>
 					</td>			
 				</tr>
 			</tbody>
 		</table>
 	</div>
 
-	<div th:replace="~{fragments :: pie_pagina}" />
+	<div th:replace="~{fragments :: pie_pagina}"></div>
 </div>
 
 </body>
