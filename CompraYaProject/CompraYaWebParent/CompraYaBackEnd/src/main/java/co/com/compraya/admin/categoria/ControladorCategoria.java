@@ -87,6 +87,16 @@ public class ControladorCategoria {
 			ra.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/categorias";	
 		}
+	}
+
+	@GetMapping("/categorias/{id}/estadocategoria/{estado}")
+	public String actualizarEstadoCategoria(@PathVariable("id") Integer id, 
+			@PathVariable("estado") boolean activa, RedirectAttributes redirectAttributes) {
+		servicio.updateEstadoCategoria(id, activa);
+		String estado = activa ? "activada" : "desactivada";
+		String mensaje = "La categoria con ID " + id + " ha sido " + estado;
+		redirectAttributes.addFlashAttribute("message", mensaje);
 		
+			return "redirect:/categorias";
 	}
 }

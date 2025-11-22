@@ -13,8 +13,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import co.com.compraya.common.entity.Categoria;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class ServicioCategoria {
 	@Autowired
 	private CategoriaRepository repo;
@@ -168,5 +170,9 @@ public class ServicioCategoria {
 		hijosOrdenados.addAll(hijos);
 		
 		return hijosOrdenados;
+	}
+	
+	public void updateEstadoCategoria(Integer id, boolean activa) {
+		repo.updateEstadoCategoria(id, activa);		
 	}
 }

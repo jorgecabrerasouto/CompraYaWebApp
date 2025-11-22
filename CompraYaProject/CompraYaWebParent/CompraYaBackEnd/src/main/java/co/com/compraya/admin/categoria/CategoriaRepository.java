@@ -3,6 +3,7 @@ package co.com.compraya.admin.categoria;
 import java.util.List;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -16,4 +17,8 @@ public interface CategoriaRepository extends CrudRepository<Categoria, Integer>,
 	public Categoria findByNombre(String nombre);
 	
 	public Categoria findByAlias(String alias);
+	
+	@Query("UPDATE Categoria c SET c.activa = ?2 WHERE c.id = ?1")
+	@Modifying
+	public void updateEstadoCategoria (Integer id, boolean enabled);
 }
