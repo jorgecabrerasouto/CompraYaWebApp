@@ -129,45 +129,23 @@
   			</ul>
 		</nav>
 	</div>
-	
-	<div class="modal fade text-center" id="confirmacionModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title" id="modalTitle">Confirmación de la eliminación</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-
-				<div class="modal-body">
-					<span id="textoConfirmacion"></span>
-				</div>
-
-				<div class="modal-footer">
-					<a class="btn btn-success" href="" id="botonSi">Si</a>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
+
+<div th:replace="~{fragmentos_modales :: confirmar_modal}"></div>
+
 <div th:replace="~{fragments :: pie_pagina}"></div>
 
-	<script type="text/javascript">
-		$(document).ready(function() {			
-			$(".link-delete").on("click", function(e) {
-				e.preventDefault();
-				link = $(this);
-				//alert($(this).attr("href"));
-				usuarioId = link.attr("usuarioId");
-				$("#botonSi").attr("href", link.attr("href"));
-				$("#textoConfirmacion").text("¿Está seguro de que quiere eliminar el Usuario con ID: " + usuarioId + "?");
-				$("#confirmacionModal").modal();
-			});
+<script th:src="@{/js/comunes_lista.js}"></script>
+<script type="text/javascript">
+	moduleURL = "[[@{/usuarios}]]";
+	
+	$(document).ready(function() {
+		$(".link-delete").on("click", function(e) {
+			e.preventDefault();
+			mostrarConfirmarEliminacionModal($(this), 'usuario');
 		});
+	});
+</script>
 
-		function limpiarTextoBusqueda() {
-			window.location = "[[@{/usuarios}]]"
-		}
-	</script>
 </body>
 </html>

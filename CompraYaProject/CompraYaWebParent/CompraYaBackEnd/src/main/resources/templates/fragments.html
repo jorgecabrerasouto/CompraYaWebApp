@@ -9,18 +9,15 @@
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
 	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/comunes.js}"></script>	
 </head>
 <body>
 
-<div th:fragment="pie_pagina" class="text-center m-3">
-	<div>
+	<div th:fragment="pie_pagina" class="text-center m-3">
 		<p>Panel de Control para para Applicación Web ComprasYa - Copyright &copy; CompraYa</p>
 	</div>
-
-	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-	<script type="text/javascript" th:src="@{/js/comunes.js}"></script>
-</div>
 	
 	<th th:fragment="enlace_columna(nombreCampo, etiquetaColumna, removeTag)" th:remove="${removeTag}">
 		<a class="text-white"
@@ -79,11 +76,13 @@
 	<div th:fragment="acciones_categoria" th:remove="tag">
 		<a class="fas fa-edit fa-2x icon-green" th:href="@{'/categorias/editar/' + ${cat.id}}"
 			title="Editar esta categoría"></a>
-		&nbsp; 
+		&nbsp;
+		<th:block th:if="${cat.tieneHijos == false}"> 
 		<a class="fas fa-trash fa-2x icon-dark link-delete" 
 			th:href="@{'/categorias/eliminar/' + ${cat.id}}"
-			th:userId="${cat.id}"
-			title="Eliminar esta categoria."></a>	
+			th:idEntidad="${cat.id}"
+			title="Eliminar esta categoria."></a>
+		</th:block>	
 	</div>											
 </body>
 </html>

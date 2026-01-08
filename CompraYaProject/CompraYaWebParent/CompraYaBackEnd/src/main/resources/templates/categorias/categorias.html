@@ -63,9 +63,22 @@
 			</tbody>
 		</table>
 	</div>
+	
+	<div th:replace="~{fragmentos_modales :: confirmar_modal}"></div>
 
 	<div th:replace="~{fragments :: pie_pagina}"></div>
 </div>
+<script th:src="@{/js/comunes_lista.js}"></script>
+<script type="text/javascript">
+	moduleURL = "[[@{/categorias}]]";
+	
+	$(document).ready(function() {
+		$(".link-delete").on("click", function(e) {
+			e.preventDefault();
+			mostrarConfirmarEliminacionModal($(this), 'categoria');
+		});
+	});
+</script>
 
 </body>
 </html>

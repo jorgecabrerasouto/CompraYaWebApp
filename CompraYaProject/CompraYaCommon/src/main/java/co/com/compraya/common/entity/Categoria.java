@@ -77,6 +77,7 @@ public class Categoria {
 		copiaCategoria.setImagen(categoria.getImagen());
 		copiaCategoria.setAlias(categoria.getAlias());
 		copiaCategoria.setActiva(categoria.isActiva());
+		copiaCategoria.setTieneHijos(categoria.getHijos().size() > 0);
 		
 		return copiaCategoria;
 	}
@@ -167,5 +168,16 @@ public class Categoria {
 		
 		return "/imagenes-categorias/" + this.id + "/" + this.imagen;
 	}
+	
+	public boolean isTieneHijos() {
+		return tieneHijos;
+	}
+
+	public void setTieneHijos(boolean tieneHijos) {
+		this.tieneHijos = tieneHijos;
+	}
+
+	@Transient
+	private boolean tieneHijos;
 	
 }

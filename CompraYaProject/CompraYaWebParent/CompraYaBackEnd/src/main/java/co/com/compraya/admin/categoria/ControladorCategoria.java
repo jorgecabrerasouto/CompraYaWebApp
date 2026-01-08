@@ -72,7 +72,7 @@ public class ControladorCategoria {
 	}
 	
 	@GetMapping("/categorias/editar/{id}")
-	public String editarCategoria(@PathVariable(name = "id") Integer id, Model model,
+	public String editarCategoria(@PathVariable Integer id, Model model,
 			RedirectAttributes ra) {
 		try {
 			Categoria categoria = servicio.get(id);
@@ -90,7 +90,7 @@ public class ControladorCategoria {
 	}
 
 	@GetMapping("/categorias/{id}/estadocategoria/{estado}")
-	public String actualizarEstadoCategoria(@PathVariable("id") Integer id, 
+	public String actualizarEstadoCategoria(@PathVariable Integer id, 
 			@PathVariable("estado") boolean activa, RedirectAttributes redirectAttributes) {
 		servicio.updateEstadoCategoria(id, activa);
 		String estado = activa ? "activada" : "desactivada";
@@ -99,4 +99,22 @@ public class ControladorCategoria {
 		
 			return "redirect:/categorias";
 	}
+	
+	@GetMapping("/categorias/eliminar/{id}")
+	public String eliminarCategoria(@PathVariable Integer id, 
+			Model model,
+			RedirectAttributes redirectAttributes) {
+		try {
+			servicio.eliminar(id);
+			String dirCategoria = "../imagenes-categorias/" + id;
+			FileUploadUtil.eliminarDir(dirCategoria);
+			
+			redirectAttributes.addFlashAttribute("message", "La categoría con ID " + id + " ha sido borrada exitosamente");		
+		} catch (CategoriaNotFoundException ex) {
+			redirectAttributes.addFlashAttribute("message", ex.getMessage());
+		}
+		
+		return "redirect:/categorias";
+	}
+	
 }

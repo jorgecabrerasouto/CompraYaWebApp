@@ -38,7 +38,7 @@ public class ControladorUsuario {
 	}
 	
 	@GetMapping("/usuarios/pagina/{numeroPagina}")
-	public String listByPage(@PathVariable(name = "numeroPagina") int numeroPagina, Model model,
+	public String listByPage(@PathVariable int numeroPagina, Model model,
 			@Param("campoSort") String campoSort, @Param("direccionSort") String direccionSort,
 			@Param("textoBusqueda") String textoBusqueda
 			) {
@@ -112,7 +112,7 @@ public class ControladorUsuario {
 	}
 	
 	@GetMapping("/usuarios/editar/{id}")
-	public String editarUsuario(@PathVariable(name = "id") Integer id,
+	public String editarUsuario(@PathVariable Integer id,
 			Model model,
 			RedirectAttributes redirectAttributes) {
 		try {
@@ -132,7 +132,7 @@ public class ControladorUsuario {
 	}
 	
 	@GetMapping("/usuarios/eliminar/{id}")
-	public String eliminarUsuario (@PathVariable(name = "id") Integer id,
+	public String eliminarUsuario (@PathVariable Integer id,
 			Model model,
 			RedirectAttributes redirectAttributes) {
 		try {
@@ -147,7 +147,7 @@ public class ControladorUsuario {
 	}
 	
 	@GetMapping("/usuarios/{id}/estadousuario/{estado}")
-	public String updateEstadoUsuario(@PathVariable("id") Integer id, 
+	public String updateEstadoUsuario(@PathVariable Integer id, 
 		@PathVariable("estado") boolean activo, RedirectAttributes redirectAttributes) {
 		servicio.updateEstadoUsuario (id, activo);
 		String estadoUsuario = activo ? "activado" : "desactivado";

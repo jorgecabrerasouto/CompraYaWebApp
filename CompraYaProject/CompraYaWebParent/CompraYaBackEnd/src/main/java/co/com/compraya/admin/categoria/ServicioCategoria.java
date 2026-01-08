@@ -175,4 +175,13 @@ public class ServicioCategoria {
 	public void updateEstadoCategoria(Integer id, boolean activa) {
 		repo.updateEstadoCategoria(id, activa);		
 	}
+	
+	public void eliminar(Integer id) throws CategoriaNotFoundException {
+		Long countById = repo.countById(id);
+		if (countById == null || countById == 0) {
+			throw new CategoriaNotFoundException ("No pude encontrar la categoría con ID " + id);
+		}
+		
+		repo.deleteById(id);
+	}
 }
