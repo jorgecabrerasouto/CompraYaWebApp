@@ -6,28 +6,15 @@
 	<div th:replace="~{navegacion :: menu}"></div>
 	<div>
 		<h2>Gestión de Categorias</h2>
-			<a th:href="@{/categorias/nueva}" class="fas fa-user-plus fa-2x icon-dark mr-2"></a>
+			<a th:href="@{/categorias/nueva}" class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>
 			<a th:href="@{/categorias/exportar/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a>
 	</div>
 
 	<div th:if="${message != null}"	class="alert alert-success text-center">
 		[[${message}]]
 	</div>
-		
-	<div>
-		<form th:action="@{/categorias/pagina/1}" class="form-inline m-3">
-			Texto para Búsqueda:&nbsp; 
-			<input type="search" name="textoBusqueda" th:value="${textoBusqueda}" class="form-control" required />
-			&nbsp;&nbsp;
-			<button type="submit" class="btn btn-primary">
-				<i class="fas fa-search"></i>
-			</button>
-			&nbsp;&nbsp;
-			<button type="button" class="btn btn-secondary"	onclick="limpiarTextoBusqueda()">
-				<i class="fas fa-eraser"></i>
-			</button>
-		</form>
-	</div>
+	
+	<div th:replace="~{fragments :: forma_busqueda('/categorias/pagina/1')}"></div>
 		
 	<div class="full-details">
 		<table class="table table-bordered table-stripped table-hover table-responsive-xl ">
@@ -36,7 +23,7 @@
 					<th>ID</th>
 					<th>Imagen Categoría</th>
 					<th>
-						<a class="text-white" th:href="@{'/categorias/pagina/' + ${paginaActual} + '?direccionSort=' + ${direccionSortInversa}}">Nombre Categoría</a>
+						<a class="text-white" th:href="@{'/categorias/pagina/' + ${paginaActual} + '?direccionSort=' + ${direccionSortInversa} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">Nombre Categoría</a>
 						<span th:class="${direccionSortInversa == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
 					</th>
 					<th>Alias</th>
@@ -64,7 +51,13 @@
 		</table>
 	</div>
 	
-	<div th:replace="~{fragments :: paginacion('/categorias', 'top-level categorias')}"></div>	
+	<div th:if="${textoBusqueda != null}" class="text-center">
+		<span>El resultado de la búsqueda no muestra las categorías en forma jerárquica</span>
+		<div th:replace="~{fragments :: paginacion('/categorias', 'categorias')}"></div>
+	</div>
+	<th:block th:unless="${textoBusqueda != null}">
+	<div th:replace="~{fragments :: paginacion('/categorias', 'categorias de alto nivel')}"></div>
+	</div>
 	
 	<div th:replace="~{fragmentos_modales :: confirmar_modal}"></div>
 

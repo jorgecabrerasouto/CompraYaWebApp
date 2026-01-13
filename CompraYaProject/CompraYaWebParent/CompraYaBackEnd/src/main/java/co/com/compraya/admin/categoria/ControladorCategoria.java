@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.com.compraya.admin.FileUploadUtil;
+import co.com.compraya.admin.usuario.ServicioUsuario;
 import co.com.compraya.common.entity.Categoria;
 
 @Controller
@@ -25,19 +26,25 @@ public class ControladorCategoria {
 	
 	@GetMapping("/categorias")
 	public String listFirstPage(@Param("direccionSort") String sortDir, Model model) {
-		return listByPage(1, sortDir, model);
+		return listByPage(1, sortDir, null, model);
 	}
 	
 	@GetMapping("/categorias/pagina/{numPagina}")
 	public String listByPage(@PathVariable(name="numPagina") int numPagina,
-			@RequestParam("direccionSort") String sortDir, Model model) {
+			@RequestParam("direccionSort") String sortDir, 
+			@Param("textoBusqueda") String textoBusqueda,
+			Model model) {
 		if (sortDir == null || sortDir.isEmpty()) {
 			sortDir = "asc";
 		}
 		
 		CategoryPageInfo pageInfo = new CategoryPageInfo();
-		List<Categoria> listaCategorias = servicio.listByPage(pageInfo, numPagina, sortDir);
-		
+		List<Categoria> listaCategorias = servicio.listByPage(pageInfo, numPagina, sortDir, textoBusqueda);
+		long inicioContador = (numPagina - 1) * ServicioCategoria.CATEGORIAS_RAIZ_POR_PAGINA + 1;
+		long finContador = inicioContador + ServicioCategoria.CATEGORIAS_RAIZ_POR_PAGINA - 1;
+		if (finContador > pageInfo.getTotalElementos()) {
+			finContador = pageInfo.getTotalElementos();
+		}
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
 
 		model.addAttribute("paginasTotales", pageInfo.getTotalPaginas());
@@ -45,6 +52,9 @@ public class ControladorCategoria {
 		model.addAttribute("paginaActual", numPagina);
 		model.addAttribute("campoSort", "nombre");
 		model.addAttribute("direccionSort", sortDir);
+		model.addAttribute("textoBusqueda", textoBusqueda);
+		model.addAttribute("inicioContador", inicioContador);
+		model.addAttribute("finContador", finContador);
 		
 		model.addAttribute("listaCategorias", listaCategorias);
 		model.addAttribute("direccionSortInversa", reverseSortDir);

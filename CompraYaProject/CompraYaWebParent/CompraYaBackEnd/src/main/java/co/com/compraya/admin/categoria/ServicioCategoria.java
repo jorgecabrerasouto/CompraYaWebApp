@@ -21,12 +21,13 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class ServicioCategoria {
-	private static final int CATEGORIAS_RAIZ_POR_PAGINA = 4;
+	public static final int CATEGORIAS_RAIZ_POR_PAGINA = 4;
 	
 	@Autowired
 	private CategoriaRepository repo;
 	
-	public List<Categoria> listByPage(CategoryPageInfo pageInfo, int numPagina, String sortDir) {
+	public List<Categoria> listByPage(CategoryPageInfo pageInfo, int numPagina, String sortDir,
+			String textoBusqueda) {
 		Sort sort = Sort.by("nombre");
 		
 		if (sortDir.equals("asc")) {
@@ -37,13 +38,30 @@ public class ServicioCategoria {
 		
 		Pageable pageable = PageRequest.of(numPagina - 1, CATEGORIAS_RAIZ_POR_PAGINA, sort);		
 		
-		Page<Categoria> paginaCategorias = repo.encuentraCategoriasRaiz(pageable);
+		Page<Categoria> paginaCategorias = null; 
+		
+		if (textoBusqueda != null && !textoBusqueda.isEmpty()) {
+			paginaCategorias = repo.busqueda(textoBusqueda, pageable);
+		} else {
+			paginaCategorias = repo.encuentraCategoriasRaiz(pageable);
+		}
+		
 		List<Categoria> categoriasRaiz = paginaCategorias.getContent();
 		
 		pageInfo.setTotalElementos(paginaCategorias.getTotalElements());
 		pageInfo.setTotalPaginas(paginaCategorias.getTotalPages());
-	
-		return listaCategoriasJerarquicamente(categoriasRaiz, sortDir);
+
+		if (textoBusqueda != null && !textoBusqueda.isEmpty()) {
+			List<Categoria> resultadosBusqueda = paginaCategorias.getContent();
+			for (Categoria categoria : resultadosBusqueda) {
+				categoria.setTieneHijos(categoria.getHijos().size() > 0);
+			}
+			return resultadosBusqueda;
+			
+		} else {
+			return listaCategoriasJerarquicamente(categoriasRaiz, sortDir);
+		}		
+		
 	}
 	
 	private List<Categoria> listaCategoriasJerarquicamente(List<Categoria> categoriasRaiz, String sortDir) {

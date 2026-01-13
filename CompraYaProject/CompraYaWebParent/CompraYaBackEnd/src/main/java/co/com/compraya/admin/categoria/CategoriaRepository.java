@@ -19,6 +19,9 @@ public interface CategoriaRepository extends CrudRepository<Categoria, Integer>,
 	@Query("SELECT c FROM Categoria c WHERE c.padre.id is NULL")
 	public Page<Categoria> encuentraCategoriasRaiz(Pageable pageable);
 	
+	@Query("SELECT c FROM Categoria c WHERE c.nombre LIKE %?1%")
+	public Page<Categoria> busqueda(String textoBusqueda, Pageable pageable);
+	
 	public Long countById(Integer id);
 	
 	public Categoria findByNombre(String nombre);
