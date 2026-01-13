@@ -19,24 +19,38 @@ import co.com.compraya.admin.FileUploadUtil;
 import co.com.compraya.common.entity.Categoria;
 
 @Controller
-public class ControladorCategoria {
-	
+public class ControladorCategoria {	
 	@Autowired
 	private ServicioCategoria servicio;
 	
 	@GetMapping("/categorias")
-	public String listAll(@Param("sortDir") String sortDir, Model model) {
+	public String listFirstPage(@Param("direccionSort") String sortDir, Model model) {
+		return listByPage(1, sortDir, model);
+	}
+	
+	@GetMapping("/categorias/pagina/{numPagina}")
+	public String listByPage(@PathVariable(name="numPagina") int numPagina,
+			@RequestParam("direccionSort") String sortDir, Model model) {
 		if (sortDir == null || sortDir.isEmpty()) {
 			sortDir = "asc";
 		}
 		
-		List<Categoria> listaCategorias = servicio.listAll(sortDir);
+		CategoryPageInfo pageInfo = new CategoryPageInfo();
+		List<Categoria> listaCategorias = servicio.listByPage(pageInfo, numPagina, sortDir);
 		
 		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+
+		model.addAttribute("paginasTotales", pageInfo.getTotalPaginas());
+		model.addAttribute("totalItems", pageInfo.getTotalElementos());
+		model.addAttribute("paginaActual", numPagina);
+		model.addAttribute("campoSort", "nombre");
+		model.addAttribute("direccionSort", sortDir);
 		
 		model.addAttribute("listaCategorias", listaCategorias);
-		model.addAttribute("reverseSortDir", reverseSortDir);
+		model.addAttribute("direccionSortInversa", reverseSortDir);
+		
 		return "categorias/categorias";
+		
 	}
 	
 	@GetMapping("/categorias/nueva")

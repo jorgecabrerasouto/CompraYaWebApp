@@ -9,6 +9,9 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +21,12 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class ServicioCategoria {
+	private static final int CATEGORIAS_RAIZ_POR_PAGINA = 4;
+	
 	@Autowired
 	private CategoriaRepository repo;
 	
-	public List<Categoria> listAll(String sortDir) {
+	public List<Categoria> listByPage(CategoryPageInfo pageInfo, int numPagina, String sortDir) {
 		Sort sort = Sort.by("nombre");
 		
 		if (sortDir.equals("asc")) {
@@ -30,11 +35,18 @@ public class ServicioCategoria {
 			sort =sort.descending();
 		}
 		
-		List<Categoria> categoriasRaiz = repo.encuentraCategoriasRaiz(sort);
-		return ListaCategoriasJerarquicamente(categoriasRaiz, sortDir);
+		Pageable pageable = PageRequest.of(numPagina - 1, CATEGORIAS_RAIZ_POR_PAGINA, sort);		
+		
+		Page<Categoria> paginaCategorias = repo.encuentraCategoriasRaiz(pageable);
+		List<Categoria> categoriasRaiz = paginaCategorias.getContent();
+		
+		pageInfo.setTotalElementos(paginaCategorias.getTotalElements());
+		pageInfo.setTotalPaginas(paginaCategorias.getTotalPages());
+	
+		return listaCategoriasJerarquicamente(categoriasRaiz, sortDir);
 	}
 	
-	private List<Categoria> ListaCategoriasJerarquicamente(List<Categoria> categoriasRaiz, String sortDir) {
+	private List<Categoria> listaCategoriasJerarquicamente(List<Categoria> categoriasRaiz, String sortDir) {
 		List<Categoria> categoriasJerarquicamente = new ArrayList<>();
 		
 		for (Categoria categoriaRaiz : categoriasRaiz) {
@@ -46,14 +58,14 @@ public class ServicioCategoria {
 				String nombre = "--" + subCategoria.getNombre();
 				categoriasJerarquicamente.add(Categoria.copiaCompleta(subCategoria, nombre));
 				
-				ListaSubCategoriasJerarquicamente(categoriasJerarquicamente, subCategoria, 1, sortDir);
+				listaSubCategoriasJerarquicamente(categoriasJerarquicamente, subCategoria, 1, sortDir);
 			}
 		}
 		
 		return categoriasJerarquicamente;
 	}
 	
-	public void ListaSubCategoriasJerarquicamente(List<Categoria> categoriasJerarquicamente,
+	public void listaSubCategoriasJerarquicamente(List<Categoria> categoriasJerarquicamente,
 			Categoria padre, int subNivel, String sortDir) {
 		Set<Categoria> hijos = sortSubCategorias(padre.getHijos(), sortDir);
 		int nuevoSubNivel = subNivel + 1;
@@ -68,7 +80,7 @@ public class ServicioCategoria {
 			
 			categoriasJerarquicamente.add(Categoria.copiaCompleta(subCategoria, nombre));
 			
-			ListaSubCategoriasJerarquicamente(categoriasJerarquicamente, subCategoria, nuevoSubNivel, sortDir);
+			listaSubCategoriasJerarquicamente(categoriasJerarquicamente, subCategoria, nuevoSubNivel, sortDir);
 		}
 	}
 	
@@ -90,7 +102,7 @@ public class ServicioCategoria {
 				for (Categoria subCategoria : hijo) {
 					String nombre = "--" + subCategoria.getNombre();
 					categoriasUsadasEnForma.add(Categoria.copieIdYNombre(subCategoria.getId(), nombre));
-					ListarSubCategoriasUsadasEnForma (categoriasUsadasEnForma, subCategoria, 1);
+					listarSubCategoriasUsadasEnForma (categoriasUsadasEnForma, subCategoria, 1);
 				}
 			}
 		}
@@ -98,7 +110,7 @@ public class ServicioCategoria {
 		return categoriasUsadasEnForma;
 	}
 	
-	private void ListarSubCategoriasUsadasEnForma (List<Categoria> categoriasUsadasEnForma, Categoria padre, int subNivel) {
+	private void listarSubCategoriasUsadasEnForma (List<Categoria> categoriasUsadasEnForma, Categoria padre, int subNivel) {
 		int nuevoSubNivel = ++subNivel;
 		Set<Categoria> hijos = sortSubCategorias(padre.getHijos());  
 
@@ -112,7 +124,7 @@ public class ServicioCategoria {
 			
 			categoriasUsadasEnForma.add(Categoria.copieIdYNombre(subCategoria.getId(), nombre));
 			
-			ListarSubCategoriasUsadasEnForma(categoriasUsadasEnForma, subCategoria, nuevoSubNivel);
+			listarSubCategoriasUsadasEnForma(categoriasUsadasEnForma, subCategoria, nuevoSubNivel);
 		}
 	}
 	

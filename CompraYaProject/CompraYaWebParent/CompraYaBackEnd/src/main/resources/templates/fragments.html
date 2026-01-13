@@ -1,88 +1,132 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <head th:fragment="encabezado_pagina(titulo)">
-	<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-	<title>[[${titulo}]]</title>
+<title>[[${titulo}]]</title>
 
-	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
-	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
-	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-	<script type="text/javascript" th:src="@{/js/comunes.js}"></script>	
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript"
+	th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/comunes.js}"></script>
 </head>
 <body>
 
 	<div th:fragment="pie_pagina" class="text-center m-3">
-		<p>Panel de Control para para Applicación Web ComprasYa - Copyright &copy; CompraYa</p>
+		<p>Panel de Control para para Applicación Web ComprasYa -
+			Copyright &copy; CompraYa</p>
 	</div>
-	
+
 	<th th:fragment="enlace_columna(nombreCampo, etiquetaColumna, removeTag)" th:remove="${removeTag}">
 		<a class="text-white"
 			th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=' + ${nombreCampo}  +'&direccionSort=' + ${campoSort != nombreCampo ? direccionSort : direccionSortInversa} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">
-			[[${etiquetaColumna}]]
-		</a>								
+			[[${etiquetaColumna}]] 
+		</a> 
 		<span th:if="${campoSort == nombreCampo}"
-			th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>							
+			th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
 	</th>
-	
-	<a th:fragment="enlace_pagina(numeroPagina, etiqueta)"
+
+	<a th:fragment="enlace_pagina(modelURL, numeroPagina, etiqueta)"
 		class="page-link"
-		th:href="@{'/usuarios/pagina/' + ${numeroPagina} + '?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">[[${etiqueta}]]
+		th:href="@{${moduleURL} + '/pagina/' + ${numeroPagina} + '?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">[[${etiqueta}]]
 	</a>
 
 	<div th:fragment="fotos_usuario" th:remove="tag">
-		<span th:if="${usuario.fotos == null}" class="fas fa-portrait fa-3x icon-silver"></span>
-		<img th:if="${usuario.fotos != null}" th:src="@{${usuario.trayectoriaImagenFoto}}"
-			style="width: 50px" />	
+		<span th:if="${usuario.fotos == null}"
+			class="fas fa-portrait fa-3x icon-silver"></span> <img
+			th:if="${usuario.fotos != null}"
+			th:src="@{${usuario.trayectoriaImagenFoto}}" style="width: 50px" />
 	</div>
-	
+
 	<div th:fragment="estado_usuario" th:remove="tag">
-		<a th:if="${usuario.activo == true}" class="fas fa-check-circle fa-2x icon-green" 
+		<a th:if="${usuario.activo == true}"
+			class="fas fa-check-circle fa-2x icon-green"
 			th:href="@{'/usuarios/' + ${usuario.id} + '/estadousuario/false'}"
-			title="Desactivar a este Usuario"
-			></a>
-			
-		<a th:if="${usuario.activo == false}" class="fas fa-circle fa-2x icon-dark" 
+			title="Desactivar a este Usuario"></a> <a
+			th:if="${usuario.activo == false}"
+			class="fas fa-circle fa-2x icon-dark"
 			th:href="@{'/usuarios/' + ${usuario.id} + '/estadousuario/true'}"
-			title="Activar a este usuario"
-			></a>	
+			title="Activar a este usuario"></a>
 	</div>
-	
+
 	<div th:fragment="acciones_usuario" th:remove="tag">
-		<a class="fas fa-edit fa-2x icon-green" th:href="@{'/usuarios/editar/' + ${usuario.id}}"
-			title="Editar este usuario"></a>
-		&nbsp; 
-		<a class="fas fa-trash fa-2x icon-dark link-delete" 
+		<a class="fas fa-edit fa-2x icon-green"
+			th:href="@{'/usuarios/editar/' + ${usuario.id}}"
+			title="Editar este usuario"></a> &nbsp; <a
+			class="fas fa-trash fa-2x icon-dark link-delete"
 			th:href="@{'/usuarios/eliminar/' + ${usuario.id}}"
-			th:userId="${usuario.id}"
-			title="Eliminar este usuario."></a>	
-	</div>	
-	
-	<div th:fragment="estado_categoria" th:remove="tag">
-		<a th:if="${cat.activa == true}" class="fas fa-check-circle fa-2x icon-green" 
-			th:href="@{'/categorias/' + ${cat.id} + '/estadocategoria/false'}"
-			title="Desactivar a esta categoria"
-			></a>
-			
-		<a th:if="${cat.activa == false}" class="fas fa-circle fa-2x icon-dark" 
-			th:href="@{'/categorias/' + ${cat.id} + '/estadocategoria/true'}"
-			title="Activar a esta categoria"
-			></a>	
+			th:userId="${usuario.id}" title="Eliminar este usuario."></a>
 	</div>
-	
+
+	<div th:fragment="estado_categoria" th:remove="tag">
+		<a th:if="${cat.activa == true}"
+			class="fas fa-check-circle fa-2x icon-green"
+			th:href="@{'/categorias/' + ${cat.id} + '/estadocategoria/false'}"
+			title="Desactivar a esta categoria"></a> <a
+			th:if="${cat.activa == false}" class="fas fa-circle fa-2x icon-dark"
+			th:href="@{'/categorias/' + ${cat.id} + '/estadocategoria/true'}"
+			title="Activar a esta categoria"></a>
+	</div>
+
 	<div th:fragment="acciones_categoria" th:remove="tag">
-		<a class="fas fa-edit fa-2x icon-green" th:href="@{'/categorias/editar/' + ${cat.id}}"
-			title="Editar esta categoría"></a>
-		&nbsp;
-		<th:block th:if="${cat.tieneHijos == false}"> 
-		<a class="fas fa-trash fa-2x icon-dark link-delete" 
-			th:href="@{'/categorias/eliminar/' + ${cat.id}}"
-			th:idEntidad="${cat.id}"
-			title="Eliminar esta categoria."></a>
-		</th:block>	
-	</div>											
+		<a class="fas fa-edit fa-2x icon-green"
+			th:href="@{'/categorias/editar/' + ${cat.id}}"
+			title="Editar esta categoría"></a> &nbsp;
+		<th:block th:if="${cat.tieneHijos == false}">
+			<a class="fas fa-trash fa-2x icon-dark link-delete"
+				th:href="@{'/categorias/eliminar/' + ${cat.id}}"
+				th:idEntidad="${cat.id}" title="Eliminar esta categoria."></a>
+		</th:block>
+	</div>
+	<div th:fragment="paginacion(moduleURL, nombreEntidad)" th:remove="tag">
+		<div class="text-center m-1" th:if="${totalItems > 0}">
+			<span>Se muestran [[${nombreEntidad}]] del #
+				[[${inicioContador}]] al [[${finContador}]] de un total de
+				[[${totalItems}]]</span>
+		</div>
+
+		<div class="text-center m-1" th:unless="${totalItems > 0}">
+			<span>No se encontraron [[${nombreEntidad}]]</span>
+		</div>
+
+		<div th:if="${paginasTotales > 1}">
+			<nav>
+				<ul class="pagination justify-content-center flex-wrap">
+					<li
+						th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
+						<a
+						th:replace="~{fragments :: enlace_pagina(${moduleURL}, 1, 'Inicio')}"></a>
+					</li>
+					<li
+						th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
+						<a
+						th:replace="~{fragments :: enlace_pagina(${moduleURL}, ${paginaActual - 1}, 'Anterior')}"></a>
+					</li>
+					<li
+						th:class="${paginaActual != i ? 'page-item': 'page-item active'}"
+						th:each="i: ${#numbers.sequence(1, paginasTotales)}"><a
+						th:replace="~{fragments :: enlace_pagina(${moduleURL}, ${i}, ${i})}"></a>
+					</li>
+					<li
+						th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
+						<a
+						th:replace="~{fragments :: enlace_pagina(${moduleURL}, ${paginaActual + 1}, 'Siguiente')}"></a>
+					</li>
+					<li
+						th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
+						<a
+						th:replace="~{fragments :: enlace_pagina(${moduleURL}, ${paginasTotales}, 'Fin')}"></a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+
 </body>
 </html>

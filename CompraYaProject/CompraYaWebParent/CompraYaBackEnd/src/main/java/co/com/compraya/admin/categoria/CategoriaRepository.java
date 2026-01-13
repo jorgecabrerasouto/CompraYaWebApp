@@ -2,6 +2,8 @@ package co.com.compraya.admin.categoria;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,8 +13,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import co.com.compraya.common.entity.Categoria;
 
 public interface CategoriaRepository extends CrudRepository<Categoria, Integer>, PagingAndSortingRepository<Categoria, Integer> {
-	@Query("SELECT c FROM Categoria c WHERE c.padre is NULL")
+	@Query("SELECT c FROM Categoria c WHERE c.padre.id is NULL")
 	public List<Categoria> encuentraCategoriasRaiz(Sort sort);
+
+	@Query("SELECT c FROM Categoria c WHERE c.padre.id is NULL")
+	public Page<Categoria> encuentraCategoriasRaiz(Pageable pageable);
 	
 	public Long countById(Integer id);
 	

@@ -36,8 +36,8 @@
 					<th>ID</th>
 					<th>Imagen Categoría</th>
 					<th>
-						<a class="text-white" th:href="@{'/categorias?sortDir=' + ${reverseSortDir}}">Nombre Categoría</a>
-						<span th:class="${reverseSortDir == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
+						<a class="text-white" th:href="@{'/categorias/pagina/' + ${paginaActual} + '?direccionSort=' + ${direccionSortInversa}}">Nombre Categoría</a>
+						<span th:class="${direccionSortInversa == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
 					</th>
 					<th>Alias</th>
 					<th>¿Activa?</th>
@@ -63,6 +63,8 @@
 			</tbody>
 		</table>
 	</div>
+	
+	<div th:replace="~{fragments :: paginacion('/categorias', 'top-level categorias')}"></div>	
 	
 	<div th:replace="~{fragmentos_modales :: confirmar_modal}"></div>
 

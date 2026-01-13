@@ -98,38 +98,10 @@
 			<div>&nbsp;</div>
 		</div>	
 	</div>
-	
-	<div class="text-center m-1" th:if="${totalItems > 0}">
-		<span>Se muestran Usuarios del # [[${inicioContador}]] al [[${finContador}]] de un total de [[${totalItems}]]</span>
-	</div>
-	
-	<div class="text-center m-1" th:unless="${totalItems > 0}">
-		<span>No se encontraron usuarios</span>
-	</div>
-	
-	<div th:if="${paginasTotales > 1}">
-		<nav>
-  			<ul class="pagination justify-content-center flex-wrap">
-    			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
-    				<a th:replace="~{fragments :: enlace_pagina(1, 'Inicio')}"></a>
-    			</li>
-    			<li th:class="${paginaActual > 1 ? 'page-item' : 'page-item disabled'} ">
-    				<a th:replace="~{fragments :: enlace_pagina(${paginaActual - 1}, 'Anterior')}"></a>
-    			</li>
-    			<li th:class="${paginaActual != i ? 'page-item': 'page-item active'}" 
-    				th:each="i: ${#numbers.sequence(1, paginasTotales)}">
-    				<a th:replace="~{fragments :: enlace_pagina(${i}, ${i})}"></a>
-    			</li>
-    			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
-    				<a th:replace="~{fragments :: enlace_pagina(${paginaActual + 1}, 'Siguiente')}"></a>
-    			</li>   
-    			<li th:class="${paginaActual < paginasTotales ? 'page-item' : 'page-item disabled'}">
-    				<a th:replace="~{fragments :: enlace_pagina(${paginasTotales}, 'Fin')}"></a>
-    			</li>    			
-  			</ul>
-		</nav>
-	</div>
+
 </div>
+
+<div th:replace="~{fragments :: paginacion('/usuarios', 'usuarios')}"></div>
 
 <div th:replace="~{fragmentos_modales :: confirmar_modal}"></div>
 
