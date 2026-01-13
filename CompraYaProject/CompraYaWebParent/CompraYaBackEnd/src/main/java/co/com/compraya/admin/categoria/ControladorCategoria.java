@@ -17,7 +17,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.com.compraya.admin.FileUploadUtil;
 import co.com.compraya.admin.usuario.ServicioUsuario;
+import co.com.compraya.admin.usuario.exportar.UsuarioCsvExporter;
 import co.com.compraya.common.entity.Categoria;
+import co.com.compraya.common.entity.User;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class ControladorCategoria {	
@@ -65,7 +68,7 @@ public class ControladorCategoria {
 	
 	@GetMapping("/categorias/nueva")
 	public String CategoriaNueva(Model model) {
-		List<Categoria> listaCategorias = servicio.listaCategoriasUsadaEnForma();
+		List<Categoria> listaCategorias = servicio.listaCategoriasUsadasEnForma();
 		
 		model.addAttribute("categoria", new Categoria());
 		model.addAttribute("listaCategorias", listaCategorias);
@@ -100,7 +103,7 @@ public class ControladorCategoria {
 			RedirectAttributes ra) {
 		try {
 			Categoria categoria = servicio.get(id);
-			List<Categoria> listaCategorias = servicio.listaCategoriasUsadaEnForma();
+			List<Categoria> listaCategorias = servicio.listaCategoriasUsadasEnForma();
 			
 			model.addAttribute("categoria", categoria);
 			model.addAttribute("listaCategorias", listaCategorias);
@@ -141,4 +144,11 @@ public class ControladorCategoria {
 		return "redirect:/categorias";
 	}
 	
+	@GetMapping("/categorias/exportar/csv")
+	public void exportarCSV(HttpServletResponse respuesta) throws IOException{
+		List<Categoria> listaCategorias = servicio.listaCategoriasUsadasEnForma();
+		
+		CategoriaCsvExporter exportador = new CategoriaCsvExporter();
+		exportador.export(listaCategorias, respuesta);
+	}	
 }

@@ -10,13 +10,14 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import co.com.compraya.admin.AbstractExporter;
 import co.com.compraya.common.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class UsuarioCsvExporter extends AbstractExporter {
 	
 	public void export(List<User> listaUsuarios, HttpServletResponse response) throws IOException {
-		super.setResponseHeader(response, "text/csv", ".csv");
+		super.setResponseHeader(response, "text/csv", ".csv", "usuarios_");
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 		String timestamp = dateFormatter.format(new Date());
 		String fileName = "usuarios_" + timestamp + ".csv";

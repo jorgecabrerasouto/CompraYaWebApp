@@ -1,4 +1,4 @@
-package co.com.compraya.admin.usuario.exportar;
+package co.com.compraya.admin;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -10,10 +10,10 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AbstractExporter {
 
 	public void setResponseHeader(HttpServletResponse response, String contentType, 
-			String extension) throws IOException {
+			String extension, String prefijo) throws IOException {
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
 		String timestamp = dateFormatter.format(new Date());
-		String fileName = "usuarios_" + timestamp + extension;
+		String fileName = prefijo + timestamp + extension;
 		
 		response.setContentType(contentType);
 		

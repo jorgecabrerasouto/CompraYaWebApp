@@ -15,13 +15,14 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+import co.com.compraya.admin.AbstractExporter;
 import co.com.compraya.common.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class UsuarioPdfExporter extends AbstractExporter {
 
 	public void export(List<User> listaUsuarios, HttpServletResponse respuesta) throws IOException {
-		super.setResponseHeader(respuesta, "application/pdf", ".pdf");
+		super.setResponseHeader(respuesta, "application/pdf", ".pdf", "usuarios_");
 		
 		Document documento = new Document(PageSize.A4);
 		PdfWriter.getInstance(documento, respuesta.getOutputStream());

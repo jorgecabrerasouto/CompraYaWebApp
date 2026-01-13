@@ -106,7 +106,7 @@ public class ServicioCategoria {
 		return repo.save(categoria);
 	}
 	
-	public List<Categoria> listaCategoriasUsadaEnForma() {
+	public List<Categoria> listaCategoriasUsadasEnForma() {
 		List<Categoria> categoriasUsadasEnForma = new ArrayList<>();
 		
 		Iterable<Categoria> categoriasEnBD = repo.encuentraCategoriasRaiz(Sort.by("nombre").ascending());

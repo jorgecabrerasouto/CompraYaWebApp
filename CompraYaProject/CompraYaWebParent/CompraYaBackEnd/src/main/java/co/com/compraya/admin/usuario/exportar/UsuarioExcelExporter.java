@@ -11,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import co.com.compraya.admin.AbstractExporter;
 import co.com.compraya.common.entity.User;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
@@ -57,7 +58,7 @@ public class UsuarioExcelExporter extends AbstractExporter {
 	}
 	
 	public void export(List<User> listaUsuarios, HttpServletResponse response) throws IOException {
-		super.setResponseHeader(response, "application/octet-stream", ".xlsx");
+		super.setResponseHeader(response, "application/octet-stream", ".xlsx", "usuarios_");
 		
 		writeHeaderLine();
 		writeDataLines(listaUsuarios);
