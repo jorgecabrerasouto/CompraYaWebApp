@@ -15,31 +15,27 @@
 			<a	th:href="@{/usuarios/exportar/pdf}"
 				class="fas fa-file-pdf fa-2x icon-dark"></a>
 	</div>
-
-	<div th:if="${message != null}"	class="alert alert-success text-center">
-		[[${message}]]
-	</div>
 	
-	<div th:replace="~{fragments :: forma_busqueda('/usuarios/pagina/1')}"></div>
+	<div th:replace="~{fragments :: forma_busqueda_y_mensaje('/usuarios/pagina/1')}"></div>
 		
 	<div class="full-details">
 		<table class="table table-bordered table-stripped table-hover table-responsive-xl ">
 			<thead class="thead-dark">
 				<tr>
 					<th class="hideable-column">
-						<th	th:replace="~{fragments :: enlace_columna('id', 'Id Usuario', 'tag')}">
+						<th	th:replace="~{fragments :: enlace_columna('/usuarios', 'id', 'Id Usuario', 'tag')}">
 					</th>
 					<th>Fotos</th>
 					<th class="hideable-column">
-						<th th:replace="~{fragments :: enlace_columna('email', 'E-mail', 'tag')}">
+						<th th:replace="~{fragments :: enlace_columna('/usuarios', 'email', 'E-mail', 'tag')}">
 					</th>
 					<th
-						th:replace="~{fragments :: enlace_columna('primerNombre', 'Primer Nombre', 'none')}" />
+						th:replace="~{fragments :: enlace_columna('/usuarios', 'primerNombre', 'Primer Nombre', 'none')}" />
 					<th
-						th:replace="~{fragments :: enlace_columna('primerApellido', 'Primer Apellido', 'none')}" />
+						th:replace="~{fragments :: enlace_columna('/usuarios', 'primerApellido', 'Primer Apellido', 'none')}" />
 					<th>Roles</th>
 					<th
-						th:replace="~{fragments :: enlace_columna('activo', '¿Activo?', 'none')}" />
+						th:replace="~{fragments :: enlace_columna('/usuarios', 'activo', '¿Activo?', 'none')}" />
 					<th></th>
 				</tr>
 			</thead>
@@ -55,10 +51,12 @@
 					<td>[[${usuario.primerApellido}]]</td>
 					<td>[[${usuario.roles}]]</td>
 					<td>
-						<div th:replace="~{fragments :: estado_usuario}"></div>
+						<div th:replace="~{fragments :: estado(${usuario.activo}, 'usuario', '/usuarios/' + ${usuario.id})}"></div>
 					</td>
 					<td>
-						<div th:replace="~{fragments :: acciones_usuario}"></div>
+						<div th:replace="~{fragments :: editar('usuario', '/usuarios/editar/' + ${usuario.id})}"></div>
+						&nbsp;&nbsp;
+						<div th:replace="~{fragments :: eliminar('usuario', ${usuario.id}, '/usuarios/eliminar/' + ${usuario.id}, true)}"></div>
 					</td>
 				</tr>
 			</tbody>
@@ -74,9 +72,11 @@
 				<div>[[${usuario.getNombreCompleto()}]]</div>
 				<div>[[${usuario.getRoles()}]]</div>
 				<div class="mt-2">
-					<div th:replace="~{fragments :: estado_usuario}"></div>
+					<div th:replace="~{fragments :: estado(${usuario.activo}, 'usuario', '/usuarios/' + ${usuario.id})}"></div>
 					&nbsp;
-					<div th:replace="~{fragments :: acciones_usuario}"></div>
+					<div th:replace="~{fragments :: editar('usuario', '/usuarios/editar/' + ${usuario.id})}"></div>
+					&nbsp;
+					<div th:replace="~{fragments :: eliminar('usuario', ${usuario.id}, '/usuarios/eliminar/' + ${usuario.id}, true)}"></div>					
 				</div>
 			</div>
 			<div>&nbsp;</div>

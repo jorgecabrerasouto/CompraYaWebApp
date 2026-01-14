@@ -9,23 +9,16 @@
 			<a th:href="@{/categorias/nueva}" class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>
 			<a th:href="@{/categorias/exportar/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a>
 	</div>
-
-	<div th:if="${message != null}"	class="alert alert-success text-center">
-		[[${message}]]
-	</div>
 	
-	<div th:replace="~{fragments :: forma_busqueda('/categorias/pagina/1')}"></div>
+	<div th:replace="~{fragments :: forma_busqueda_y_mensaje('/categorias/pagina/1')}"></div>
 		
 	<div class="full-details">
 		<table class="table table-bordered table-stripped table-hover table-responsive-xl ">
 			<thead class="thead-dark">
 				<tr>
 					<th>ID</th>
-					<th>Imagen Categoría</th>
-					<th>
-						<a class="text-white" th:href="@{'/categorias/pagina/' + ${paginaActual} + '?direccionSort=' + ${direccionSortInversa} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">Nombre Categoría</a>
-						<span th:class="${direccionSortInversa == 'desc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
-					</th>
+					<th>Imagen Categoría</th>						
+					<th th:replace="~{fragments :: enlace_columna('/categorias', 'nombre', 'Nombre Categoria', 'none')}"></th>
 					<th class="hideable-column">Alias</th>
 					<th>¿Activa?</th>
 					<th></th>
@@ -40,11 +33,13 @@
 					<td>[[${cat.nombre}]]</td>
 					<td class="hideable-column">[[${cat.alias}]]</td>					
 					<td>
-						<div th:replace="~{fragments :: estado_categoria}"></div>
+						<div th:replace="~{fragments :: estado(${cat.activa}, 'categoria', '/categorias/' + ${cat.id})}"></div>
 					</td>
  					
 					<td>
-						<div th:replace="~{fragments :: acciones_categoria}"></div>
+						<div th:replace="~{fragments :: editar('categoria', '/categorias/editar/' + ${cat.id})}"></div>
+						&nbsp;
+						<div th:replace="~{fragments :: eliminar('categoria', ${cat.id}, '/categorias/eliminar/' + ${cat.id}, ${!cat.tieneHijos})}"></div>
 					</td>			
 				</tr>
 			</tbody>
@@ -59,9 +54,11 @@
 			<div class="col-8">
 				<div>[[${cat.nombre}]]</div>
 				<div class="mt-2">
-					<div th:replace="~{fragments :: estado_categoria}"></div>
+					<div th:replace="~{fragments :: estado(${cat.activa}, 'categoria', '/categorias/' + ${cat.id})}"></div>
 					&nbsp;
-					<div th:replace="~{fragments :: acciones_categoria}"></div>
+					<div th:replace="~{fragments :: editar('categoria', '/categorias/editar/' + ${cat.id})}"></div>
+					&nbsp;
+					<div th:replace="~{fragments :: eliminar('categoria', ${cat.id}, '/categorias/eliminar/' + ${cat.id}, ${!cat.tieneHijos})}"></div>			
 				</div>
 			</div>
 			<div>&nbsp;</div>

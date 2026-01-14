@@ -83,14 +83,14 @@ public class ControladorUsuario {
 	
 	@PostMapping("/usuarios/guardar")
 	public String guardarUsuario (User usuario, RedirectAttributes redirectAttributes,
-			@RequestParam("imagen") MultipartFile multipartFile) throws IOException {
+			@RequestParam("archivoImagen") MultipartFile multipartFile) throws IOException {
 		
 		if(!multipartFile.isEmpty()) {
 			
 			String nombreArchivo = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			usuario.setFotos(nombreArchivo);
-			User usuarioGuardado = servicio.guardar(usuario);
 			
+			User usuarioGuardado = servicio.guardar(usuario);
 			String directorioCargue = "foto-usuarios/" + usuarioGuardado.getId();
 			
 			FileUploadUtil.limpiarDirectorio(directorioCargue);
@@ -146,7 +146,7 @@ public class ControladorUsuario {
 		return "redirect:/usuarios";
 	}
 	
-	@GetMapping("/usuarios/{id}/estadousuario/{estado}")
+	@GetMapping("/usuarios/{id}/activo/{estado}")
 	public String updateEstadoUsuario(@PathVariable Integer id, 
 		@PathVariable("estado") boolean activo, RedirectAttributes redirectAttributes) {
 		servicio.updateEstadoUsuario (id, activo);

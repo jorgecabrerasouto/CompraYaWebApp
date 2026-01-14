@@ -80,7 +80,8 @@ public class ControladorCategoria {
 	@PostMapping("/categorias/guardar")
 	public String guardarCategoria(Categoria categoria, 
 			@RequestParam("archivoImagen") MultipartFile multipartFile,
-			RedirectAttributes ra) throws IOException {
+			RedirectAttributes redirectAttributes) throws IOException {
+		
 		if(!multipartFile.isEmpty()) {
 			String nombreArchivo = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			categoria.setImagen(nombreArchivo);
@@ -94,13 +95,14 @@ public class ControladorCategoria {
 			servicio.save(categoria);
 		}
 		
-		ra.addFlashAttribute("message", "La categoría fue guardada correctamente.");
+		redirectAttributes.addFlashAttribute("message", "La categoría fue guardada correctamente.");
 		return "redirect:/categorias";
 	}
 	
 	@GetMapping("/categorias/editar/{id}")
-	public String editarCategoria(@PathVariable Integer id, Model model,
-			RedirectAttributes ra) {
+	public String editarCategoria(@PathVariable Integer id, 
+			Model model,
+			RedirectAttributes redirectAttributes) {
 		try {
 			Categoria categoria = servicio.get(id);
 			List<Categoria> listaCategorias = servicio.listaCategoriasUsadasEnForma();
@@ -111,12 +113,12 @@ public class ControladorCategoria {
 			
 			return "categorias/forma_categoria";		
 		} catch (CategoriaNotFoundException ex) {
-			ra.addFlashAttribute("message", ex.getMessage());
+			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/categorias";	
 		}
 	}
 
-	@GetMapping("/categorias/{id}/estadocategoria/{estado}")
+	@GetMapping("/categorias/{id}/activo/{estado}")
 	public String actualizarEstadoCategoria(@PathVariable Integer id, 
 			@PathVariable("estado") boolean activa, RedirectAttributes redirectAttributes) {
 		servicio.updateEstadoCategoria(id, activa);

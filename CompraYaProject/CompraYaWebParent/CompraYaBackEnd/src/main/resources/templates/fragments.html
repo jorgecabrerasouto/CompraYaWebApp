@@ -23,9 +23,9 @@
 			Copyright &copy; CompraYa</p>
 	</div>
 
-	<th th:fragment="enlace_columna(nombreCampo, etiquetaColumna, removeTag)" th:remove="${removeTag}">
+	<th th:fragment="enlace_columna(URLmodulo, nombreCampo, etiquetaColumna, removeTag)" th:remove="${removeTag}">
 		<a class="text-white"
-			th:href="@{'/usuarios/pagina/' + ${paginaActual} + '?campoSort=' + ${nombreCampo}  +'&direccionSort=' + ${campoSort != nombreCampo ? direccionSort : direccionSortInversa} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">
+			th:href="@{${URLmodulo} + '/pagina/' + ${paginaActual} + '?campoSort=' + ${nombreCampo}  +'&direccionSort=' + ${campoSort != nombreCampo ? direccionSort : direccionSortInversa} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">
 			[[${etiquetaColumna}]] 
 		</a> 
 		<span th:if="${campoSort == nombreCampo}"
@@ -44,46 +44,32 @@
 			th:src="@{${usuario.trayectoriaImagenFoto}}" style="width: 50px" />
 	</div>
 
-	<div th:fragment="estado_usuario" th:remove="tag">
-		<a th:if="${usuario.activo == true}"
-			class="fas fa-check-circle fa-2x icon-green"
-			th:href="@{'/usuarios/' + ${usuario.id} + '/estadousuario/false'}"
-			title="Desactivar a este Usuario"></a> <a
-			th:if="${usuario.activo == false}"
-			class="fas fa-circle fa-2x icon-dark"
-			th:href="@{'/usuarios/' + ${usuario.id} + '/estadousuario/true'}"
-			title="Activar a este usuario"></a>
+	<div th:fragment="estado(activo, nombreEntidad, URLentidad)" th:remove="tag">
+		<a th:if="${activo == true}" class="fas fa-check-circle fa-2x icon-green"
+			th:href="@{${URLentidad} + '/activo/false'}"
+			th:title="'Desactivar a este ' + ${nombreEntidad}"
+			></a> 
+			
+		<a th:if="${activo == false}" class="fas fa-circle fa-2x icon-dark"
+			th:href="@{${URLentidad} + '/activo/true'}"
+			th:title="'Activar a este ' + ${nombreEntidad}"
+			></a>
 	</div>
 
-	<div th:fragment="acciones_usuario" th:remove="tag">
+	<div th:fragment="editar(nombreEntidad, URLedicion)" th:remove="tag">
 		<a class="fas fa-edit fa-2x icon-green"
-			th:href="@{'/usuarios/editar/' + ${usuario.id}}"
-			title="Editar este usuario"></a> &nbsp; <a
-			class="fas fa-trash fa-2x icon-dark link-delete"
-			th:href="@{'/usuarios/eliminar/' + ${usuario.id}}"
-			th:userId="${usuario.id}" title="Eliminar este usuario."></a>
+			th:href="@{${URLedicion}}"
+			th:title="'Editar este(a) ' + ${nombreEntidad}"></a>
+	</div>
+	
+	<div th:fragment="eliminar(nombreEntidad, idEntidad, URLeliminar, visible)" th:remove="tag">
+		 <th:block th:if="${visible}">
+		 <a class="fas fa-trash fa-2x icon-dark link-delete"
+			th:href="@{${URLeliminar}}"
+			th:idEntidad="${idEntidad}" 
+			th:title="'Eliminar este(a) '+ ${nombreEntidad}"></a>
 	</div>
 
-	<div th:fragment="estado_categoria" th:remove="tag">
-		<a th:if="${cat.activa == true}"
-			class="fas fa-check-circle fa-2x icon-green"
-			th:href="@{'/categorias/' + ${cat.id} + '/estadocategoria/false'}"
-			title="Desactivar a esta categoria"></a> <a
-			th:if="${cat.activa == false}" class="fas fa-circle fa-2x icon-dark"
-			th:href="@{'/categorias/' + ${cat.id} + '/estadocategoria/true'}"
-			title="Activar a esta categoria"></a>
-	</div>
-
-	<div th:fragment="acciones_categoria" th:remove="tag">
-		<a class="fas fa-edit fa-2x icon-green"
-			th:href="@{'/categorias/editar/' + ${cat.id}}"
-			title="Editar esta categoría"></a> &nbsp;
-		<th:block th:if="${cat.tieneHijos == false}">
-			<a class="fas fa-trash fa-2x icon-dark link-delete"
-				th:href="@{'/categorias/eliminar/' + ${cat.id}}"
-				th:idEntidad="${cat.id}" title="Eliminar esta categoria."></a>
-		</th:block>
-	</div>
 	<div th:fragment="paginacion(moduleURL, nombreEntidad)" th:remove="tag">
 		<div class="text-center m-1" th:if="${totalItems > 0}">
 			<span>Se muestran [[${nombreEntidad}]] del #
@@ -128,7 +114,7 @@
 		</div>
 	</div>
 	
-	<div th:fragment="forma_busqueda(URLmodulo)">
+	<div th:fragment="forma_busqueda_y_mensaje(URLmodulo)">
 		<form th:action="@{${URLmodulo}}" class="form-inline m-3">
 			<input type="hidden" name="campoSort" th:value="${campoSort}" /> <input
 				type="hidden" name="direccionSort" th:value="${direccionSort}" />
@@ -144,6 +130,9 @@
 				<i class="fas fa-eraser"></i>
 			</button>
 		</form>
+		<div th:if="${message != null}"	class="alert alert-success text-center">
+			[[${message}]]
+		</div>		
 	</div>	
 
 </body>
