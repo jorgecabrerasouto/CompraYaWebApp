@@ -179,5 +179,11 @@ public class Categoria {
 
 	@Transient
 	private boolean tieneHijos;
+
+	@Override
+	public String toString() {
+		return this.nombre;
+	}
+	
 	
 }
