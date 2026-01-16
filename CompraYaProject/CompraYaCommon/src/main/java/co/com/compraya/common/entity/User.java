@@ -135,7 +135,7 @@ public class User {
 
 	@Transient
 	public String getTrayectoriaImagenFoto() {
-		if (id == null || fotos == null) return "/images/default-user.png";
+		if (this.id == null || this.fotos == null) return "/images/default-user.png";
 		
 		return "/foto-usuarios/" + this.id + "/" + this.fotos;
 	}

@@ -1,6 +1,5 @@
 package co.com.compraya.common.entity;
 
-import java.beans.Transient;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name= "marcas")
@@ -83,8 +83,8 @@ public class Marca {
 	}
 	
 	@Transient
-	public String getLogoPath() {
-		if (this.id == null) return "/images/image/thumnail.png";
+	public String getTrayectoriaImagenLogo() {
+		if (this.id == null || this.logo == null) return "/images/image-thumbnail.png";
 		
 		return "/logos-marca/" + this.id + '/' + this.logo;
 	}

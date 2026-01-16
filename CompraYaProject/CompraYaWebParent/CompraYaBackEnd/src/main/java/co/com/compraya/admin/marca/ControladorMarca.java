@@ -37,7 +37,7 @@ public class ControladorMarca {
 		model.addAttribute("marca", new Marca());
 		model.addAttribute("tituloPagina", "Cear una nueva Marca");
 		
-		return "marcas/forma_marcas";
+		return "marcas/forma_marca";
 	}
 		
 }
