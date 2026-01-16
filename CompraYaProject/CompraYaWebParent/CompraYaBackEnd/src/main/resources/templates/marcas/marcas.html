@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: encabezado_pagina('Marcas - Applicación Web Compras Ya')}" />
+<body>
+<div class="container-fluid">
+	<div th:replace="~{navegacion :: menu}"></div>
+	<div>
+		<h2>Gestión de Marcas</h2>	
+		
+		<a th:href="@{/marcas/new}" class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>
+		<a th:href="@{/marcas/export/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a>
+				
+	</div>
+		
+	<div th:replace="~{fragments :: forma_busqueda_y_mensaje('/marcas/pagina/1')}"></div>
+	
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="thead-dark">
+				<tr>
+					<th>Id Marca</th>
+					<th>Logo</th>
+					<th>Nombre Marca</th>
+					<th>Categorias</th>
+					<th></th>
+				</tr>								
+			</thead>
+			<tbody>
+				<tr th:each="marca : ${listaMarcas}">
+					<td>[[${marca.id}]]</td>
+					<td></td>
+					<td>[[${marca.nombre}]]</td>
+					<td>
+						<th:block th:each="cat : ${marca.categorias}">
+						<span class="badge badge-secondary" th:text="${cat.nombre}"></span>
+						</th:block>
+					</td>
+
+					<td>
+						<div th:replace="~{fragments :: editar('marca', '/marcas/editar/' + ${marca.id})}"></div>
+						&nbsp; 
+						<div th:replace="~{fragments :: eliminar('marca', ${marca.id}, '/marcas/eliminar/' + ${marca.id}, true)}"></div>						
+					</td>					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div th:replace="~{fragmentos_modales :: confirmar_modal}"></div>
+	
+	<div th:replace="~{fragments :: pie_pagina}"></div>
+	
+</div>
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+	moduleURL = "[[@{/marcas}]]";
+
+	$(document).ready(function() {
+		$(".link-delete").on("click", function(e) {
+			e.preventDefault();
+			showDeleteConfirmModal($(this), 'marca');
+		});
+	});
+</script>
+</body>
+</html>

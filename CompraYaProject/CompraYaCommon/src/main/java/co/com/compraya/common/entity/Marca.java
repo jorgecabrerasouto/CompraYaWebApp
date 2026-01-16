@@ -1,5 +1,6 @@
 package co.com.compraya.common.entity;
 
+import java.beans.Transient;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -79,7 +80,13 @@ public class Marca {
 	@Override
 	public String toString() {
 		return "Marca [id=" + id + ", nombre=" + nombre + ", logo=" + logo + ", categorias=" + categorias + "]";
-	} 
+	}
 	
+	@Transient
+	public String getLogoPath() {
+		if (this.id == null) return "/images/image/thumnail.png";
+		
+		return "/logos-marca/" + this.id + '/' + this.logo;
+	}
 	
 }
