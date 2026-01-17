@@ -51,7 +51,9 @@
 		<div class="form-group row">
 			<label class="col-sm-4 col-form-label">Categorías seleccionadas:</label>
 			<div class="col-sm-8">
+				<div id="categoriasEscogidas">
 				
+				</div>
 			</div>
 		</div>
 						
@@ -69,7 +71,26 @@
 </div>
 <script type="text/javascript">
 	moduleURL = "[[@{/marcas}]]";
+	
+	$(document).ready(function() {
+		dropdownCategorias = $("#categorias");
+		divCategoriasEscogidas = $("#categoriasEscogidas");
 		
+		dropdownCategorias.change(function() {
+			divCategoriasEscogidas.empty();
+			mostrarCategoriasEscogidas();
+		});
+	});
+	
+	function mostrarCategoriasEscogidas() {
+		dropdownCategorias.children("option:selected").each(function() {
+			categoriaSeleccionada = $(this);
+			idCat = categoriaSeleccionada.val();
+			nombreCategoria = categoriaSeleccionada.text().replace(/-/g, "");
+			
+			divCategoriasEscogidas.append("<span class='badge badge-secondary m-1'>" + nombreCategoria + "</span>")
+		});
+	}
 </script>
 <script th:src="@{/js/common_form.js}"></script>
 </body>
