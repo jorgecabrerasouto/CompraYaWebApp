@@ -5,8 +5,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import co.com.compraya.common.entity.Marca;
 
+
 public interface MarcaRepository extends CrudRepository<Marca, Integer>, PagingAndSortingRepository<Marca, Integer> {
 	
 	public long countById (Integer id);
+	
+	public Marca findByNombre(String nombre);
 
 }

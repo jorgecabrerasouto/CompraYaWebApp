@@ -91,7 +91,6 @@ public class ControladorMarca {
 			Model model,
 			RedirectAttributes redirectAttributes) {
 		try {
-			System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
 			servicioMarca.eliminar(id);
 			String dirMarca = "../logos-marca/" + id;
 			FileUploadUtil.eliminarDir(dirMarca);

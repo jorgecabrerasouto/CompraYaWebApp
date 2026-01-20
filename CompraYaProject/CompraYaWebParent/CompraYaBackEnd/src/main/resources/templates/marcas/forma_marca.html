@@ -9,7 +9,7 @@
 	</div>
 			
 	<form th:action="@{/marcas/guardar}" method="post" style="max-width: 500px; margin: 0 auto"
-		enctype="multipart/form-data"
+		enctype="multipart/form-data" onsubmit="return chequearUnico(this)"
 		th:object="${marca}">
 		<input type="hidden" th:field="*{id}" />
 	<div class="border border-secondary rounded p-3">
@@ -49,12 +49,9 @@
 		</div>		
 		
 		<div class="form-group row">
-			<label class="col-sm-4 col-form-label">Categorías seleccionadas:</label>
+			<label class="col-sm-4 col-form-label">Categorías escogidas:</label>
 			<div class="col-sm-8">
 				<div id="categoriasEscogidas">
-					<th:block th:each="cat : ${marca.categorias}">
-						<span class="badge badge-secondary" th:text="${cat.nombre}"></span>
-					</th:block>
 				</div>
 			</div>
 		</div>
@@ -95,6 +92,34 @@
 			divCategoriasEscogidas.append("<span class='badge badge-secondary m-1'>" + nombreCategoria + "</span>")
 		});
 	}
+	
+	function chequearUnico(form) {
+		idMarca = $("#id").val();
+		nombreMarca = $("#nombre").val();
+		
+		csrfValue = $("input[name='_csrf']").val();
+		
+		url = "[[@{/marcas/chequear_unico}]]";
+		
+		params = {id: idMarca, nombre: nombreMarca, _csrf: csrfValue};
+		
+		$.post(url, params, function(response) {
+			if (response == "OK") {
+				form.submit();
+			} else if (response == "Duplicada") {
+				mostrarAdvertenciaModal("Ya existe una Marca con el mismo nombre " + nombreMarca);	
+			} else {
+				mostrarErrorModal("Respuesta deconocida del servidor");
+			}
+			
+		}).fail(function() {
+			mostrarErrorModal("No pude conectarme con el servidor");
+		});
+		
+		return false;
+	}		
+	
+	
 </script>
 <script th:src="@{/js/comunes_forma.js}"></script>
 </body>

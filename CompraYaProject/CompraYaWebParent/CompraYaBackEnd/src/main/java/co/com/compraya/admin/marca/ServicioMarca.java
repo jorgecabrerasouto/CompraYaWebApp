@@ -39,4 +39,21 @@ public class ServicioMarca {
 		
 		repo.deleteById(id);
 	}
+	
+	public String chequearUnico(Integer id, String nombre) {
+		boolean estoyCreandoNuevo = (id == null || id == 0);
+		Marca marcaByNombre = repo.findByNombre(nombre);
+		
+		if(estoyCreandoNuevo ) {
+			System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+			if(marcaByNombre != null) return "Duplicada";
+		} else {
+			System.out.println("ooooooooooooooooooooooooooooooooo");
+			if(marcaByNombre != null && marcaByNombre.getId() != id) {
+				return "Duplicada";
+			}
+		}
+		System.out.println("ppppppppppppppppppppppppppp");
+		return "OK";
+	}
 }
