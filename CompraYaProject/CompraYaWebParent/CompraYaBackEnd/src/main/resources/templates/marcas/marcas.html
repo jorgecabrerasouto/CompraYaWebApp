@@ -28,7 +28,9 @@
 			<tbody>
 				<tr th:each="marca : ${listaMarcas}">
 					<td>[[${marca.id}]]</td>
-					<td></td>
+					<td>
+						<img th:src="@{${marca.trayectoriaImagenLogo}}" style="width: 100px" class="img-fluid"/>
+					</td>
 					<td>[[${marca.nombre}]]</td>
 					<td>
 						<th:block th:each="cat : ${marca.categorias}">
@@ -51,14 +53,14 @@
 	<div th:replace="~{fragments :: pie_pagina}"></div>
 	
 </div>
-<script th:src="@{/js/common_list.js}"></script>
+<script th:src="@{/js/comunes_lista.js}"></script>
 <script type="text/javascript">
 	moduleURL = "[[@{/marcas}]]";
 
 	$(document).ready(function() {
 		$(".link-delete").on("click", function(e) {
 			e.preventDefault();
-			showDeleteConfirmModal($(this), 'marca');
+			mostrarConfirmarEliminacionModal($(this), 'marca');
 		});
 	});
 </script>
