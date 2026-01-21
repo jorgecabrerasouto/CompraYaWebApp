@@ -1,6 +1,5 @@
 package co.com.compraya.admin.categoria;
 
-
 import java.io.IOException;
 import java.util.List;
 

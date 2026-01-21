@@ -20,6 +20,8 @@ import co.com.compraya.admin.FileUploadUtil;
 import co.com.compraya.admin.categoria.ServicioCategoria;
 import co.com.compraya.common.entity.Categoria;
 import co.com.compraya.common.entity.Marca;
+import co.com.compraya.common.entity.User;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class ControladorMarca {
@@ -133,5 +135,13 @@ public class ControladorMarca {
 		
 		return "redirect:/marcas";
 	}	
+	
+	@GetMapping("/marcas/exportar/csv")
+	public void exportarCSV(HttpServletResponse respuesta) throws IOException{
+		List<Marca> listaMarcas = servicioMarca.listAll();
+		
+		MarcaCsvExporter exportador = new MarcaCsvExporter();
+		exportador.export(listaMarcas, respuesta);
+	}
 		
 }
