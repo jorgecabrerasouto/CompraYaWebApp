@@ -18,7 +18,7 @@
 		<table class="table table-bordered table-striped table-hover table-responsive-xl">
 			<thead class="thead-dark">
 				<tr>
-					<th>Id Marca</th>
+					<th class="hideable-column">Id Marca</th>
 					<th>Logo</th>
 					<th th:replace="~{fragments :: enlace_columna('/marcas', 'nombre', 'Nombre Marca', 'none')}"></th>
 					<th>Categorias</th>
@@ -27,7 +27,7 @@
 			</thead>
 			<tbody>
 				<tr th:each="marca : ${listaMarcas}">
-					<td>[[${marca.id}]]</td>
+					<td class="hideable-column">[[${marca.id}]]</td>
 					<td>
 						<img th:src="@{${marca.trayectoriaImagenLogo}}" style="width: 100px" class="img-fluid"/>
 					</td>
@@ -48,6 +48,23 @@
 		</table>
 	</div>
 	
+	<div class="less-details">
+		<div th:each="marca : ${listaMarcas}" class="row m-1">
+			<div class="col-6">
+				<img th:src="@{${marca.trayectoriaImagenLogo}}" style="width: 100px" class="img-fluid"/>			
+			</div>
+			<div class="col-6">
+				<div><b>[[${marca.nombre}]]</b></div>
+				<div class="mt-2">
+					<div th:replace="~{fragments :: editar('marca', '/marcas/editar/' + ${marca.id})}"></div>
+					&nbsp; 
+					<div th:replace="~{fragments :: eliminar('marca', ${marca.id}, '/marcas/eliminar/' + ${marca.id}, true)}"></div>
+				</div>
+			</div>
+			<div>&nbsp;</div>
+		</div>	
+	</div>	
+		
 	<div th:replace="~{fragments :: paginacion('/marcas', 'marcas')}"></div>	
 	
 	<div th:replace="~{fragmentos_modales :: confirmar_modal}"></div>
