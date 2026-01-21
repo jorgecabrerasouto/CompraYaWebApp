@@ -22,7 +22,7 @@ public class MvcConfig implements WebMvcConfigurer {
 			Path trayectoria = Paths.get(patronTrayectoria);
 			String trayectoriaAbsoluta = trayectoria.toFile().getAbsolutePath();
 			
-			String trayectoriaRelativa = patronTrayectoria.replace("..", "") + "/**";
+			String trayectoriaRelativa = patronTrayectoria.replace("../", "") + "/**";
 								
 			registry.addResourceHandler(trayectoriaRelativa)
 			.addResourceLocations("file:/" + trayectoriaAbsoluta + "/");
