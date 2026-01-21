@@ -20,7 +20,7 @@
 				<tr>
 					<th>Id Marca</th>
 					<th>Logo</th>
-					<th>Nombre Marca</th>
+					<th th:replace="~{fragments :: enlace_columna('/marcas', 'nombre', 'Nombre Marca', 'none')}"></th>
 					<th>Categorias</th>
 					<th></th>
 				</tr>								
@@ -47,6 +47,8 @@
 			</tbody>
 		</table>
 	</div>
+	
+	<div th:replace="~{fragments :: paginacion('/marcas', 'marcas')}"></div>	
 	
 	<div th:replace="~{fragmentos_modales :: confirmar_modal}"></div>
 	

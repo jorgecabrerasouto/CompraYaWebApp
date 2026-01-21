@@ -16,10 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import co.com.compraya.admin.FileUploadUtil;
-import co.com.compraya.admin.usuario.ServicioUsuario;
-import co.com.compraya.admin.usuario.exportar.UsuarioCsvExporter;
 import co.com.compraya.common.entity.Categoria;
-import co.com.compraya.common.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
@@ -28,39 +25,39 @@ public class ControladorCategoria {
 	private ServicioCategoria servicio;
 	
 	@GetMapping("/categorias")
-	public String listFirstPage(@Param("direccionSort") String sortDir, Model model) {
-		return listByPage(1, sortDir, null, model);
+	public String listFirstPage(@Param("direccionSort") String direccionSort, Model model) {
+		return listByPage(1, direccionSort, null, model);
 	}
 	
 	@GetMapping("/categorias/pagina/{numPagina}")
-	public String listByPage(@PathVariable(name="numPagina") int numPagina,
-			@RequestParam("direccionSort") String sortDir, 
+	public String listByPage(@PathVariable int numPagina,
+			@RequestParam String direccionSort, 
 			@Param("textoBusqueda") String textoBusqueda,
 			Model model) {
-		if (sortDir == null || sortDir.isEmpty()) {
-			sortDir = "asc";
+		if (direccionSort == null || direccionSort.isEmpty()) {
+			direccionSort = "asc";
 		}
 		
 		CategoryPageInfo pageInfo = new CategoryPageInfo();
-		List<Categoria> listaCategorias = servicio.listByPage(pageInfo, numPagina, sortDir, textoBusqueda);
+		List<Categoria> listaCategorias = servicio.listByPage(pageInfo, numPagina, direccionSort, textoBusqueda);
 		long inicioContador = (numPagina - 1) * ServicioCategoria.CATEGORIAS_RAIZ_POR_PAGINA + 1;
 		long finContador = inicioContador + ServicioCategoria.CATEGORIAS_RAIZ_POR_PAGINA - 1;
 		if (finContador > pageInfo.getTotalElementos()) {
 			finContador = pageInfo.getTotalElementos();
 		}
-		String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+		String direccionSortInversa = direccionSort.equals("asc") ? "desc" : "asc";
 
 		model.addAttribute("paginasTotales", pageInfo.getTotalPaginas());
 		model.addAttribute("totalItems", pageInfo.getTotalElementos());
 		model.addAttribute("paginaActual", numPagina);
 		model.addAttribute("campoSort", "nombre");
-		model.addAttribute("direccionSort", sortDir);
+		model.addAttribute("direccionSort", direccionSort);
 		model.addAttribute("textoBusqueda", textoBusqueda);
 		model.addAttribute("inicioContador", inicioContador);
 		model.addAttribute("finContador", finContador);
 		
 		model.addAttribute("listaCategorias", listaCategorias);
-		model.addAttribute("direccionSortInversa", reverseSortDir);
+		model.addAttribute("direccionSortInversa", direccionSortInversa);
 		
 		return "categorias/categorias";
 		

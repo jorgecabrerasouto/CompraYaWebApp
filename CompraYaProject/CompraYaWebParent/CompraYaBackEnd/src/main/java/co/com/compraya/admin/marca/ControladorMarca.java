@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -29,11 +31,39 @@ public class ControladorMarca {
 	private ServicioCategoria servicioCategoria;
 	
 	@GetMapping("/marcas")
-	public String listAll(Model model) {
-		List<Marca> listaMarcas = servicioMarca.listAll();
+	public String listFirstPage(Model model) {
+		return listByPage(1, model, "nombre", "asc", null);
+	}
+	
+	@GetMapping("/marcas/pagina/{numPagina}")
+	public String listByPage(
+			@PathVariable int numPagina, Model model,
+			@Param("campoSort") String campoSort, @Param("direccionSort") String direccionSort,
+			@Param("textoBusqueda") String textoBusqueda
+			) {
+		Page<Marca> page = servicioMarca.listByPage(numPagina, campoSort, direccionSort, textoBusqueda);
+		List<Marca> listaMarcas = page.getContent();
+		
+		long inicioContador = (numPagina - 1) * ServicioMarca.MARCAS_POR_PAGINA + 1;
+		long finContador = inicioContador + ServicioMarca.MARCAS_POR_PAGINA - 1;
+		if (finContador > page.getTotalElements()) {
+			finContador = page.getTotalElements();
+		}
+		
+		String direccionSortInversa = direccionSort.equals("asc") ? "desc" : "asc";
+		
+		model.addAttribute("paginaActual", numPagina);
+		model.addAttribute("paginasTotales", page.getTotalPages());
+		model.addAttribute("inicioContador", inicioContador);
+		model.addAttribute("finContador", finContador);
+		model.addAttribute("totalItems", page.getTotalElements());
+		model.addAttribute("campoSort", campoSort);
+		model.addAttribute("direccionSort", direccionSort);
+		model.addAttribute("direccionSortInversa", direccionSortInversa);
+		model.addAttribute("textoBusqueda", textoBusqueda);		
 		model.addAttribute("listaMarcas", listaMarcas);
 		
-		return "marcas/marcas";
+		return "marcas/marcas";		
 	}
 	
 	

@@ -4,18 +4,37 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import co.com.compraya.common.entity.Marca;
 
 @Service
 public class ServicioMarca {
+	public static final int MARCAS_POR_PAGINA = 10;
 	
 	@Autowired
 	private MarcaRepository repo;
 	
 	public List<Marca> listAll() {
 		return (List<Marca>) repo.findAll();
+	}
+	
+	public Page<Marca> listByPage(int numPagina, String campoSort, String direccionSort, String textoBusqueda) {
+		Sort sort = Sort.by(campoSort);
+		
+		sort = direccionSort.equals("asc") ? sort.ascending() : sort.descending();
+				
+		Pageable pageable = PageRequest.of(numPagina - 1, MARCAS_POR_PAGINA, sort);
+		
+		if (textoBusqueda != null) {
+			return repo.findAll(textoBusqueda, pageable);
+		}
+		
+		return repo.findAll(pageable);		
 	}
 	
 	public Marca save(Marca marca) {
@@ -45,15 +64,13 @@ public class ServicioMarca {
 		Marca marcaByNombre = repo.findByNombre(nombre);
 		
 		if(estoyCreandoNuevo ) {
-			System.out.println("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
 			if(marcaByNombre != null) return "Duplicada";
 		} else {
-			System.out.println("ooooooooooooooooooooooooooooooooo");
 			if(marcaByNombre != null && marcaByNombre.getId() != id) {
 				return "Duplicada";
 			}
 		}
-		System.out.println("ppppppppppppppppppppppppppp");
+
 		return "OK";
 	}
 }
