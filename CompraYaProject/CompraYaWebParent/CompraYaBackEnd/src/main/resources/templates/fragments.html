@@ -32,7 +32,7 @@
 			th:class="${direccionSort == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}"></span>
 	</th>
 
-	<a th:fragment="enlace_pagina(modelURL, numeroPagina, etiqueta)"
+	<a th:fragment="enlace_pagina(moduleURL, numeroPagina, etiqueta)"
 		class="page-link"
 		th:href="@{${moduleURL} + '/pagina/' + ${numeroPagina} + '?campoSort=' + ${campoSort} + '&direccionSort=' + ${direccionSort} + ${textoBusqueda != null ? '&textoBusqueda=' + textoBusqueda : ''}}">[[${etiqueta}]]
 	</a>
@@ -114,8 +114,8 @@
 		</div>
 	</div>
 	
-	<div th:fragment="forma_busqueda_y_mensaje(URLmodulo)">
-		<form th:action="@{${URLmodulo}}" class="form-inline m-3">
+	<div th:fragment="forma_busqueda_y_mensaje(moduleURL)">
+		<form th:action="@{${moduleURL}}" class="form-inline m-3">
 			<input type="hidden" name="campoSort" th:value="${campoSort}" /> <input
 				type="hidden" name="direccionSort" th:value="${direccionSort}" />
 			Texto para Búsqueda:&nbsp; <input type="search" name="textoBusqueda"

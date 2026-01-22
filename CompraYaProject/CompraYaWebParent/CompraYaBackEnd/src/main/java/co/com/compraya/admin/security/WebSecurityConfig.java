@@ -41,15 +41,14 @@ public class WebSecurityConfig {
 		http.authorizeHttpRequests(auth -> auth
 				.requestMatchers("/users/**").hasAuthority("Admin")
 				.requestMatchers("/categorias/**", "/marcas/**").hasAnyAuthority("Admin","Editor")
+				.requestMatchers("/products/**").hasAnyAuthority("Admin", "Editor", "Vendedor", "Despachador")
 				.anyRequest().authenticated()
 			)
 			.formLogin(form -> form			
 				.loginPage("/login")
 				.usernameParameter("email")
 				.permitAll())
-
 			.logout(logout -> logout.permitAll())
-			
 			.rememberMe ((remember) -> remember
 					.key("AbcDefgHijklmnOpqrs_1234597890")
 					.tokenValiditySeconds(7 * 24 * 60 * 60));

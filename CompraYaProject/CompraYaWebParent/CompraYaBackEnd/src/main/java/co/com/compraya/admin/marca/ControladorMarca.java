@@ -20,7 +20,6 @@ import co.com.compraya.admin.FileUploadUtil;
 import co.com.compraya.admin.categoria.ServicioCategoria;
 import co.com.compraya.common.entity.Categoria;
 import co.com.compraya.common.entity.Marca;
-import co.com.compraya.common.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Controller

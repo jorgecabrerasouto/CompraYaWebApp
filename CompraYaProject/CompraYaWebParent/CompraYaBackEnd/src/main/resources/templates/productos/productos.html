@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: encabezado_pagina('Productos - Applicación Web Compras Ya')}" />
+<body>
+<div class="container-fluid">
+	<div th:replace="~{navegacion :: menu}"></div>
+	<div>
+		<h2>Gestión de Productos</h2>	
+		
+		<a th:href="@{/productos/nuevo}" class="fas fa-folder-plus fa-2x icon-dark mr-2"></a>
+		<a th:href="@{/productos/exportar/csv}" class="fas fa-file-csv fa-2x icon-dark mr-2"></a>			
+	</div>
+		
+	<div th:replace="~{fragments :: forma_busqueda_y_mensaje('/productos/pagina/1')}"></div>
+	
+	<div class="full-details">
+		<table class="table table-bordered table-striped table-hover table-responsive-xl">
+			<thead class="thead-dark">
+				<tr>
+					<th>ID</th>
+					<th>Imagen Ppal</th>
+					<th>Nombre Producto</th>
+					<th>Marca</th>
+					<th>Categoria</th>
+					<th>Activo</th>
+					<th></th>
+				</tr>								
+			</thead>
+			<tbody>
+				<tr th:each="producto : ${listaProductos}">
+					<td>[[${producto.id}]]</td>
+					<td>
+					
+					</td>
+					<td>[[${producto.nombre}]]</td>
+					<td>[[${producto.marca.nombre}]]</td>
+					<td>[[${producto.categoria.nombre}]]</td>
+					
+					<td>
+						<div th:replace="~{fragments :: estado(${producto.activo}, 'producto', '/productos/' + ${producto.id})}"></div>
+					</td>
+					<td>
+						<a class="fas fa-file-alt fa-2x icon-green"
+							th:href="@{'/productos/detalle/' + ${producto.id}}"
+							title="Vea los detalles de este Producto"
+							></a>
+						&nbsp;
+						<div th:replace="~{fragments :: editar('producto', '/productos/editar/' + ${producto.id})}"></div>
+						&nbsp; 
+						<div th:replace="~{fragments :: eliminar('producto', ${producto.id}, '/productos/eliminar/' + ${producto.id}, true)}"></div>						
+					</td>					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div th:replace="~{fragmentos_modales :: confirmar_modal}"></div>
+	
+	<div th:replace="~{fragments :: pie_pagina}"></div>
+	
+</div>
+<script th:src="@{/js/comunes_lista.js}"></script>
+<script type="text/javascript">
+	moduleURL = "[[@{/productos}]]";
+
+	$(document).ready(function() {
+		$(".link-delete").on("click", function(e) {
+			e.preventDefault();
+			mostrarConfirmarEliminacionModal($(this), 'producto');
+		});
+	});
+</script>
+</body>
+</html>

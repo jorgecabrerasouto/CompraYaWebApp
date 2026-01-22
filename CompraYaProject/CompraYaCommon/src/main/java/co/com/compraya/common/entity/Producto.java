@@ -58,7 +58,7 @@ public class Producto {
 	private Categoria categoria;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_Marca")	
+	@JoinColumn(name = "id_marca")	
 	private Marca marca;
 
 	public Integer getId() {
