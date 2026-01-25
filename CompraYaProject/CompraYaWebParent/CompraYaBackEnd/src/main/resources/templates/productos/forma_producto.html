@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: encabezado_pagina(${tituloPagina})}" />
+<body>
+<div class="container-fluid">
+	<div th:replace="~{navegacion :: menu}"></div>
+	<div>
+		<h2>Gestion de Productos | [[${tituloPagina}]]</h2>	
+	</div>
+
+	<form th:action="@{/productos/guardar}" method="post"
+		th:object="${producto}">
+		<input type="hidden" th:field="*{id}" />
+	<div>
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" id="myTab" role="tablist">
+		  <li class="nav-item">
+		    <button class="nav-link active" data-toggle="tab" data-target="#general" type="button" role="tab">General</button>
+		  </li>
+		  <li class="nav-item">
+		    <button class="nav-link" data-toggle="tab" data-target="#descripcion" type="button" role="tab">Descripción</button>
+		  </li>
+		  <li class="nav-item">
+		    <button class="nav-link" data-toggle="tab" data-target="#imagenes" type="button" role="tab">Imágenes</button>
+		  </li>
+		  <li class="nav-item">
+		    <button class="nav-link" data-toggle="tab" data-target="#detalles" type="button" role="tab">Detalles</button>
+		  </li>
+		</ul>
+		
+		<!-- Tab panes -->
+		<div class="tab-content">
+		  <div class="tab-pane active p-3" id="general" role="tabpanel">
+		  	<div th:replace="~{productos/producto_general :: contenido}"></div>
+		  </div>
+		  <div class="tab-pane" id="descripcion" role="tabpanel">Descripción</div>
+		  <div class="tab-pane" id="imagenes" role="tabpanel">Imágenes</div>
+		  <div class="tab-pane" id="detalles" role="tabpanel">Detalles</div>
+		</div>
+		
+		<div class="text-center">
+			<input type="submit" value="Guardar" class="btn btn-primary m-3" />
+			<input type="button" value="Cancelar" class="btn btn-secondary" id="botonCancelar" />
+		</div>
+	</div>
+	</form>
+		
+	<div th:replace="~{fragmentos_modales :: dialogo_modal}"></div>
+	
+	<div th:replace="~{fragments :: pie_pagina}"></div>
+	
+</div>
+<script type="text/javascript">
+	moduleURL = "[[@{/prductos}]]";	
+	moduleURLMarca = "[[@{/marcas}]]";
+	$(document).ready(function(){
+		listaDesplegableMarcas = $("#marca")
+		listaDesplegableCategorias = $("#categoria")
+		
+		listaDesplegableMarcas.change(function() {
+			listaDesplegableCategorias.empty();
+			getCategorias();
+		});
+		
+		getCategorias();
+	});
+	
+	function getCategorias() {
+		idMarca = listaDesplegableMarcas.val();
+		url = moduleURLMarca + "/" + idMarca + "/categorias";
+		
+		$.get(url, function(responseJson) {
+			$.each(responseJson, function(indice, categoria){
+				$("<option>").val(categoria.id).text(categoria.nombre).appendTo(listaDesplegableCategorias);
+			});	
+		});
+		
+	}
+</script>
+<script th:src="@{/js/comunes_forma.js}"></script>
+</body>
+</html>

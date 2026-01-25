@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
 import co.com.compraya.common.entity.Marca;
+import co.com.compraya.admin.producto.ProductoRepository;
 import co.com.compraya.common.entity.Categoria;
 import co.com.compraya.common.entity.Producto;
 

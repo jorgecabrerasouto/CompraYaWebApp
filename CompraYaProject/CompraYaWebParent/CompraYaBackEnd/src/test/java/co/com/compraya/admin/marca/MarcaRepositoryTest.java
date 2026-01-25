@@ -1,4 +1,4 @@
-package co.com.compraya.admin.usuario;
+package co.com.compraya.admin.marca;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
