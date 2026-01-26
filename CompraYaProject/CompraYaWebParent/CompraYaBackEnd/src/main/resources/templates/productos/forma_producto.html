@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: encabezado_pagina(${tituloPagina})}" />
+<head>
+	<head th:replace="~{fragments :: encabezado_pagina(${tituloPagina}, 'tag')}" />
+	<link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
+	<script th:src="@{/richtext/jquery.richtext.min.js}"></script>
+</head>
 <body>
 <div class="container-fluid">
 	<div th:replace="~{navegacion :: menu}"></div>
@@ -26,6 +30,9 @@
 		  <li class="nav-item">
 		    <button class="nav-link" data-toggle="tab" data-target="#detalles" type="button" role="tab">Detalles</button>
 		  </li>
+		  		  <li class="nav-item">
+		    <button class="nav-link" data-toggle="tab" data-target="#embalaje" type="button" role="tab">Embalaje</button>
+		  </li>
 		</ul>
 		
 		<!-- Tab panes -->
@@ -33,9 +40,14 @@
 		  <div class="tab-pane active p-3" id="general" role="tabpanel">
 		  	<div th:replace="~{productos/producto_general :: contenido}"></div>
 		  </div>
-		  <div class="tab-pane" id="descripcion" role="tabpanel">Descripción</div>
+		  <div class="tab-pane" id="descripcion" role="tabpanel">
+		 	 <div th:replace="~{productos/producto_descripcion :: contenido}"></div>
+		  </div>
 		  <div class="tab-pane" id="imagenes" role="tabpanel">Imágenes</div>
 		  <div class="tab-pane" id="detalles" role="tabpanel">Detalles</div>
+		  <div class="tab-pane" id="embalaje" role="tabpanel">
+		  	<div th:replace="~{productos/producto_embalaje :: contenido}"></div>
+		  </div>
 		</div>
 		
 		<div class="text-center">
@@ -51,9 +63,13 @@
 	
 </div>
 <script type="text/javascript">
-	moduleURL = "[[@{/prductos}]]";	
+	moduleURL = "[[@{/productos}]]";	
 	moduleURLMarca = "[[@{/marcas}]]";
 	$(document).ready(function(){
+		
+		$("#descripcionCorta").richText();
+		$("#descripcionCompleta").richText();
+		
 		listaDesplegableMarcas = $("#marca")
 		listaDesplegableCategorias = $("#categoria")
 		

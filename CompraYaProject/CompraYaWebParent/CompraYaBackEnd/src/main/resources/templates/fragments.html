@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-<head th:fragment="encabezado_pagina(title)">
+<head th:fragment="encabezado_pagina(title, remove)" th:remove="${remove}">
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0">

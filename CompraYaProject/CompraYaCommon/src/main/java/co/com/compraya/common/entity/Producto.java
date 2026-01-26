@@ -85,7 +85,7 @@ public class Producto {
 	public void setDescripcionCorta(String descripcionCorta) {
 		this.descripcionCorta = descripcionCorta;
 	}
-	public String getDescripcion_completa() {
+	public String getDescripcionCompleta() {
 		return descripcionCompleta;
 	}
 	public void setDescripcionCompleta(String descripcionCompleta) {
